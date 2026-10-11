@@ -15,6 +15,8 @@ docs/adr/   uma ADR por decisão (Contexto, Decisão, Consequências)
 
 **Fase atual: 1** — só o app, local, sem conta e sem servidor. O `server/` começa na fase 2.
 
+`.gitignore` por projeto (`app/`, `server/`); o da raiz só tem o que vale para o repositório inteiro.
+
 ## Invariantes (valem nos dois lados)
 
 - **Nenhuma tela lê da rede.** A UI lê e grava só no SQLite local; o sync roda em segundo plano (RNF-01).
