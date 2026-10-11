@@ -823,8 +823,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-01 (min 44, tokens), COMP-03 (`onPressed` required non-null), tap calls back
-- [ ] Quick gate passes
+- [x] Tests: COMP-01 (min 44, tokens), COMP-03 (`onPressed` required non-null), tap calls back
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
