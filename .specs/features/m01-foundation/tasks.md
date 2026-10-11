@@ -961,8 +961,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-12 — back mode shows label in `accent` and tap calls `onBack`; root mode title uses `tituloTela` and renders the actions; long title ellipsizes (edge case)
-- [ ] Quick gate passes
+- [x] Tests: COMP-12 — back mode shows label in `accent` and tap calls `onBack`; root mode title uses `tituloTela` and renders the actions; long title ellipsizes (edge case)
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
