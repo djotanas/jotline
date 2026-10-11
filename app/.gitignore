@@ -49,3 +49,6 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+
+# Generated code (build_runner) — not versioned
+*.g.dart
