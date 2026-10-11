@@ -657,8 +657,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Test: THEME-03 (spacing and radius rows) — every value
-- [ ] Quick gate passes
+- [x] Test: THEME-03 (spacing and radius rows) — every value
+- [x] Quick gate passes
 
 **Tests**: unit
 **Gate**: quick
