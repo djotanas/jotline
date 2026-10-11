@@ -23,18 +23,15 @@ _A definir no scaffold._ O AppHost do Aspire sobe API + Postgres + PowerSync.
 
 _A definir no scaffold._
 
-## Regras de `POST /sync/upload`
+## Referências
 
-Recebe lotes de operações PUT, PATCH e DELETE vindos da fila do app.
+Leia o doc antes de mexer no tema (ADR 0014).
 
-1. **Idempotente:** o mesmo lote pode chegar duas vezes; reenviar não duplica nem corrompe (RNF-03).
-2. **Autoriza cada operação** pelo usuário do token e pelo papel no caderno — `viewer` não grava (RNF-07). Toda checagem passa por `INotebookAccess` (RNF-08).
-3. **Erro permanente não trava a fila:** a operação vai para a tabela de rejeitados e o app é avisado.
-4. **Grava em transação.** A partir da fase 3, registra `block_history`.
-5. **Conflito por bloco:** o app envia a `version` em que se baseou; se o servidor tem versão mais nova, cria uma cópia do bloco em vez de sobrescrever (ADR 0006). Só o servidor incrementa `version` (ADR 0013).
-6. Edição de quem perdeu acesso ao caderno é rejeitada; o app oferece salvá-la num caderno pessoal (RF-17).
+| Quando | Arquivo |
+| --- | --- |
+| Implementar ou mudar `POST /sync/upload` (lote, autorização, rejeitados, conflito) | [`server/.claude/docs/sync-upload.md`](.claude/docs/sync-upload.md) |
 
-## Outras regras
+## Regras
 
 - IDs vêm do cliente (UUID v7); o servidor não gera IDs de entidades sincronizadas. `Guid.CreateVersion7()` só para entidades do próprio servidor.
 - Autoria vem sempre do usuário do token, nunca do payload. O app troca o usuário local anônimo pelo da conta antes do primeiro upload (ADR 0011).
