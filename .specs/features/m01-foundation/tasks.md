@@ -846,8 +846,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-01 (44 × 44), COMP-03, COMP-04 (`find.bySemanticsLabel` finds the label)
-- [ ] Quick gate passes
+- [x] Tests: COMP-01 (44 × 44), COMP-03, COMP-04 (`find.bySemanticsLabel` finds the label)
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
