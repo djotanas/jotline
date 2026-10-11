@@ -6,7 +6,7 @@ App mobile do Jotline. Regras gerais e invariantes no [CLAUDE.md da raiz](../CLA
 
 ## Stack
 
-- **Flutter 3.47.5 via FVM** (`.fvmrc`); Android e iOS.
+- **Flutter via FVM** (versão fixada em `.fvmrc`); Android e iOS.
 - **Estado:** Riverpod. A UI consome streams reativos do banco local.
 - **Banco local:** SQLite com **Drift** — fonte da verdade no aparelho (ADR 0001). Na fase 2 o SQLite passa a ser gerenciado pelo PowerSync, com Drift por cima.
 - **Preferências:** `hive_ce` — só tema, último caderno aberto e afins; nada que sincronize.
@@ -36,10 +36,7 @@ _A definir no scaffold._
 
 ## Regras
 
-- **Toda leitura e escrita vai ao Drift.** Nenhum widget, provider ou caso de uso chama HTTP para mostrar ou gravar uma nota (RNF-01).
-- **IDs UUID v7 gerados no app**, no momento da criação, offline.
-- **Nunca `DELETE` físico**: marque `deleted_at`. Consultas filtram registros excluídos.
-- **Sync atrás de uma interface própria** (ADR 0002). Telas e regras de negócio dependem da interface, nunca do SDK do PowerSync.
+- **Invariantes da raiz, do lado do app:** IDs gerados no momento da criação, offline; consultas filtram registros com `deleted_at`; telas e regras de negócio nunca importam o SDK do PowerSync.
 - **Modelo de dados da fase 1 já inclui** `notebook_members` (só o dono), `blocks.version` e `updated_by`, mesmo sem servidor (PRD §7).
 - **Autoria antes do login:** um usuário local anônimo (UUID v7 gerado na primeira abertura) preenche `created_by`, `user_id`, `added_by` e `updated_by`; no login, uma transação o troca pelo id da conta antes do primeiro upload (ADR 0011).
 - **Arquivar é por membro:** `notebook_members.archived_at` da linha do usuário, não `deleted_at` (ADR 0012).

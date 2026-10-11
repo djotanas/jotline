@@ -17,14 +17,7 @@ Backend do Jotline: autoridade das escritas, autorização, convites e anexos. R
 
 ## Comandos
 
-_Caminhos dos projetos a definir no scaffold._
-
-```bash
-dotnet build
-dotnet test
-dotnet run --project <AppHost>                                          # Aspire: API + Postgres + PowerSync
-dotnet ef migrations add <Nome> --project <Infra> --startup-project <Api>
-```
+_A definir no scaffold._ O AppHost do Aspire sobe API + Postgres + PowerSync.
 
 ## Estrutura
 
@@ -44,7 +37,6 @@ Recebe lotes de operações PUT, PATCH e DELETE vindos da fila do app.
 ## Outras regras
 
 - IDs vêm do cliente (UUID v7); o servidor não gera IDs de entidades sincronizadas. `Guid.CreateVersion7()` só para entidades do próprio servidor.
-- Grave a data de recebimento além da data enviada pelo cliente, ambas em UTC.
 - Autoria vem sempre do usuário do token, nunca do payload. O app troca o usuário local anônimo pelo da conta antes do primeiro upload (ADR 0011).
 - Convites, aceite e mudança de papel exigem online — o servidor é a autoridade de permissões.
 - `INotebookAccess` e as regras de sync por membro têm testes; toda mudança nelas é revisada (risco crítico de vazamento, PRD §11).
