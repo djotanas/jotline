@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:jotline/app.dart';
 import 'package:jotline/core/preferences/preferences_provider.dart';
 import 'package:jotline/core/preferences/unavailable_preferences_store.dart';
+import 'package:jotline/core/theme/jot_colors.dart';
 import 'package:jotline/l10n/app_localizations.dart';
 
 void main() {
@@ -33,6 +34,47 @@ void main() {
     expect(find.byType(Scaffold), findsOneWidget);
     expect(find.byType(Text), findsNothing);
   });
+
+  testWidgets('STRUCT-05: root Scaffold background is bgMesa', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: JotlineApp()));
+
+    final material = tester.widget<Material>(
+      find
+          .descendant(
+            of: find.byType(Scaffold),
+            matching: find.byType(Material),
+          )
+          .first,
+    );
+
+    expect(material.color?.toARGB32(), 0xFFF3F2EE);
+  });
+
+  testWidgets('THEME-07: app uses the Jotline light theme and no dark theme', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const ProviderScope(child: JotlineApp()));
+
+    final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
+
+    expect(materialApp.theme?.extension<JotColors>(), JotColors.light);
+    expect(materialApp.darkTheme, isNull);
+  });
+
+  testWidgets(
+    'THEME-08: a system text scale of 2.0 reaches the home unclamped',
+    (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = 2;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+
+      await tester.pumpWidget(const ProviderScope(child: JotlineApp()));
+
+      final context = tester.element(find.byType(Scaffold));
+
+      expect(MediaQuery.textScalerOf(context).scale(17), 34);
+      expect(MediaQuery.textScalerOf(context).scale(34), 68);
+    },
+  );
 
   testWidgets('RVP-02: root widget is wrapped in a ProviderScope', (
     tester,

@@ -726,9 +726,9 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Tests: THEME-07 (M3, `scaffoldBackgroundColor` = `bgMesa`, `colorScheme.primary` = `accent`, no dark theme); `context.colors/textStyles/shadows` resolve; app test asserts root `Scaffold` background `bgMesa` (STRUCT-05) and that `MediaQuery.textScaler` 2.0 reaches a `Text` unclamped (THEME-08)
-- [ ] Scan tests: THEME-09 (no `Color(`, `Colors.`, `fontFamily:` in `lib/` outside `lib/core/theme/` and generated files) and STRUCT-07 (no `Text('` / `Text("` literal in `lib/`); each scan proven to fail on a temp fixture
-- [ ] Quick gate passes
+- [x] Tests: THEME-07 (M3, `scaffoldBackgroundColor` = `bgMesa`, `colorScheme.primary` = `accent`, no dark theme); `context.colors/textStyles/shadows` resolve; app test asserts root `Scaffold` background `bgMesa` (STRUCT-05) and that `MediaQuery.textScaler` 2.0 reaches a `Text` unclamped (THEME-08)
+- [x] Scan tests: THEME-09 (no `Color(`, `Colors.`, `fontFamily:` in `lib/` outside `lib/core/theme/` and generated files) and STRUCT-07 (no `Text('` / `Text("` literal in `lib/`); each scan proven to fail on a temp fixture
+- [x] Quick gate passes
 
 **Tests**: unit
 **Gate**: quick
