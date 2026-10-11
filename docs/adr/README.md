@@ -1,0 +1,18 @@
+# ADRs — Jotline
+
+Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequências. ADR não se edita depois de aceita: uma nova a substitui e aponta para a antiga (status `Substituída por NNNN`).
+
+| ADR | Decisão | Status |
+| --- | --- | --- |
+| [0001](0001-sqlite-local.md) | SQLite com Drift como banco local | Aceita |
+| [0002](0002-powersync-atras-de-interface.md) | PowerSync na fase 2, isolado atrás de interface própria | Aceita |
+| [0003](0003-escritas-via-api-dotnet.md) | Escritas sempre passam pela API .NET | Aceita |
+| [0004](0004-cadernos-com-membros.md) | Todo caderno tem membros desde a fase 1 | Aceita |
+| [0005](0005-conteudo-em-blocos.md) | Conteúdo em blocos, conflito por bloco | Aceita |
+| [0006](0006-copia-de-conflito.md) | Cópia de conflito em vez de sobrescrita | Aceita |
+| [0007](0007-monolito-modular.md) | Monólito modular em ASP.NET Core 10 | Aceita |
+| [0008](0008-supabase-auth.md) | Supabase Auth no início | Aceita |
+| [0009](0009-crdt-adiado.md) | CRDT adiado para a fase 4 | Aceita |
+| [0010](0010-monorepo-claude-md-em-camadas.md) | Monorepo com CLAUDE.md em camadas | Aceita |
+
+Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.
