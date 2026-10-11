@@ -634,8 +634,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Test: THEME-02 — family, size, weight, letter spacing (−0.02 × size for ≥ 28), line height and color of all 12 styles
-- [ ] Quick gate passes
+- [x] Test: THEME-02 — family, size, weight, letter spacing (−0.02 × size for ≥ 28), line height and color of all 12 styles
+- [x] Quick gate passes
 
 **Tests**: unit
 **Gate**: quick
