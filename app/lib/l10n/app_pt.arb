@@ -1,0 +1,7 @@
+{
+  "@@locale": "pt",
+  "appName": "Jotline",
+  "@appName": {
+    "description": "The application name shown in the task switcher and window title."
+  }
+}

@@ -52,3 +52,6 @@ app.*.map.json
 
 # Generated code (build_runner) — not versioned
 *.g.dart
+
+# Generated code (gen-l10n) — not versioned
+lib/l10n/app_localizations*.dart

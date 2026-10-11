@@ -136,10 +136,10 @@ T45 → T46
 
 **Done when**:
 
-- [ ] `pubspec.yaml` has no `#` comment lines and `description` names Jotline
-- [ ] `fvm flutter pub get` generates `lib/l10n/app_localizations.dart`; `git status` does not list it
-- [ ] `l10n.yaml` has `arb-dir`, `template-arb-file: app_pt.arb`, `output-localization-file`, `nullable-getter: false`, no `synthetic-package`
-- [ ] Build gate passes (template app still in place)
+- [x] `pubspec.yaml` has no `#` comment lines and `description` names Jotline
+- [x] `fvm flutter pub get` generates `lib/l10n/app_localizations.dart`; `git status` does not list it
+- [x] `l10n.yaml` has `arb-dir`, `template-arb-file: app_pt.arb`, `output-localization-file`, `nullable-getter: false`, no `synthetic-package`
+- [x] Build gate passes (template app still in place)
 
 **Tests**: none
 **Gate**: build
