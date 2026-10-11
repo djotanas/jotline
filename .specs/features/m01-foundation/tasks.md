@@ -703,8 +703,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Test: THEME-04 — enum names in order, the six hex values, the four patterns; `NotebookCoverPaint` values match the canvas (spine 12 px black 18%, elastic 6 px black 28% at 18 px)
-- [ ] Quick gate passes
+- [x] Test: THEME-04 — enum names in order, the six hex values, the four patterns; `NotebookCoverPaint` values match the canvas (spine 12 px black 18%, elastic 6 px black 28% at 18 px)
+- [x] Quick gate passes
 
 **Tests**: unit
 **Gate**: quick
