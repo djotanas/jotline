@@ -471,8 +471,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Test: TEST-02 — `ProviderContainer.test` with `databaseProvider.overrideWithValue(helperDb)` returns the helper instance
-- [ ] Quick gate passes — 1 new test
+- [x] Test: TEST-02 — `ProviderContainer.test` with `databaseProvider.overrideWithValue(helperDb)` returns the helper instance
+- [x] Quick gate passes — 1 new test
 
 **Tests**: Drift
 **Gate**: quick
