@@ -1101,8 +1101,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-09 (dragging) — handle semantic label "Mover <title>"; shadow is `shadowErguido`
-- [ ] Quick gate passes
+- [x] Tests: COMP-09 (dragging) — handle semantic label "Mover <title>"; shadow is `shadowErguido`
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick

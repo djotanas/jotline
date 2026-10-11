@@ -43,5 +43,14 @@
   "coverPatternQuadriculada": "Grade",
   "@coverPatternQuadriculada": {
     "description": "Name of the notebook cover pattern quadriculada (grid)."
+  },
+  "moveItem": "Mover {title}",
+  "@moveItem": {
+    "description": "Accessibility label of the drag handle that reorders an item.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
   }
 }
