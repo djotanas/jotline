@@ -869,8 +869,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-05 — renders "Ativos · 6"; exactly one segment has `selected: true`; tapping another calls `onChanged` with its value
-- [ ] Quick gate passes
+- [x] Tests: COMP-05 — renders "Ativos · 6"; exactly one segment has `selected: true`; tapping another calls `onChanged` with its value
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
