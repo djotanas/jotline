@@ -539,8 +539,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Tests: successful opener → `HivePreferencesStore`; throwing opener → `UnavailablePreferencesStore` whose reads return `null` and writes do not throw; box file still exists after a failed open (PREF-06)
-- [ ] Quick gate passes — 3 new tests
+- [x] Tests: successful opener → `HivePreferencesStore`; throwing opener → `UnavailablePreferencesStore` whose reads return `null` and writes do not throw; box file still exists after a failed open (PREF-06)
+- [x] Quick gate passes — 4 new tests
 
 **Tests**: unit
 **Gate**: quick
