@@ -44,6 +44,7 @@ Leia o doc antes de mexer no tema (ADR 0014).
 | Quando | Arquivo |
 | --- | --- |
 | Escrever ou mudar qualquer teste, mexer em tabela Drift ou criar um fluxo de tela | [`app/.claude/docs/testes.md`](.claude/docs/testes.md) |
+| Mexer em tela, tema, cor, fonte ou ícone | [`app/.claude/docs/design.md`](.claude/docs/design.md) |
 
 ## Regras
 
