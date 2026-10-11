@@ -1,24 +1,24 @@
 # CLAUDE.md — app (Flutter)
 
-App mobile do Jotline. Regras gerais e invariantes no [CLAUDE.md da raiz](../CLAUDE.md); requisitos em [docs/prd/PRD.md](../docs/prd/PRD.md).
+Jotline mobile app. General rules and invariants in the [root CLAUDE.md](../CLAUDE.md); requirements in [docs/prd/PRD.md](../docs/prd/PRD.md).
 
-> Esqueleto criado com `flutter create` (`com.jon.jotline`, Android e iOS) e as dependências da stack. Ainda **não decididos** — pergunte antes de assumir: organização de `lib/`, Riverpod com ou sem geração de código, conjunto de lints (hoje o padrão `flutter_lints`).
+> Skeleton created with `flutter create` (`com.jon.jotline`, Android and iOS) plus the stack dependencies. Still **undecided** — ask before assuming: `lib/` organization, Riverpod with or without code generation, lint set (currently the default `flutter_lints`).
 
 ## Stack
 
-- **Flutter via FVM** (versão fixada em `.fvmrc`); Android e iOS.
-- **Estado:** Riverpod. A UI consome streams reativos do banco local.
-- **Banco local:** SQLite com **Drift** — fonte da verdade no aparelho (ADR 0001). Na fase 2 o SQLite passa a ser gerenciado pelo PowerSync, com Drift por cima.
-- **Textos da interface:** só PT-BR na fase 1, via `flutter_localizations` + `gen-l10n` (`app_pt.arb`, chaves em inglês); nenhuma string direto no widget (ADR 0016). Setup no scaffold.
-- **Preferências:** `hive_ce` — só tema, último caderno aberto e afins; nada que sincronize.
-- **Editor de blocos:** _em aberto_ — `flutter_quill`, `appflowy_editor` ou `super_editor`, decidido por spike de 1 semana. Não adote um sem a decisão registrada em ADR.
-- **Desenho (RF-06, Could):** `perfect_freehand`, traços salvos como JSON.
-- **Ordem:** índice fracionário em `position` — reordenar altera uma linha só.
-- **Testes:** `flutter_test` + `mocktail`; banco testado com Drift real em memória; e2e com `integration_test` (ADR 0015).
+- **Flutter via FVM** (version pinned in `.fvmrc`); Android and iOS.
+- **State:** Riverpod. The UI consumes reactive streams from the local database.
+- **Local database:** SQLite with **Drift** — source of truth on the device (ADR 0001). In phase 2 SQLite becomes managed by PowerSync, with Drift on top.
+- **UI text:** PT-BR only in phase 1, via `flutter_localizations` + `gen-l10n` (`app_pt.arb`, keys in English); no strings hardcoded in widgets (ADR 0016). Set up in the scaffold.
+- **Preferences:** `hive_ce` — only theme, last opened notebook and the like; nothing that syncs.
+- **Block editor:** _open_ — `flutter_quill`, `appflowy_editor` or `super_editor`, decided by a 1-week spike. Do not adopt one without the decision recorded in an ADR.
+- **Drawing (RF-06, Could):** `perfect_freehand`, strokes saved as JSON.
+- **Ordering:** fractional index in `position` — reordering changes a single row.
+- **Tests:** `flutter_test` + `mocktail`; database tested with real in-memory Drift; e2e with `integration_test` (ADR 0015).
 
-## Comandos
+## Commands
 
-Sempre via `fvm`, para usar a versão fixada.
+Always through `fvm`, to use the pinned version.
 
 ```bash
 fvm flutter pub get
@@ -27,33 +27,33 @@ fvm flutter analyze
 fvm dart format lib test integration_test
 fvm flutter test
 fvm flutter test path/to/file_test.dart
-fvm flutter test integration_test                              # e2e; exige emulador ou aparelho
-fvm dart run build_runner build --delete-conflicting-outputs   # após clonar e após mudar tabelas Drift
-fvm dart run drift_dev make-migrations                         # após subir schemaVersion
+fvm flutter test integration_test                              # e2e; needs an emulator or device
+fvm dart run build_runner build --delete-conflicting-outputs   # after cloning and after changing Drift tables
+fvm dart run drift_dev make-migrations                         # after bumping schemaVersion
 ```
 
-Código gerado (`*.g.dart`) não é versionado: gere localmente antes de analyze, test e build. CI a definir.
+Generated code (`*.g.dart`) is not committed: generate it locally before analyze, test and build. CI to be defined.
 
-## Estrutura
+## Structure
 
-_A definir no scaffold._
+_To be defined in the scaffold._
 
-## Referências
+## References
 
-Leia o doc antes de mexer no tema (ADR 0014).
+Read the doc before touching the topic (ADR 0014).
 
-| Quando | Arquivo |
+| When | File |
 | --- | --- |
-| Escrever ou mudar qualquer teste, mexer em tabela Drift ou criar um fluxo de tela | [`app/.claude/docs/testes.md`](.claude/docs/testes.md) |
-| Mexer em tela, tema, cor, fonte ou ícone | [`app/.claude/docs/design.md`](.claude/docs/design.md) |
+| Writing or changing any test, touching a Drift table or creating a screen flow | [`app/.claude/docs/testes.md`](.claude/docs/testes.md) |
+| Touching a screen, theme, color, font or icon | [`app/.claude/docs/design.md`](.claude/docs/design.md) |
 
-## Regras
+## Rules
 
-- **Invariantes da raiz, do lado do app:** IDs gerados no momento da criação, offline; consultas filtram registros com `deleted_at`; telas e regras de negócio nunca importam o SDK do PowerSync.
-- **Modelo de dados da fase 1 já inclui** `notebook_members` (só o dono), `blocks.version` e `updated_by`, mesmo sem servidor (PRD §7).
-- **Autoria antes do login:** um usuário local anônimo (UUID v7 gerado na primeira abertura) preenche `created_by`, `user_id`, `added_by` e `updated_by`; no login, uma transação o troca pelo id da conta antes do primeiro upload (ADR 0011).
-- **Arquivar é por membro:** `notebook_members.archived_at` da linha do usuário, não `deleted_at` (ADR 0012).
-- **O app nunca incrementa `blocks.version`:** guarda a versão recebida do servidor e a envia como base no upload (ADR 0013).
-- **Fase 2:** a fila de upload sobrevive a fechar o app, reiniciar e trocar de rede (RNF-02); o indicador de estado é discreto — sincronizado, pendente, erro (RF-09).
-- **Desempenho:** lista e abertura de página sem carregamento perceptível com 10 mil páginas locais (RNF-06).
-- **Testes (ADR 0015):** todo código novo vem com teste de unidade ou widget; o que toca o Drift, com teste de banco em memória; mudança de schema, com migração testada; fluxo principal, com e2e.
+- **Root invariants, app side:** IDs generated at creation time, offline; queries filter out records with `deleted_at`; screens and business rules never import the PowerSync SDK.
+- **The phase 1 data model already includes** `notebook_members` (owner only), `blocks.version` and `updated_by`, even without a server (PRD §7).
+- **Authorship before login:** an anonymous local user (UUID v7 generated on first launch) fills `created_by`, `user_id`, `added_by` and `updated_by`; on login, a transaction replaces it with the account id before the first upload (ADR 0011).
+- **Archiving is per member:** `notebook_members.archived_at` on the user's row, not `deleted_at` (ADR 0012).
+- **The app never increments `blocks.version`:** it stores the version received from the server and sends it as the base on upload (ADR 0013).
+- **Phase 2:** the upload queue survives closing the app, restarting and switching networks (RNF-02); the status indicator is discreet — synced, pending, error (RF-09).
+- **Performance:** list and page opening with no noticeable loading with 10,000 local pages (RNF-06).
+- **Tests (ADR 0015):** all new code comes with a unit or widget test; anything touching Drift, with an in-memory database test; schema changes, with a tested migration; main flows, with e2e.

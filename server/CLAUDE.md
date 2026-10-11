@@ -1,39 +1,39 @@
 # CLAUDE.md — server (.NET)
 
-> **Fase 2 — ainda não iniciado.** Não crie código aqui enquanto o roadmap estiver na fase 1, salvo pedido explícito.
+> **Phase 2 — not started yet.** Do not create code here while the roadmap is in phase 1, unless explicitly asked.
 
-Backend do Jotline: autoridade das escritas, autorização, convites e anexos. Regras gerais e invariantes no [CLAUDE.md da raiz](../CLAUDE.md); requisitos em [docs/prd/PRD.md](../docs/prd/PRD.md) (§6–§8).
+Jotline backend: write authority, authorization, invites and attachments. General rules and invariants in the [root CLAUDE.md](../CLAUDE.md); requirements in [docs/prd/PRD.md](../docs/prd/PRD.md) (§6–§8).
 
 ## Stack
 
-- **ASP.NET Core 10**, Minimal APIs, monólito modular (ADR 0007). SDK 10.0.x.
-- **Dados:** EF Core 10 + Npgsql sobre Postgres (Supabase).
-- **Auth:** Supabase Auth (JWT) — o mesmo token vale para a API e o PowerSync (ADR 0008).
-- **Leitura/replicação:** PowerSync Cloud replica o Postgres para o SQLite de cada aparelho, só os cadernos de que o usuário é membro.
-- **Anexos:** Supabase Storage com URL pré-assinada emitida pela API; o arquivo não passa pela API.
-- **Dev local:** .NET Aspire sobe API, Postgres e PowerSync.
-- **Observabilidade:** OpenTelemetry (traces e métricas do sync e da API).
-- **Fase 3:** SignalR para avisos leves; tabela `block_history`.
+- **ASP.NET Core 10**, Minimal APIs, modular monolith (ADR 0007). SDK 10.0.x.
+- **Data:** EF Core 10 + Npgsql on Postgres (Supabase).
+- **Auth:** Supabase Auth (JWT) — the same token works for the API and PowerSync (ADR 0008).
+- **Read/replication:** PowerSync Cloud replicates Postgres to each device's SQLite, only the notebooks the user is a member of.
+- **Attachments:** Supabase Storage with a presigned URL issued by the API; the file does not go through the API.
+- **Local dev:** .NET Aspire runs the API, Postgres and PowerSync.
+- **Observability:** OpenTelemetry (sync and API traces and metrics).
+- **Phase 3:** SignalR for lightweight notifications; `block_history` table.
 
-## Comandos
+## Commands
 
-_A definir no scaffold._ O AppHost do Aspire sobe API + Postgres + PowerSync.
+_To be defined in the scaffold._ The Aspire AppHost runs API + Postgres + PowerSync.
 
-## Estrutura
+## Structure
 
-_A definir no scaffold._
+_To be defined in the scaffold._
 
-## Referências
+## References
 
-Leia o doc antes de mexer no tema (ADR 0014).
+Read the doc before touching the topic (ADR 0014).
 
-| Quando | Arquivo |
+| When | File |
 | --- | --- |
-| Implementar ou mudar `POST /sync/upload` (lote, autorização, rejeitados, conflito) | [`server/.claude/docs/sync-upload.md`](.claude/docs/sync-upload.md) |
+| Implementing or changing `POST /sync/upload` (batch, authorization, rejected operations, conflict) | [`server/.claude/docs/sync-upload.md`](.claude/docs/sync-upload.md) |
 
-## Regras
+## Rules
 
-- IDs vêm do cliente (UUID v7); o servidor não gera IDs de entidades sincronizadas. `Guid.CreateVersion7()` só para entidades do próprio servidor.
-- Autoria vem sempre do usuário do token, nunca do payload. O app troca o usuário local anônimo pelo da conta antes do primeiro upload (ADR 0011).
-- Convites, aceite e mudança de papel exigem online — o servidor é a autoridade de permissões.
-- `INotebookAccess` e as regras de sync por membro têm testes; toda mudança nelas é revisada (risco crítico de vazamento, PRD §11).
+- IDs come from the client (UUID v7); the server does not generate IDs for synced entities. `Guid.CreateVersion7()` only for the server's own entities.
+- Authorship always comes from the token's user, never from the payload. The app replaces the anonymous local user with the account's user before the first upload (ADR 0011).
+- Invites, accepting them and role changes require being online — the server is the authority on permissions.
+- `INotebookAccess` and the per-member sync rules have tests; every change to them is reviewed (critical leak risk, PRD §11).
