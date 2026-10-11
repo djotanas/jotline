@@ -15,7 +15,7 @@ Também não havia regra sobre comentários no código.
 
 ## Decisão
 
-1. **Código em inglês:** identificadores, nomes de arquivo e descrições de teste, no app e no server. Docs, ADRs e commits seguem em português.
+1. **Código em inglês:** identificadores, nomes de arquivo e descrições de teste, no app e no server. As instruções do agente (`CLAUDE.md` e `.claude/docs`) também ficam em inglês. PRD, ADRs e commits seguem em português.
 2. **Interface só em PT-BR na fase 1, já com localização do Flutter:** `flutter_localizations` + `gen-l10n`, um único `app_pt.arb`. Chaves em inglês (`newNotebook`), texto em português. Nenhuma string de interface escrita direto no widget.
 3. **Sem comentários explicativos no código.** Doc comments (`///`) são permitidos. Diretivas (`// ignore:` e afins) e `TODO` só entram depois de revisadas por @jon.
 
@@ -32,3 +32,4 @@ Também não havia regra sobre comentários no código.
 - Testes de widget montam o `MaterialApp` com os delegates de localização.
 - Os comentários do template do `flutter create` saem quando o `main.dart` for substituído.
 - As regras ficam no `CLAUDE.md` da raiz (código e comentários) e no do app (interface).
+- Os nomes de páginas e artboards do canvas de design continuam em português, como estão no canvas.
