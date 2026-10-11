@@ -52,5 +52,9 @@
         "type": "String"
       }
     }
+  },
+  "cancel": "Cancelar",
+  "@cancel": {
+    "description": "Label of the action that closes a sheet or dialog without changes."
   }
 }

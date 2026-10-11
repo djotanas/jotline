@@ -1147,8 +1147,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-10 — barrier color `bgVeu`; handle 40 × 5; "Cancelar" from l10n closes the sheet; primary tap calls `onPrimary`; title and child rendered
-- [ ] Quick gate passes
+- [x] Tests: COMP-10 — barrier color `bgVeu`; handle 40 × 5; "Cancelar" from l10n closes the sheet; primary tap calls `onPrimary`; title and child rendered
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
