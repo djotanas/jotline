@@ -23,8 +23,8 @@ docs/adr/   uma ADR por decisão (Contexto, Decisão, Consequências)
 - **Datas em UTC.** O servidor grava a própria data de recebimento além da enviada pelo cliente.
 - **Toda escrita no servidor passa pela API .NET** e é autorizada pelo usuário do token, nunca pelo payload, num único `INotebookAccess` (RNF-07, RNF-08, ADR 0003).
 - **Todo caderno tem membros desde a fase 1** (`notebook_members`, o dono como `owner`). Compartilhar = inserir uma linha, sem migração (ADR 0004).
-- **A unidade de conflito é o bloco.** Conflito no mesmo bloco gera cópia visível, nunca sobrescrita silenciosa (RF-10, ADR 0005, ADR 0006).
-- **`updated_by` existe desde a fase 1**, para o histórico da fase 3 não nascer sem autoria.
+- **A unidade de conflito é o bloco.** Conflito no mesmo bloco gera cópia visível, nunca sobrescrita silenciosa (RF-10, ADR 0005, ADR 0006). Só o servidor incrementa `blocks.version` (ADR 0013).
+- **`updated_by` existe desde a fase 1**, para o histórico da fase 3 não nascer sem autoria. Antes do login, o autor é um usuário local anônimo, trocado pelo da conta no login (ADR 0011).
 - **Nenhuma tela ou regra de negócio importa a lib de sync diretamente**; ela fica atrás de uma interface própria (RNF-12, ADR 0002).
 
 ## Mudanças que cruzam app e server
@@ -47,4 +47,4 @@ O contrato de sync (`POST /sync/upload`, `version` por bloco, rejeitados, regras
 - Diante de uma dúvida — requisito ambíguo, informação que o PRD não traz, decisão sem ADR — **pergunte antes de inferir**. Se tiver uma interpretação, apresente-a como pergunta ("faz sentido X?") e espere a resposta.
 - Em código, docs e ADRs, não preencha lacunas com suposições. Liste o ponto como pergunta em aberto.
 
-Questões já em aberto no PRD (não decida sozinho): editor de blocos (spike de 1 semana na fase 1) · criptografia do banco local · modelo de negócio · prazo da lixeira · se a fase 4 (CRDT) existe. Detalhes no PRD §11.
+Questões já em aberto no PRD (não decida sozinho): editor de blocos (spike de 1 semana na fase 1) · criptografia do banco local · modelo de negócio · prazo da lixeira · dados locais no logout e na troca de conta · se a fase 4 (CRDT) existe. Detalhes no PRD §11.

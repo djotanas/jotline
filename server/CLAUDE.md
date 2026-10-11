@@ -38,12 +38,13 @@ Recebe lotes de operações PUT, PATCH e DELETE vindos da fila do app.
 2. **Autoriza cada operação** pelo usuário do token e pelo papel no caderno — `viewer` não grava (RNF-07). Toda checagem passa por `INotebookAccess` (RNF-08).
 3. **Erro permanente não trava a fila:** a operação vai para a tabela de rejeitados e o app é avisado.
 4. **Grava em transação.** A partir da fase 3, registra `block_history`.
-5. **Conflito por bloco:** o app envia a `version` em que se baseou; se o servidor tem versão mais nova, cria uma cópia do bloco em vez de sobrescrever (ADR 0006).
+5. **Conflito por bloco:** o app envia a `version` em que se baseou; se o servidor tem versão mais nova, cria uma cópia do bloco em vez de sobrescrever (ADR 0006). Só o servidor incrementa `version` (ADR 0013).
 6. Edição de quem perdeu acesso ao caderno é rejeitada; o app oferece salvá-la num caderno pessoal (RF-17).
 
 ## Outras regras
 
 - IDs vêm do cliente (UUID v7); o servidor não gera IDs de entidades sincronizadas. `Guid.CreateVersion7()` só para entidades do próprio servidor.
 - Grave a data de recebimento além da data enviada pelo cliente, ambas em UTC.
+- Autoria vem sempre do usuário do token, nunca do payload. O app troca o usuário local anônimo pelo da conta antes do primeiro upload (ADR 0011).
 - Convites, aceite e mudança de papel exigem online — o servidor é a autoridade de permissões.
 - `INotebookAccess` e as regras de sync por membro têm testes; toda mudança nelas é revisada (risco crítico de vazamento, PRD §11).

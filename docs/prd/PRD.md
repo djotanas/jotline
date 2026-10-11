@@ -61,13 +61,13 @@ Cada requisito tem um código (RF-xx) para ser citado em tarefas, PRs e testes. 
 
 | Código | Requisito | Fase | Prioridade |
 | --- | --- | --- | --- |
-| RF-01 | Criar, renomear, arquivar e excluir cadernos, com capa e cor | 1 | Must |
+| RF-01 | Criar, renomear, arquivar e excluir cadernos, com capa e cor; arquivar vale só para quem arquiva | 1 | Must |
 | RF-02 | Criar páginas num caderno e reordená-las | 1 | Must |
 | RF-03 | Editor de blocos: texto rico, títulos, listas, checklist | 1 | Must |
 | RF-04 | Tudo funciona sem conta e sem internet | 1 | Must |
 | RF-05 | Busca local por título e conteúdo | 1 | Should |
 | RF-06 | Desenho à mão livre num bloco | 1 | Could |
-| RF-07 | Criar conta e entrar; dados criados antes do login passam para a conta | 2 | Must |
+| RF-07 | Criar conta e entrar com e-mail e senha ou Google; dados criados antes do login passam para a conta | 2 | Must |
 | RF-08 | Sync automático entre dispositivos, sem botão de sincronizar | 2 | Must |
 | RF-09 | Indicador discreto de estado: sincronizado, pendente, erro | 2 | Must |
 | RF-10 | Conflito no mesmo bloco gera cópia visível, nunca sobrescrita silenciosa | 2 | Must |
@@ -149,7 +149,7 @@ Todo caderno tem membros desde a fase 1, mesmo que o único membro seja o dono. 
 | Tabela | Campos principais | Observação | Fase |
 | --- | --- | --- | --- |
 | `notebooks` | id, title, cover, color, created\_by, created\_at, deleted\_at | O "Moleskine" | 1 |
-| `notebook_members` | notebook\_id, user\_id, role, added\_by, created\_at | role = owner, editor ou viewer | 1 (só owner) |
+| `notebook_members` | notebook\_id, user\_id, role, added\_by, created\_at, archived\_at | role = owner, editor ou viewer; arquivar é por membro (ADR 0012) | 1 (só owner) |
 | `pages` | id, notebook\_id, title, position, updated\_at, updated\_by, deleted\_at | position em índice fracionário | 1 |
 | `blocks` | id, page\_id, type, content\_json, position, version, updated\_at, updated\_by | A unidade de conflito é o bloco | 1 |
 | `attachments` | id, block\_id, storage\_key, mime, size, upload\_status | Arquivo local primeiro; upload depois | 2 |
@@ -163,6 +163,7 @@ Convenções que valem para todas as tabelas:
 - Datas em UTC; o servidor grava a própria data de recebimento além da enviada pelo cliente.
 - Nada é apagado fisicamente pelo app; o .NET faz a limpeza definitiva depois do prazo da lixeira.
 - `updated_by` existe desde a fase 1, para que o histórico da fase 3 não comece vazio de autoria.
+- Antes do login, as colunas de autoria (`created_by`, `user_id`, `added_by`, `updated_by`) recebem o id de um usuário local anônimo gerado no aparelho. No login, uma transação troca esse id pelo da conta antes do primeiro upload; dados locais são somados aos que a conta já tem (ADR 0011).
 
 ## 8. Sync, conflitos e compartilhamento
 
@@ -182,7 +183,7 @@ A regra de sync é uma só para cadernos pessoais e compartilhados: o aparelho r
 | Degrau | Como funciona | Quando |
 | --- | --- | --- |
 | 1. Last-write-wins por bloco | Edições em blocos diferentes nunca colidem | Fase 2 |
-| 1b. Cópia de conflito | O app envia a `version` em que se baseou; se o servidor tem versão mais nova, cria uma cópia do bloco em vez de sobrescrever | Fase 2 |
+| 1b. Cópia de conflito | O app envia a `version` em que se baseou; se o servidor tem versão mais nova, cria uma cópia do bloco em vez de sobrescrever. Só o servidor incrementa `version` (ADR 0013) | Fase 2 |
 | 2. Histórico de versões | Toda escrita gera uma linha em `block_history`; dá para ver e restaurar | Fase 3 |
 | 3. CRDT | Conteúdo vira atualizações Yjs numa tabela só de inserções; o .NET compacta em snapshots | Fase 4, opcional |
 
@@ -221,6 +222,9 @@ Cada linha vira um arquivo em `docs/adr/` quando o repositório existir, no form
 | 0007 | Monolito modular em ASP.NET Core 10 | Microsserviços | Escala atual não justifica a complexidade |
 | 0008 | Supabase Auth no início | Identity próprio desde o começo | Menos código na fase 2; JWT padrão permite trocar depois |
 | 0009 | CRDT adiado para a fase 4 | Yjs desde o início | Bibliotecas Dart imaturas; degraus 1 e 2 cobrem o uso assíncrono |
+| 0011 | Usuário local anônimo antes do login, trocado pelo da conta no login | Colunas nulas até o login; id local permanente | Autoria `NOT NULL` desde a fase 1, sem script de reparo |
+| 0012 | Arquivamento de caderno por membro (`notebook_members.archived_at`) | `notebooks.archived_at`, global | Na fase 3, quem arquiva não tira o caderno da lista dos outros |
+| 0013 | Só o servidor incrementa `blocks.version` | App incrementa a cada edição | Uma única fonte de verdade para detectar conflito |
 
 Uma alternativa evitada de propósito: Realm com Atlas Device Sync, que a MongoDB descontinuou.
 
@@ -235,6 +239,7 @@ Uma alternativa evitada de propósito: Realm com Atlas Device Sync, que a MongoD
 | CRDT no Flutter imaturo | Médio | Adiar para a fase 4; avaliar Yrs via flutter\_rust\_bridge |
 | YDotNet ainda inicial e mirando net8.0 | Baixo, só na fase 4 | Testar no .NET 10 antes de adotar |
 | Dados criados sem login se perderem ao criar conta | Alto | Teste dedicado da migração local para a conta (RF-07) |
+| Rejeição na App Store pela regra 4.8 (login com Google sem Sign in with Apple) | Médio, só no iOS | E-mail e senha como opção equivalente; reavaliar Sign in with Apple se o review rejeitar |
 
 Questões em aberto:
 
@@ -243,6 +248,7 @@ Questões em aberto:
 - [ ] Criptografia do banco local entra na fase 2 ou depois?
 - [ ] Modelo de negócio: grátis com limite de cadernos compartilhados, assinatura, ou outro?
 - [ ] Prazo final da lixeira: 30 dias é suficiente?
+- [ ] Logout e troca de conta no mesmo aparelho: o que acontece com os dados locais da conta anterior? (RNF-09)
 
 ### Fontes
 
