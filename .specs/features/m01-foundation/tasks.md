@@ -1032,8 +1032,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-08 — six options labeled with canvas names; selected has 2 px `ink1` ring and `selected: true`; tap calls `onChanged`
-- [ ] Quick gate passes
+- [x] Tests: COMP-08 — six options labeled with canvas names; selected has 2 px `ink1` ring and `selected: true`; tap calls `onChanged`
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
