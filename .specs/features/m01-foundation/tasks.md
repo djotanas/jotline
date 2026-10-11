@@ -516,8 +516,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Tests (Hive in a temp dir): PREF-03 (write, close, reopen, read), PREF-04 (never written → `null`; cleared → `null`), PREF-05 (box holds only `lastOpenedNotebookId` after writes)
-- [ ] Quick gate passes — 4 new tests
+- [x] Tests (Hive in a temp dir): PREF-03 (write, close, reopen, read), PREF-04 (never written → `null`; cleared → `null`), PREF-05 (box holds only `lastOpenedNotebookId` after writes)
+- [x] Quick gate passes — 4 new tests
 
 **Tests**: unit
 **Gate**: quick
