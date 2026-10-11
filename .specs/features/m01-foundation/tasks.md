@@ -1078,8 +1078,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-09 (page) — styles; excerpt absent when `null`; tap calls back; long title/excerpt ellipsize
-- [ ] Quick gate passes
+- [x] Tests: COMP-09 (page) — styles; excerpt absent when `null`; tap calls back; long title/excerpt ellipsize
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
