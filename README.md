@@ -87,7 +87,7 @@ fvm flutter run
 
 ## License
 
-To be defined — see [#10](https://github.com/djotanas/jotline/issues/10).
+MIT — see [LICENSE](LICENSE).
 
 ## Contact me
 

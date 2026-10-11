@@ -284,8 +284,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] `head -3 LICENSE` shows "MIT License" and the copyright line (LIC-01)
-- [ ] README no longer says "To be defined" (LIC-02)
+- [x] `head -3 LICENSE` shows "MIT License" and the copyright line (LIC-01)
+- [x] README no longer says "To be defined" (LIC-02)
 
 **Tests**: none
 **Gate**: build
