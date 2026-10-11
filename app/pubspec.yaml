@@ -35,3 +35,33 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+  assets:
+    - assets/fonts/schibsted_grotesk/OFL.txt
+    - assets/fonts/literata/OFL.txt
+    - assets/fonts/ibm_plex_mono/OFL.txt
+  fonts:
+    - family: Schibsted Grotesk
+      fonts:
+        - asset: assets/fonts/schibsted_grotesk/SchibstedGrotesk[wght].ttf
+          weight: 400
+        - asset: assets/fonts/schibsted_grotesk/SchibstedGrotesk[wght].ttf
+          weight: 500
+        - asset: assets/fonts/schibsted_grotesk/SchibstedGrotesk[wght].ttf
+          weight: 600
+        - asset: assets/fonts/schibsted_grotesk/SchibstedGrotesk[wght].ttf
+          weight: 700
+    - family: Literata
+      fonts:
+        - asset: assets/fonts/literata/Literata[opsz,wght].ttf
+          weight: 400
+        - asset: assets/fonts/literata/Literata-Italic[opsz,wght].ttf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/literata/Literata[opsz,wght].ttf
+          weight: 500
+    - family: IBM Plex Mono
+      fonts:
+        - asset: assets/fonts/ibm_plex_mono/IBMPlexMono-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/ibm_plex_mono/IBMPlexMono-Medium.ttf
+          weight: 500

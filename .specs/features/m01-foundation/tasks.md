@@ -588,8 +588,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Tests: THEME-05 (font manifest declares the three families with the weights/styles of the spec; no `google_fonts` dependency), THEME-06 (after `registerFontLicenses()`, `LicenseRegistry.licenses` has one entry per family)
-- [ ] Quick gate passes — 2 new tests
+- [x] Tests: THEME-05 (font manifest declares the three families with the weights/styles of the spec; no `google_fonts` dependency), THEME-06 (after `registerFontLicenses()`, `LicenseRegistry.licenses` has one entry per family)
+- [x] Quick gate passes — 2 new tests
 
 **Tests**: unit
 **Gate**: quick
