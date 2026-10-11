@@ -14,7 +14,7 @@ A organização de `lib/` ainda não foi decidida. Quando for, `test/` espelha `
 
 ## Nomes
 
-O código do requisito vem primeiro, quando houver: `test('RF-02: reordenar altera só uma linha', ...)`. Teste de invariante cita o RNF: `test('RNF-05: excluir caderno só preenche deleted_at', ...)`.
+Descrição em inglês, com o código do requisito primeiro, quando houver: `test('RF-02: reordering updates a single row', ...)`. Teste de invariante cita o RNF: `test('RNF-05: deleting a notebook only sets deleted_at', ...)`.
 
 ## Banco (sempre, com SQLite real)
 

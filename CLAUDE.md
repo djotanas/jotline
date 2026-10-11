@@ -29,6 +29,11 @@ docs/adr/   uma ADR por decisão (Contexto, Decisão, Consequências)
 - **`updated_by` existe desde a fase 1**, para o histórico da fase 3 não nascer sem autoria. Antes do login, o autor é um usuário local anônimo, trocado pelo da conta no login (ADR 0011).
 - **Nenhuma tela ou regra de negócio importa a lib de sync diretamente**; ela fica atrás de uma interface própria (RNF-12, ADR 0002).
 
+## Código (ADR 0016)
+
+- **Inglês no código:** identificadores, nomes de arquivo e descrições de teste. Docs, ADRs e commits seguem em português.
+- **Sem comentários explicativos no código.** Doc comments (`///`) são permitidos. Diretivas (`// ignore:` e afins) e `TODO`: pergunte ao usuário antes de adicionar.
+
 ## Mudanças que cruzam app e server
 
 O contrato de sync (`POST /sync/upload`, `version` por bloco, rejeitados, regras por membro) existe dos dois lados. Ao mudá-lo: atualize primeiro o contrato e o `server/`, depois o `app/`. Um commit por lado, no mesmo PR.

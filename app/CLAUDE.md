@@ -9,6 +9,7 @@ App mobile do Jotline. Regras gerais e invariantes no [CLAUDE.md da raiz](../CLA
 - **Flutter via FVM** (versão fixada em `.fvmrc`); Android e iOS.
 - **Estado:** Riverpod. A UI consome streams reativos do banco local.
 - **Banco local:** SQLite com **Drift** — fonte da verdade no aparelho (ADR 0001). Na fase 2 o SQLite passa a ser gerenciado pelo PowerSync, com Drift por cima.
+- **Textos da interface:** só PT-BR na fase 1, via `flutter_localizations` + `gen-l10n` (`app_pt.arb`, chaves em inglês); nenhuma string direto no widget (ADR 0016). Setup no scaffold.
 - **Preferências:** `hive_ce` — só tema, último caderno aberto e afins; nada que sincronize.
 - **Editor de blocos:** _em aberto_ — `flutter_quill`, `appflowy_editor` ou `super_editor`, decidido por spike de 1 semana. Não adote um sem a decisão registrada em ADR.
 - **Desenho (RF-06, Could):** `perfect_freehand`, traços salvos como JSON.
