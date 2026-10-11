@@ -54,4 +54,4 @@ O contrato de sync (`POST /sync/upload`, `version` por bloco, rejeitados, regras
 - Diante de uma dúvida — requisito ambíguo, informação que o PRD não traz, decisão sem ADR — **pergunte antes de inferir**. Se tiver uma interpretação, apresente-a como pergunta ("faz sentido X?") e espere a resposta.
 - Em código, docs e ADRs, não preencha lacunas com suposições. Liste o ponto como pergunta em aberto.
 
-Questões já em aberto no PRD (não decida sozinho): editor de blocos (spike de 1 semana na fase 1) · criptografia do banco local · modelo de negócio · prazo da lixeira · dados locais no logout e na troca de conta · se a fase 4 (CRDT) existe. Detalhes no PRD §11.
+Questões já em aberto no PRD (não decida sozinho): editor de blocos (spike de 1 semana na fase 1) · criptografia do banco local · modelo de negócio · prazo da lixeira · lixeira local da fase 1 (páginas junto com o caderno, esvaziar) · dados locais no logout e na troca de conta · se a fase 4 (CRDT) existe. Detalhes no PRD §11.

@@ -72,7 +72,7 @@ Cada requisito tem um código (RF-xx) para ser citado em tarefas, PRs e testes. 
 | RF-09 | Indicador discreto de estado: sincronizado, pendente, erro | 2 | Must |
 | RF-10 | Conflito no mesmo bloco gera cópia visível, nunca sobrescrita silenciosa | 2 | Must |
 | RF-11 | Anexar imagens; o upload acontece quando houver rede | 2 | Should |
-| RF-12 | Lixeira com restauração por 30 dias | 2 | Should |
+| RF-12 | Lixeira com restauração; na fase 1 é só local, e a limpeza definitiva chega com o servidor na fase 2 | 1 | Should |
 | RF-13 | Convidar pessoas para um caderno por link ou e-mail | 3 | Must |
 | RF-14 | Papéis por caderno: dono, editor, leitor | 3 | Must |
 | RF-15 | Mostrar quem editou cada bloco e quando | 3 | Should |
@@ -82,7 +82,7 @@ Cada requisito tem um código (RF-xx) para ser citado em tarefas, PRs e testes. 
 | RF-19 | Coedição em tempo real no mesmo bloco | 4 | Could |
 | RF-20 | Presença: quem está vendo ou editando a página agora | 4 | Could |
 
-O prazo de 30 dias da lixeira (RF-12) é uma proposta e pode mudar.
+A lixeira (RF-12) entra na fase 1 só no aparelho: lista o que foi excluído (`deleted_at` preenchido) e restaura limpando `deleted_at`. Como o app nunca apaga fisicamente (RNF-05), a limpeza definitiva só existe a partir da fase 2, feita pelo servidor; o prazo de 30 dias vale para essa limpeza, é uma proposta e pode mudar.
 
 ## 5. Requisitos não funcionais
 
@@ -248,6 +248,7 @@ Questões em aberto:
 - [ ] Criptografia do banco local entra na fase 2 ou depois?
 - [ ] Modelo de negócio: grátis com limite de cadernos compartilhados, assinatura, ou outro?
 - [ ] Prazo final da lixeira: 30 dias é suficiente?
+- [ ] Lixeira local da fase 1 (RF-12): excluir um caderno leva as páginas dele para a lixeira e restaurar o caderno as traz de volta juntas? Há "esvaziar lixeira" na fase 1, sabendo que o app não apaga fisicamente?
 - [ ] Logout e troca de conta no mesmo aparelho: o que acontece com os dados locais da conta anterior? (RNF-09)
 
 ### Fontes
