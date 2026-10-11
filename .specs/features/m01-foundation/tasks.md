@@ -611,8 +611,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Test: THEME-01 — each of the 20 names has the exact hex from the spec table
-- [ ] Quick gate passes — ≥1 new test covering 20 values
+- [x] Test: THEME-01 — each of the 20 names has the exact hex from the spec table
+- [x] Quick gate passes — ≥1 new test covering 20 values
 
 **Tests**: unit
 **Gate**: quick
