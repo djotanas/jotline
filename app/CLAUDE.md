@@ -2,7 +2,7 @@
 
 App mobile do Jotline. Regras gerais e invariantes no [CLAUDE.md da raiz](../CLAUDE.md); requisitos em [docs/prd/PRD.md](../docs/prd/PRD.md).
 
-> Projeto ainda não criado. Ao fazer o scaffold, atualize "Estrutura" e confira os comandos.
+> Esqueleto criado com `flutter create` (`com.jon.jotline`, Android e iOS) e as dependências da stack. Ainda **não decididos** — pergunte antes de assumir: organização de `lib/`, Riverpod com ou sem geração de código, conjunto de lints (hoje o padrão `flutter_lints`).
 
 ## Stack
 
