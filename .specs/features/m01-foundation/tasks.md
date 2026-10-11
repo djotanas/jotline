@@ -161,9 +161,9 @@ T45 → T46
 
 **Done when**:
 
-- [ ] `MyApp`/`MyHomePage` gone; `main.dart` has no template comments
-- [ ] `test/app_test.dart`: STRUCT-05 (one `Scaffold`, no `Text`), RVP-02 (`ProviderScope` ancestor), STRUCT-06 (only `pt` supported), STRUCT-01 (top level of `lib/` within the allowed set), STRUCT-03 (every `test/**/*_test.dart` has a `lib/` counterpart)
-- [ ] Quick gate passes: `cd app && fvm flutter test` — 5 tests pass
+- [x] `MyApp`/`MyHomePage` gone; `main.dart` has no template comments
+- [x] `test/app_test.dart`: STRUCT-05 (one `Scaffold`, no `Text`), RVP-02 (`ProviderScope` ancestor), STRUCT-06 (only `pt` supported), STRUCT-01 (top level of `lib/` within the allowed set), STRUCT-03 (every `test/**/*_test.dart` has a `lib/` counterpart)
+- [x] Quick gate passes: `cd app && fvm flutter test` — 5 tests pass
 
 **Tests**: widget
 **Gate**: quick
