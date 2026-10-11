@@ -1193,8 +1193,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Every in-scope "Componentes" component listed with its widget (COMP-16)
-- [ ] Build gate passes
+- [x] Every in-scope "Componentes" component listed with its widget (COMP-16)
+- [x] Build gate passes
 
 **Tests**: none
 **Gate**: build
