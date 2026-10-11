@@ -892,8 +892,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-06 (field half) — label shown; unfocused border `lineForte`, focused border `accent`; `onChanged` receives typed text
-- [ ] Quick gate passes
+- [x] Tests: COMP-06 (field half) — label shown; unfocused border `lineForte`, focused border `accent`; `onChanged` receives typed text
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
