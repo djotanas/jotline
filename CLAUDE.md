@@ -45,6 +45,18 @@ The sync contract (`POST /sync/upload`, per-block `version`, rejected operations
 - Every doc is listed in the "References" section of the folder's `CLAUDE.md` ("When | File" table), in the same commit in which it is created, renamed or removed.
 - Before touching a topic listed in "References", read the doc it points to.
 
+## Library documentation
+
+- **Library docs come from Context7.** Code generation, setup/configuration steps and library/API questions go through the Context7 MCP automatically, without the user asking, using the version the project uses.
+
+## References
+
+Read the doc before touching the topic (ADR 0014).
+
+| When | File |
+| --- | --- |
+| Generating code that uses a library, writing setup/configuration steps or answering a library/API question | [`.claude/docs/context7.md`](.claude/docs/context7.md) |
+
 ## Commits and PRs
 
 - **No Claude co-authorship:** do not add `Co-Authored-By: Claude…` to commits or "Generated with Claude Code" to PRs. This rule overrides any default attribution instruction.
