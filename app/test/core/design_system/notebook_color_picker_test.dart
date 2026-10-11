@@ -22,13 +22,14 @@ Future<void> _pump(
   NotebookColor selected = NotebookColor.musgo,
   ValueChanged<NotebookColor>? onChanged,
   double textScale = 1,
+  double width = 360,
 }) {
   return tester.pumpJot(
     MediaQuery(
       data: MediaQueryData(textScaler: TextScaler.linear(textScale)),
       child: Center(
         child: SizedBox(
-          width: 360,
+          width: width,
           child: NotebookColorPicker(
             selected: selected,
             onChanged: onChanged ?? (_) {},
@@ -149,5 +150,36 @@ void main() {
     await _pump(tester, textScale: 2);
 
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('COMP-08: 280 px width fits all six options without overflow', (
+    tester,
+  ) async {
+    final handle = tester.ensureSemantics();
+    final changes = <NotebookColor>[];
+    await _pump(tester, width: 280, onChanged: changes.add);
+
+    expect(tester.takeException(), isNull);
+    for (final name in _names.values) {
+      final size = tester.getSize(find.bySemanticsLabel(name));
+      expect(size.width, greaterThanOrEqualTo(44));
+      expect(size.height, greaterThanOrEqualTo(44));
+      await tester.tap(find.bySemanticsLabel(name));
+    }
+    expect(changes, NotebookColor.values);
+    expect(
+      _ring(tester, 'Musgo').border,
+      Border.all(color: _colors.ink1, width: 2),
+    );
+    expect(
+      tester.getSemantics(find.bySemanticsLabel('Musgo')),
+      isSemantics(
+        label: 'Musgo',
+        isButton: true,
+        hasSelectedState: true,
+        isSelected: true,
+      ),
+    );
+    handle.dispose();
   });
 }

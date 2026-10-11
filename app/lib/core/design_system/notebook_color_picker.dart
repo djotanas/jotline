@@ -10,6 +10,7 @@ class NotebookColorPicker extends StatelessWidget {
   static const double optionSize = 48;
   static const double swatchSize = 36;
   static const double ringWidth = 2;
+  static const double minOptionSize = 44;
 
   final NotebookColor selected;
   final ValueChanged<NotebookColor> onChanged;
@@ -18,6 +19,17 @@ class NotebookColorPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final ink1 = context.colors.ink1;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final available = constraints.maxWidth / NotebookColor.values.length;
+        final option = available.clamp(minOptionSize, optionSize);
+        final swatch = swatchSize * option / optionSize;
+        return _row(l10n, ink1, option, swatch);
+      },
+    );
+  }
+
+  Widget _row(AppLocalizations l10n, Color ink1, double option, double swatch) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -30,7 +42,7 @@ class NotebookColorPicker extends StatelessWidget {
               behavior: HitTestBehavior.opaque,
               onTap: () => onChanged(color),
               child: SizedBox.square(
-                dimension: optionSize,
+                dimension: option,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -40,7 +52,7 @@ class NotebookColorPicker extends StatelessWidget {
                   ),
                   child: Center(
                     child: SizedBox.square(
-                      dimension: swatchSize,
+                      dimension: swatch,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
