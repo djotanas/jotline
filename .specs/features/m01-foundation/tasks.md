@@ -800,8 +800,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-01 (min 44 × 44, each variant's tokens), COMP-02 (`onPressed: null` → disabled style, tap does not call back) for primary, pill and text
-- [ ] Quick gate passes
+- [x] Tests: COMP-01 (min 44 × 44, each variant's tokens), COMP-02 (`onPressed: null` → disabled style, tap does not call back) for primary, pill and text
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
