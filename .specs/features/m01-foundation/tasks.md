@@ -494,7 +494,7 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Example matches the helper's code; TEST-07 complete
+- [x] Example matches the helper's code; TEST-07 complete
 
 **Tests**: none
 **Gate**: build

@@ -18,18 +18,16 @@ Description in English, with the requirement code first when there is one: `test
 
 ## Database (always, with real SQLite)
 
-Every DAO, repository and query is tested against a fresh in-memory database per test. Do not mock the database or the DAOs.
+Every DAO, repository and query is tested against a fresh in-memory database per test. Do not mock the database or the DAOs. Use the `createTestDatabase()` helper from `test/helpers/test_database.dart`, which opens a new `AppDatabase` on `NativeDatabase.memory()` with `closeStreamsSynchronously: true` (avoids "A Timer is still pending" in widget tests):
 
 ```dart
-import 'package:drift/native.dart';
-
 late AppDatabase db;
 
-setUp(() => db = AppDatabase(NativeDatabase.memory()));
+setUp(() => db = createTestDatabase());
 tearDown(() => db.close());
 ```
 
-- That is why `AppDatabase` takes the `QueryExecutor` in its constructor; the production executor (`drift_flutter`) stays outside the class.
+- That is why `AppDatabase` takes the `QueryExecutor` in its constructor; the production executor (`drift_flutter`) stays outside the class, in `databaseProvider`.
 - Test what the UI consumes: the streams (`watch()`), not just one-off reads.
 
   ```dart
