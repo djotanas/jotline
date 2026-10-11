@@ -777,8 +777,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-14 — 10 glyphs exist; default size 22 on a 24 grid; color inherited from `IconTheme`; `strokeWidth` parameter honored; each glyph paints without error
-- [ ] Quick gate passes
+- [x] Tests: COMP-14 — 10 glyphs exist; default size 22 on a 24 grid; color inherited from `IconTheme`; `strokeWidth` parameter honored; each glyph paints without error
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
