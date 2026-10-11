@@ -259,12 +259,10 @@ T45 → T46
 - MCP: `context7` (GitHub Actions `subosito/flutter-action`)
 - Skill: NONE
 
-**Done when**:
-
-- [ ] Triggers cover CI-01/02 (push to `main` + PR, `paths: app/**` and the workflow file)
-- [ ] Step order matches CI-04…09
-- [ ] Every step command runs locally from `app/` without error (`build apk --debug` included)
-- [ ] First green run confirmed after the user authorizes the push (recorded in `validation.md`)
+- [x] Triggers cover CI-01/02 (push to `main` + PR, `paths: app/**` and the workflow file)
+- [x] Step order matches CI-04…09
+- [x] Every step command runs locally from `app/` without error (`build apk --debug` included)
+- [ ] First green run confirmed after the user authorizes the push (recorded in `validation.md`) — OPEN: blocked on push authorization, not performed by this worker
 
 **Tests**: none
 **Gate**: build
