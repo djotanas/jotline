@@ -680,8 +680,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Test: THEME-03 (shadow rows) — offsets, blur and colors of all four, `capa` with two layers
-- [ ] Quick gate passes
+- [x] Test: THEME-03 (shadow rows) — offsets, blur and colors of all four, `capa` with two layers
+- [x] Quick gate passes
 
 **Tests**: unit
 **Gate**: quick
