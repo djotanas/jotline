@@ -17,5 +17,6 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0011](0011-usuario-local-anonimo.md) | Usuário local anônimo antes do login | Aceita |
 | [0012](0012-arquivamento-por-membro.md) | Arquivamento de caderno por membro | Aceita |
 | [0013](0013-versao-do-bloco-pelo-servidor.md) | Só o servidor incrementa `blocks.version` | Aceita |
+| [0014](0014-progressive-disclosure-no-harness.md) | Progressive disclosure nas instruções do agente | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.

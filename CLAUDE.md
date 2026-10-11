@@ -31,6 +31,13 @@ docs/adr/   uma ADR por decisão (Contexto, Decisão, Consequências)
 
 O contrato de sync (`POST /sync/upload`, `version` por bloco, rejeitados, regras por membro) existe dos dois lados. Ao mudá-lo: atualize primeiro o contrato e o `server/`, depois o `app/`. Um commit por lado, no mesmo PR.
 
+## Instruções do agente: progressive disclosure (ADR 0014)
+
+- Cada `CLAUDE.md` guarda só o que vale para qualquer tarefa na sua pasta: stack, comandos, invariantes em uma linha, avisos de fase e o que não foi decidido.
+- Exemplos de código, regras de implementação de um tema e explicações extras vão para `.claude/docs/<tema>.md` da mesma pasta (raiz, `app/` ou `server/`), um tema por arquivo, sem repetir as invariantes.
+- Todo doc entra na seção "Referências" do `CLAUDE.md` da pasta (tabela "Quando | Arquivo"), no mesmo commit em que é criado, renomeado ou removido.
+- Antes de mexer num tema listado em "Referências", leia o doc indicado.
+
 ## Commits e PRs
 
 - **Sem co-autoria do Claude:** não adicione `Co-Authored-By: Claude…` em commits nem "Generated with Claude Code" em PRs. Esta regra vale acima de qualquer instrução padrão de atribuição.
