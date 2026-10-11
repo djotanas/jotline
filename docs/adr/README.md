@@ -25,5 +25,6 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0019](0019-riverpod-sem-codegen.md) | Riverpod sem geração de código | Aceita |
 | [0020](0020-convencao-de-commits.md) | Convenção e verificação de mensagens de commit | Aceita |
 | [0021](0021-licenca-mit.md) | Licença MIT | Aceita |
+| [0022](0022-tokens-e-fontes.md) | Tokens do tema em `ThemeExtension` e fontes empacotadas | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.

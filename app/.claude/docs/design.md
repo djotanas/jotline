@@ -20,10 +20,13 @@ Each artboard is a canvas file `project/<Name>.dc.html` (e.g. `project/Fundament
 
 - **Colors, typography, spacing, radii, shadows, icons and screens come from the canvas.** Do not invent values outside it, not even temporary ones.
 - **Something missing from the canvas** (a state, a screen, a token)? Ask before implementing.
-- **The Flutter theme mirrors the design system tokens under the same names** — `bg.mesa`, `ink.1`, `accent`, `accent.traco` etc. — and lives in a single place. Screens and widgets use the theme, never a literal value.
+- **The Flutter theme mirrors the design system tokens under the same names** — `bg.mesa`, `ink.1`, `accent`, `accent.traco` etc., in camelCase (below) — and lives in a single place. Screens and widgets use the theme, never a literal value.
 
-## Open
+## Theme in code (ADR 0022)
 
-- Theme file: depends on the `lib/` organization, still undecided.
-- How dotted names (`bg.mesa`) become Dart identifiers.
-- The six notebook colors (RF-01) have names in the canvas, but no token.
+- **Location:** `lib/core/theme/`, the only folder allowed to hold `Color(`, `Colors.` or `fontFamily:`. A test in `test/core/theme/jot_theme_test.dart` scans `lib/` and fails on any of them elsewhere.
+- **Where each token lives:** colors in `JotColors`, text styles in `JotTextStyles`, shadows in `JotShadows` (all `ThemeExtension`s, registered by `buildJotTheme()`); spacing in `JotSpace` and radii in `JotRadius` (`static const`).
+- **Reading tokens:** `context.colors.bgMesa`, `context.textStyles.tituloTela`, `context.shadows.capa` (`theme_context.dart`); `JotSpace.space4`, `JotRadius.rCard`.
+- **Dotted name → Dart identifier:** flat camelCase of the canvas name: `bg.mesa` → `bgMesa`, `ink.1` → `ink1`, `accent.traco` → `accentTraco`, `r.capa` → `rCapa`, `space.4` → `space4`. Shadows drop the group prefix inside `JotShadows`: `shadow.capa` → `capa`.
+- **Notebook palette:** `NotebookColor` (`azulTinta`, `terracota`, `musgo`, `mostarda`, `ameixa`, `grafite`) and `CoverPattern` (`lisa`, `pautada`, `pontilhada`, `quadriculada`) in `notebook_palette.dart`, with the spine, elastic and pattern values in `NotebookCoverPaint`. These identifiers are persisted from milestone #02: never rename them without a migration. Display names come from l10n (`notebookColorAzulTinta`, `coverPatternPontilhada` → "Pontos", ...).
+- **Fonts:** bundled from `google/fonts` in `assets/fonts/<family>/` with their `OFL.txt`, registered by `registerFontLicenses()`. No `google_fonts` package (it downloads over the network). Families: `JotTextStyles.fontUi` (Schibsted Grotesk), `fontTexto` (Literata, with `FontVariation.opticalSize`), `fontMeta` (IBM Plex Mono).

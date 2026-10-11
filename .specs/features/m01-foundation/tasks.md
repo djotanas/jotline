@@ -750,8 +750,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] ADR + index entry (ADR-01, 02); THEME-10 satisfied
-- [ ] Build gate passes
+- [x] ADR + index entry (ADR-01, 02); THEME-10 satisfied
+- [x] Build gate passes
 
 **Tests**: none
 **Gate**: build
