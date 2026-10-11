@@ -237,9 +237,9 @@ T45 → T46
 
 **Done when**:
 
-- [ ] `sh .github/scripts/check-commits.sh HEAD~3..HEAD` exits 0 locally on conforming commits
-- [ ] The script exits 1 and prints the SHA for a range containing a scratch commit `feature: x` (made in a temp clone, never on the real branch)
-- [ ] Hook gate passes
+- [x] `sh .github/scripts/check-commits.sh HEAD~3..HEAD` exits 0 locally on conforming commits
+- [x] The script exits 1 and prints the SHA for a range containing a scratch commit `feature: x` (made in a temp clone, never on the real branch)
+- [x] Hook gate passes
 
 **Tests**: shell
 **Gate**: hook
