@@ -22,5 +22,6 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0016](0016-idioma-e-comentarios-no-codigo.md) | Código em inglês, interface em PT-BR com `gen-l10n`, sem comentários explicativos | Aceita |
 | [0017](0017-lint-very-good-analysis.md) | Conjunto de lint do app: `very_good_analysis` | Aceita |
 | [0018](0018-estrutura-feature-first.md) | Estrutura do `lib/`: feature-first | Aceita |
+| [0019](0019-riverpod-sem-codegen.md) | Riverpod sem geração de código | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.

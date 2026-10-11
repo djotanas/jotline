@@ -378,8 +378,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] ADR + index entry; RVP-01 (no generator deps) and RVP-03 satisfied
-- [ ] `app/CLAUDE.md` has no remaining "undecided" item among lint, structure, Riverpod
+- [x] ADR + index entry; RVP-01 (no generator deps) and RVP-03 satisfied
+- [x] `app/CLAUDE.md` has no remaining "undecided" item among lint, structure, Riverpod
 
 **Tests**: none
 **Gate**: build
