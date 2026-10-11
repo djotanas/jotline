@@ -938,8 +938,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-11 — icon size 40 and stroke 1.4, title style, message shown, no button in the subtree
-- [ ] Quick gate passes
+- [x] Tests: COMP-11 — icon size 40 and stroke 1.4, title style, message shown, no button in the subtree
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
