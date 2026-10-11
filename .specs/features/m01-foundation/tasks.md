@@ -562,9 +562,9 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Tests: PREF-02 (override returns the fake); app test with `UnavailablePreferencesStore` still shows the root `Scaffold` (PREF-06 app level); reading the provider without override throws `UnimplementedError`
-- [ ] PREF-01: `main` awaits `openPreferencesStore()` before `runApp` (checked by reading `main.dart` in review)
-- [ ] Quick gate passes — 3 new tests
+- [x] Tests: PREF-02 (override returns the fake); app test with `UnavailablePreferencesStore` still shows the root `Scaffold` (PREF-06 app level); reading the provider without override throws `UnimplementedError`
+- [x] PREF-01: `main` awaits `openPreferencesStore()` before `runApp` (checked by reading `main.dart` in review)
+- [x] Quick gate passes — 3 new tests
 
 **Tests**: widget
 **Gate**: quick

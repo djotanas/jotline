@@ -4,9 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jotline/app.dart';
+import 'package:jotline/core/preferences/preferences_provider.dart';
+import 'package:jotline/core/preferences/unavailable_preferences_store.dart';
 import 'package:jotline/l10n/app_localizations.dart';
 
 void main() {
+  testWidgets('PREF-06: root Scaffold still renders with an unavailable '
+      'preferences store', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          preferencesStoreProvider.overrideWithValue(
+            UnavailablePreferencesStore(),
+          ),
+        ],
+        child: const JotlineApp(),
+      ),
+    );
+
+    expect(find.byType(Scaffold), findsOneWidget);
+  });
+
   testWidgets('STRUCT-05: root Scaffold renders with no text or child widget', (
     tester,
   ) async {
