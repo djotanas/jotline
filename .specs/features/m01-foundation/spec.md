@@ -381,84 +381,84 @@ Families: `font.ui` = Schibsted Grotesk, `font.texto` = Literata, `font.meta` = 
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| LINT-01 | P1: Lint set | - | Pending |
-| LINT-02 | P1: Lint set | - | Pending |
-| LINT-03 | P1: Lint set | - | Pending |
-| LINT-04 | P1: Lint set | - | Pending |
-| LINT-05 | P1: Lint set | - | Pending |
-| LINT-06 | P1: Lint set | - | Pending |
-| STRUCT-01 | P1: Structure and shell | - | Pending |
-| STRUCT-02 | P1: Structure and shell | - | Pending |
-| STRUCT-03 | P1: Structure and shell | - | Pending |
-| STRUCT-04 | P1: Structure and shell | - | Pending |
-| STRUCT-05 | P1: Structure and shell | - | Pending |
-| STRUCT-06 | P1: Structure and shell | - | Pending |
-| STRUCT-07 | P1: Structure and shell | - | Pending |
-| STRUCT-08 | P1: Structure and shell | - | Pending |
-| RVP-01 | P1: Riverpod | - | Pending |
-| RVP-02 | P1: Riverpod | - | Pending |
-| RVP-03 | P1: Riverpod | - | Pending |
-| TEST-01 | P1: Test foundation | - | Pending |
-| TEST-02 | P1: Test foundation | - | Pending |
-| TEST-03 | P1: Test foundation | - | Pending |
-| TEST-04 | P1: Test foundation | - | Pending |
-| TEST-05 | P1: Test foundation | - | Pending |
-| TEST-06 | P1: Test foundation | - | Pending |
-| TEST-07 | P1: Test foundation | - | Pending |
-| CI-01 | P1: CI | - | Pending |
-| CI-02 | P1: CI | - | Pending |
-| CI-03 | P1: CI | - | Pending |
-| CI-04 | P1: CI | - | Pending |
-| CI-05 | P1: CI | - | Pending |
-| CI-06 | P1: CI | - | Pending |
-| CI-07 | P1: CI | - | Pending |
-| CI-08 | P1: CI | - | Pending |
-| CI-09 | P1: CI | - | Pending |
-| THEME-01 | P2: Theme and tokens | - | Pending |
-| THEME-02 | P2: Theme and tokens | - | Pending |
-| THEME-03 | P2: Theme and tokens | - | Pending |
-| THEME-04 | P2: Theme and tokens | - | Pending |
-| THEME-05 | P2: Theme and tokens | - | Pending |
-| THEME-06 | P2: Theme and tokens | - | Pending |
-| THEME-07 | P2: Theme and tokens | - | Pending |
-| THEME-08 | P2: Theme and tokens | - | Pending |
-| THEME-09 | P2: Theme and tokens | - | Pending |
-| THEME-10 | P2: Theme and tokens | - | Pending |
-| COMP-01 | P2: Base components | - | Pending |
-| COMP-02 | P2: Base components | - | Pending |
-| COMP-03 | P2: Base components | - | Pending |
-| COMP-04 | P2: Base components | - | Pending |
-| COMP-05 | P2: Base components | - | Pending |
-| COMP-06 | P2: Base components | - | Pending |
-| COMP-07 | P2: Base components | - | Pending |
-| COMP-08 | P2: Base components | - | Pending |
-| COMP-09 | P2: Base components | - | Pending |
-| COMP-10 | P2: Base components | - | Pending |
-| COMP-11 | P2: Base components | - | Pending |
-| COMP-12 | P2: Base components | - | Pending |
-| COMP-13 | P2: Base components | - | Pending |
-| COMP-14 | P2: Base components | - | Pending |
-| COMP-15 | P2: Base components | - | Pending |
-| COMP-16 | P2: Base components | - | Pending |
-| COMMIT-01 | P2: Commit check | - | Pending |
-| COMMIT-02 | P2: Commit check | - | Pending |
-| COMMIT-03 | P2: Commit check | - | Pending |
-| COMMIT-04 | P2: Commit check | - | Pending |
-| COMMIT-05 | P2: Commit check | - | Pending |
-| COMMIT-06 | P2: Commit check | - | Pending |
-| COMMIT-07 | P2: Commit check | - | Pending |
-| COMMIT-08 | P2: Commit check | - | Pending |
-| COMMIT-09 | P2: Commit check | - | Pending |
-| PREF-01 | P3: Preferences | - | Pending |
-| PREF-02 | P3: Preferences | - | Pending |
-| PREF-03 | P3: Preferences | - | Pending |
-| PREF-04 | P3: Preferences | - | Pending |
-| PREF-05 | P3: Preferences | - | Pending |
-| PREF-06 | P3: Preferences | - | Pending |
-| LIC-01 | P3: License | - | Pending |
-| LIC-02 | P3: License | - | Pending |
-| ADR-01 | P3: Decision records | - | Pending |
-| ADR-02 | P3: Decision records | - | Pending |
+| LINT-01 | P1: Lint set | - | ✅ Verified |
+| LINT-02 | P1: Lint set | - | ✅ Verified |
+| LINT-03 | P1: Lint set | - | ✅ Verified |
+| LINT-04 | P1: Lint set | - | ✅ Verified |
+| LINT-05 | P1: Lint set | - | ✅ Verified |
+| LINT-06 | P1: Lint set | - | ✅ Verified |
+| STRUCT-01 | P1: Structure and shell | - | ✅ Verified |
+| STRUCT-02 | P1: Structure and shell | - | ✅ Verified |
+| STRUCT-03 | P1: Structure and shell | - | ✅ Verified |
+| STRUCT-04 | P1: Structure and shell | - | ✅ Verified |
+| STRUCT-05 | P1: Structure and shell | - | ✅ Verified |
+| STRUCT-06 | P1: Structure and shell | - | ⚠️ Verified with spec-precision gap (`pt` vs `pt_BR`) |
+| STRUCT-07 | P1: Structure and shell | - | ✅ Verified |
+| STRUCT-08 | P1: Structure and shell | - | ✅ Verified |
+| RVP-01 | P1: Riverpod | - | ✅ Verified |
+| RVP-02 | P1: Riverpod | - | ✅ Verified |
+| RVP-03 | P1: Riverpod | - | ✅ Verified |
+| TEST-01 | P1: Test foundation | - | ✅ Verified |
+| TEST-02 | P1: Test foundation | - | ✅ Verified |
+| TEST-03 | P1: Test foundation | - | ✅ Verified |
+| TEST-04 | P1: Test foundation | - | ✅ Verified |
+| TEST-05 | P1: Test foundation | - | ✅ Verified |
+| TEST-06 | P1: Test foundation | - | ✅ Verified |
+| TEST-07 | P1: Test foundation | - | ✅ Verified |
+| CI-01 | P1: CI | - | ✅ Verified locally (first GitHub run pending push) |
+| CI-02 | P1: CI | - | ✅ Verified locally (first GitHub run pending push) |
+| CI-03 | P1: CI | - | ✅ Verified locally (first GitHub run pending push) |
+| CI-04 | P1: CI | - | ✅ Verified locally (first GitHub run pending push) |
+| CI-05 | P1: CI | - | ✅ Verified locally (first GitHub run pending push) |
+| CI-06 | P1: CI | - | ✅ Verified locally (first GitHub run pending push) |
+| CI-07 | P1: CI | - | ✅ Verified locally (first GitHub run pending push) |
+| CI-08 | P1: CI | - | ✅ Verified locally (first GitHub run pending push) |
+| CI-09 | P1: CI | - | ✅ Verified locally (first GitHub run pending push) |
+| THEME-01 | P2: Theme and tokens | - | ✅ Verified |
+| THEME-02 | P2: Theme and tokens | - | ✅ Verified |
+| THEME-03 | P2: Theme and tokens | - | ✅ Verified |
+| THEME-04 | P2: Theme and tokens | - | ✅ Verified |
+| THEME-05 | P2: Theme and tokens | - | ✅ Verified |
+| THEME-06 | P2: Theme and tokens | - | ✅ Verified |
+| THEME-07 | P2: Theme and tokens | - | ✅ Verified |
+| THEME-08 | P2: Theme and tokens | - | ✅ Verified |
+| THEME-09 | P2: Theme and tokens | - | ✅ Verified |
+| THEME-10 | P2: Theme and tokens | - | ✅ Verified |
+| COMP-01 | P2: Base components | - | ✅ Verified |
+| COMP-02 | P2: Base components | - | ✅ Verified |
+| COMP-03 | P2: Base components | - | ✅ Verified |
+| COMP-04 | P2: Base components | - | ✅ Verified |
+| COMP-05 | P2: Base components | - | ✅ Verified |
+| COMP-06 | P2: Base components | - | ✅ Verified |
+| COMP-07 | P2: Base components | - | ✅ Verified |
+| COMP-08 | P2: Base components | - | ✅ Verified |
+| COMP-09 | P2: Base components | - | ✅ Verified |
+| COMP-10 | P2: Base components | - | ✅ Verified |
+| COMP-11 | P2: Base components | - | ✅ Verified |
+| COMP-12 | P2: Base components | - | ✅ Verified |
+| COMP-13 | P2: Base components | - | ✅ Verified |
+| COMP-14 | P2: Base components | - | ✅ Verified |
+| COMP-15 | P2: Base components | - | ⚠️ Verified with spec-precision gap (derived styles) |
+| COMP-16 | P2: Base components | - | ✅ Verified |
+| COMMIT-01 | P2: Commit check | - | ✅ Verified |
+| COMMIT-02 | P2: Commit check | - | ✅ Verified |
+| COMMIT-03 | P2: Commit check | - | ✅ Verified |
+| COMMIT-04 | P2: Commit check | - | ✅ Verified |
+| COMMIT-05 | P2: Commit check | - | ✅ Verified |
+| COMMIT-06 | P2: Commit check | - | ✅ Verified |
+| COMMIT-07 | P2: Commit check | - | ✅ Verified |
+| COMMIT-08 | P2: Commit check | - | ✅ Verified |
+| COMMIT-09 | P2: Commit check | - | ✅ Verified |
+| PREF-01 | P3: Preferences | - | ✅ Verified |
+| PREF-02 | P3: Preferences | - | ✅ Verified |
+| PREF-03 | P3: Preferences | - | ✅ Verified |
+| PREF-04 | P3: Preferences | - | ✅ Verified |
+| PREF-05 | P3: Preferences | - | ✅ Verified |
+| PREF-06 | P3: Preferences | - | ✅ Verified |
+| LIC-01 | P3: License | - | ✅ Verified |
+| LIC-02 | P3: License | - | ✅ Verified |
+| ADR-01 | P3: Decision records | - | ✅ Verified |
+| ADR-02 | P3: Decision records | - | ✅ Verified |
 
 **Issue map:** #4 → LINT · #5 → STRUCT · #6 → RVP · #7 → TEST · #8 → CI · #9 → COMMIT · #10 → LIC · #11 → THEME, COMP · #12 → PREF · all decision issues → ADR.
 
