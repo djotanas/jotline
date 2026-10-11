@@ -212,10 +212,10 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Accepts: `feat(app): x`, `docs: x`, `fix!: x`, `refactor(infra)!: x`, `Merge branch 'a'`, `Revert "feat: x"`, message with `#` comment lines after the header (COMMIT-02, 06)
-- [ ] Rejects with message on stderr: `feature: x` (lists types), `feat(prd): x` (lists scopes), `feat:x`, `feat: ` (empty description), 101-char header, empty file, comments-only file (COMMIT-03, 04, 05, edge case)
-- [ ] Hook is executable and uses only `sh`, `grep`, `sed` (COMMIT-01)
-- [ ] Hook gate passes: `sh .github/scripts/commit-msg_test.sh` — all cases pass
+- [x] Accepts: `feat(app): x`, `docs: x`, `fix!: x`, `refactor(infra)!: x`, `Merge branch 'a'`, `Revert "feat: x"`, message with `#` comment lines after the header (COMMIT-02, 06)
+- [x] Rejects with message on stderr: `feature: x` (lists types), `feat(prd): x` (lists scopes), `feat:x`, `feat: ` (empty description), 101-char header, empty file, comments-only file (COMMIT-03, 04, 05, edge case)
+- [x] Hook is executable and uses only `sh`, `grep`, `sed` (COMMIT-01)
+- [x] Hook gate passes: `sh .github/scripts/commit-msg_test.sh` — all cases pass
 
 **Tests**: shell
 **Gate**: hook
