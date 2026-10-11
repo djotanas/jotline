@@ -307,8 +307,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Both files describe the format, allowed types and scopes, and the hook setup (COMMIT-09)
-- [ ] `git config core.hooksPath .githooks` set in this clone and the commit of this task passes the hook
+- [x] Both files describe the format, allowed types and scopes, and the hook setup (COMMIT-09)
+- [x] `git config core.hooksPath .githooks` set in this clone and the commit of this task passes the hook
 
 **Tests**: none
 **Gate**: hook

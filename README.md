@@ -68,6 +68,16 @@ docs/adr/   architecture decision records
 - [FVM](https://fvm.app/) (installs the Flutter version pinned in `app/.fvmrc`)
 - [Android Studio](https://developer.android.com/studio) or [Xcode](https://developer.apple.com/xcode/)
 
+### Commit convention
+
+Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/): `<type>[(<scope>)][!]: <description>`. Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. Allowed scopes (optional): `app`, `server`, `docs`, `infra`.
+
+```bash
+git config core.hooksPath .githooks
+```
+
+This points git at the versioned `commit-msg` hook, which rejects a message that doesn't match the convention before it is committed. The same check runs again in CI on every push and pull request.
+
 ### Running the app
 
 ```bash

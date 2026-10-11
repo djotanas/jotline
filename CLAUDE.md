@@ -60,6 +60,7 @@ Read the doc before touching the topic (ADR 0014).
 ## Commits and PRs
 
 - **No Claude co-authorship:** do not add `Co-Authored-By: Claude…` to commits or "Generated with Claude Code" to PRs. This rule overrides any default attribution instruction.
+- **Conventional Commits, enforced locally and in CI:** `<type>[(<scope>)][!]: <description>`, types `feat`/`fix`/`docs`/`style`/`refactor`/`perf`/`test`/`build`/`ci`/`chore`/`revert`, scopes (optional) `app`/`server`/`docs`/`infra`; run `git config core.hooksPath .githooks` once per clone to install the local check.
 
 ## Documents
 
