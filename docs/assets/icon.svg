@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img">
+  <title>Jotline</title>
+  <rect width="100" height="100" rx="23" fill="#1B1A17"/>
+  <path d="M26 30 C35 28.8, 46 31.4, 58 29.8" transform="translate(9 0) skewX(-10)" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <circle cx="71" cy="29.8" r="5.5" transform="translate(9 0) skewX(-10)" fill="#B9C3EA"/>
+  <path d="M26 48 C35 46.8, 46 49.4, 56 48 C61 47.3, 64 51, 64 56 V62 a13 13 0 0 1 -26 0" transform="translate(9 0) skewX(-10)" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>
