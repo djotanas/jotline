@@ -986,8 +986,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-07 — paints for every color × pattern; label text shown on `bgPapel`; decoration uses `shadowCapa` and `rCapa`; long label ellipsizes
-- [ ] Quick gate passes
+- [x] Tests: COMP-07 — paints for every color × pattern; label text shown on `bgPapel`; decoration uses `shadowCapa` and `rCapa`; long label ellipsizes
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
