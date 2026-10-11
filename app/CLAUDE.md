@@ -28,7 +28,7 @@ fvm flutter test path/to/file_test.dart
 fvm dart run build_runner build --delete-conflicting-outputs   # após clonar e após mudar tabelas Drift
 ```
 
-Código gerado (`*.g.dart`) não é versionado: gere localmente e o CI gera antes de analyze, test e build.
+Código gerado (`*.g.dart`) não é versionado: gere localmente antes de analyze, test e build. CI a definir.
 
 ## Estrutura
 
