@@ -13,6 +13,7 @@ App mobile do Jotline. Regras gerais e invariantes no [CLAUDE.md da raiz](../CLA
 - **Editor de blocos:** _em aberto_ — `flutter_quill`, `appflowy_editor` ou `super_editor`, decidido por spike de 1 semana. Não adote um sem a decisão registrada em ADR.
 - **Desenho (RF-06, Could):** `perfect_freehand`, traços salvos como JSON.
 - **Ordem:** índice fracionário em `position` — reordenar altera uma linha só.
+- **Testes:** `flutter_test` + `mocktail`; banco testado com Drift real em memória; e2e com `integration_test` (ADR 0015).
 
 ## Comandos
 
@@ -22,10 +23,12 @@ Sempre via `fvm`, para usar a versão fixada.
 fvm flutter pub get
 fvm flutter run
 fvm flutter analyze
-fvm dart format lib test
+fvm dart format lib test integration_test
 fvm flutter test
 fvm flutter test path/to/file_test.dart
+fvm flutter test integration_test                              # e2e; exige emulador ou aparelho
 fvm dart run build_runner build --delete-conflicting-outputs   # após clonar e após mudar tabelas Drift
+fvm dart run drift_dev make-migrations                         # após subir schemaVersion
 ```
 
 Código gerado (`*.g.dart`) não é versionado: gere localmente antes de analyze, test e build. CI a definir.
@@ -33,6 +36,14 @@ Código gerado (`*.g.dart`) não é versionado: gere localmente antes de analyze
 ## Estrutura
 
 _A definir no scaffold._
+
+## Referências
+
+Leia o doc antes de mexer no tema (ADR 0014).
+
+| Quando | Arquivo |
+| --- | --- |
+| Escrever ou mudar qualquer teste, mexer em tabela Drift ou criar um fluxo de tela | [`app/.claude/docs/testes.md`](.claude/docs/testes.md) |
 
 ## Regras
 
@@ -43,4 +54,4 @@ _A definir no scaffold._
 - **O app nunca incrementa `blocks.version`:** guarda a versão recebida do servidor e a envia como base no upload (ADR 0013).
 - **Fase 2:** a fila de upload sobrevive a fechar o app, reiniciar e trocar de rede (RNF-02); o indicador de estado é discreto — sincronizado, pendente, erro (RF-09).
 - **Desempenho:** lista e abertura de página sem carregamento perceptível com 10 mil páginas locais (RNF-06).
-- Mudanças de schema exigem migração Drift com teste.
+- **Testes (ADR 0015):** todo código novo vem com teste de unidade ou widget; o que toca o Drift, com teste de banco em memória; mudança de schema, com migração testada; fluxo principal, com e2e.
