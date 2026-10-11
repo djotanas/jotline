@@ -915,8 +915,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-06 (search half) — search glyph present, placeholder shown, `onChanged` receives text
-- [ ] Quick gate passes
+- [x] Tests: COMP-06 (search half) — search glyph present, placeholder shown, `onChanged` receives text
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
