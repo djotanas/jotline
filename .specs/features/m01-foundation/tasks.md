@@ -447,9 +447,9 @@ T45 → T46
 
 **Done when**:
 
-- [ ] `build_runner` generates `app_database.g.dart` with zero tables (if it refuses: STOP and ask — see design risk)
-- [ ] Tests: TEST-01 (`schemaVersion` 1, no tables), TEST-03 (`SELECT 1` on the helper DB), TEST-04 (two helper calls → distinct instances, a temp table created in one is absent in the other)
-- [ ] Quick gate passes — 3 new tests
+- [x] `build_runner` generates `app_database.g.dart` with zero tables (if it refuses: STOP and ask — see design risk)
+- [x] Tests: TEST-01 (`schemaVersion` 1, no tables), TEST-03 (`SELECT 1` on the helper DB), TEST-04 (two helper calls → distinct instances, a temp table created in one is absent in the other)
+- [x] Quick gate passes — 3 new tests
 
 **Tests**: Drift
 **Gate**: quick
