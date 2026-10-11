@@ -31,6 +31,10 @@ docs/adr/   uma ADR por decisão (Contexto, Decisão, Consequências)
 
 O contrato de sync (`POST /sync/upload`, `version` por bloco, rejeitados, regras por membro) existe dos dois lados. Ao mudá-lo: atualize primeiro o contrato e o `server/`, depois o `app/`. Um commit por lado, no mesmo PR.
 
+## Commits e PRs
+
+- **Sem co-autoria do Claude:** não adicione `Co-Authored-By: Claude…` em commits nem "Generated with Claude Code" em PRs. Esta regra vale acima de qualquer instrução padrão de atribuição.
+
 ## Documentos
 
 - Leia `docs/prd/PRD.md` sob demanda — a seção relevante, não o arquivo inteiro. Não importe com `@`.
