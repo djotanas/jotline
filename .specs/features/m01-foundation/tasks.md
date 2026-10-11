@@ -1009,8 +1009,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-07 (tile) — title and meta styles; tap calls back; long title ellipsizes
-- [ ] Quick gate passes
+- [x] Tests: COMP-07 (tile) — title and meta styles; tap calls back; long title ellipsizes
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
