@@ -1170,8 +1170,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-13 — confirm returns `true`, "Cancelar" returns `false`; radius 24 and `shadowErguido`; exposed as an alert dialog to semantics
-- [ ] Quick gate passes
+- [x] Tests: COMP-13 — confirm returns `true`, "Cancelar" returns `false`; radius 24 and `shadowErguido`; exposed as an alert dialog to semantics
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
