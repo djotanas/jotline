@@ -355,8 +355,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] ADR + index entry (ADR-01, 02); STRUCT-02 satisfied
-- [ ] `testes.md` no longer says the organization is undecided (TEST-07, first half)
+- [x] ADR + index entry (ADR-01, 02); STRUCT-02 satisfied
+- [x] `testes.md` no longer says the organization is undecided (TEST-07, first half)
 
 **Tests**: none
 **Gate**: build

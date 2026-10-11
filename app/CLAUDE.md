@@ -2,7 +2,7 @@
 
 Jotline mobile app. General rules and invariants in the [root CLAUDE.md](../CLAUDE.md); requirements in [docs/prd/PRD.md](../docs/prd/PRD.md).
 
-> Skeleton created with `flutter create` (`com.jon.jotline`, Android and iOS) plus the stack dependencies. Still **undecided** — ask before assuming: `lib/` organization, Riverpod with or without code generation.
+> Skeleton created with `flutter create` (`com.jon.jotline`, Android and iOS) plus the stack dependencies. Still **undecided** — ask before assuming: Riverpod with or without code generation.
 
 ## Stack
 
@@ -37,7 +37,7 @@ Generated code (`*.g.dart`) is not committed: generate it locally before analyze
 
 ## Structure
 
-_To be defined in the scaffold._
+Feature-first (ADR 0018). `lib/main.dart` and `lib/app.dart` at the top; `lib/core/` for cross-feature code (theme, database, preferences, design system); `lib/features/<feature>/{data,presentation}/` per feature, starting with the first feature milestone; `lib/l10n/` for the ARB source and the generated localization files. `test/` mirrors `lib/` file by file: `lib/x/y.dart` → `test/x/y_test.dart`.
 
 ## References
 
