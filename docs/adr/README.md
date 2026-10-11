@@ -24,5 +24,6 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0018](0018-estrutura-feature-first.md) | Estrutura do `lib/`: feature-first | Aceita |
 | [0019](0019-riverpod-sem-codegen.md) | Riverpod sem geração de código | Aceita |
 | [0020](0020-convencao-de-commits.md) | Convenção e verificação de mensagens de commit | Aceita |
+| [0021](0021-licenca-mit.md) | Licença MIT | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.

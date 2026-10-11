@@ -423,7 +423,7 @@ T45 → T46
 
 **Done when**:
 
-- [ ] ADR + index entry (ADR-01, 02)
+- [x] ADR + index entry (ADR-01, 02)
 
 **Tests**: none
 **Gate**: build
