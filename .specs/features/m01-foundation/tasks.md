@@ -332,8 +332,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] ADR in Portuguese with Status, Data, Decisores, Relacionados, Contexto, Decisão, Alternativas descartadas, Consequências (ADR-01)
-- [ ] Listed in `docs/adr/README.md` (ADR-02); LINT-06 satisfied
+- [x] ADR in Portuguese with Status, Data, Decisores, Relacionados, Contexto, Decisão, Alternativas descartadas, Consequências (ADR-01)
+- [x] Listed in `docs/adr/README.md` (ADR-02); LINT-06 satisfied
 
 **Tests**: none
 **Gate**: build
