@@ -185,10 +185,10 @@ T45 → T46
 
 **Done when**:
 
-- [ ] `flutter_lints` absent and `very_good_analysis` present in `pubspec.yaml` (LINT-01, 02)
-- [ ] `fvm flutter analyze` → "No issues found!" (LINT-05)
-- [ ] No `// ignore` added
-- [ ] Build gate passes — 5 tests pass
+- [x] `flutter_lints` absent and `very_good_analysis` present in `pubspec.yaml` (LINT-01, 02)
+- [x] `fvm flutter analyze` → "No issues found!" (LINT-05)
+- [x] No `// ignore` added
+- [x] Build gate passes — 5 tests pass
 
 **Tests**: none
 **Gate**: build

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'l10n/app_localizations.dart';
+import 'package:jotline/l10n/app_localizations.dart';
 
 class JotlineApp extends StatelessWidget {
-  const JotlineApp({super.key});
+  const new({super.key});
 
   @override
   Widget build(BuildContext context) {
