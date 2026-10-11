@@ -1124,8 +1124,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-09 (archived/trash) — cover, title, meta rendered; action label shown and tap calls `onAction`
-- [ ] Quick gate passes
+- [x] Tests: COMP-09 (archived/trash) — cover, title, meta rendered; action label shown and tap calls `onAction`
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
