@@ -28,10 +28,6 @@ Limit: the clock starts at the first `pumpWidget`, so engine and process start a
 
 The existing e2e flows (`notebooks_flow_test.dart` and the others) pass in debug but fail under `--profile`: the tap on "Criar caderno" after typing does not create the notebook. This is why the measurement seeds data instead of typing. Not investigated.
 
-### Dry run on the emulator (not valid for PERF-01)
-
-sdk_gphone64_x86_64, Android 15, profile, 5 runs, `toPageMs`: 1196, 1270, 1180, 1633, 1014 (median 1196 ms); `toListMs` median 516 ms; `toNotebookMs` median 991 ms. A second dry run by a validating subagent gave `toPageMs` median 1896 ms (866–2351) and `TotalTime` median 2090 ms: emulator numbers vary a lot between sessions.
-
 ### Result
 
 | Field | Value |
