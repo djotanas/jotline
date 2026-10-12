@@ -8,6 +8,7 @@ environment:
   sdk: ^3.13.4
 
 dependencies:
+  characters: ^1.4.1
   cupertino_icons: ^1.0.8
   drift: ^2.35.2
   drift_flutter: ^0.3.1
