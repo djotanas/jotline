@@ -484,13 +484,13 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests cover:
+- [x] Widget tests cover:
   - grouped rows render in white cards
   - a destructive row uses `danger`
   - a `checked` row shows the check glyph and selected semantics
   - tapping a row resolves the future with its value
   - tapping the barrier resolves `null`
-- [ ] Quick gate passes (≥ 5 new tests)
+- [x] Quick gate passes (≥ 5 new tests)
 
 **Tests**: widget
 **Gate**: quick
