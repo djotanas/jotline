@@ -146,4 +146,15 @@ void main() {
       reason: 'the remainder of the last block is merged into the first',
     );
   });
+
+  testWidgets('BMOVE-02: moving a node writes only its position', (
+    tester,
+  ) async {
+    final page = await pumpPage(tester);
+    page.editor.execute([const MoveNodeRequest(nodeId: 't2', newIndex: 0)]);
+    await tester.pumpAndSettle();
+    page.sync.flush();
+    expect(store.writes, [const BlockWrite('move', 't2')]);
+    expect(store.visible.first.id, 't2');
+  });
 }

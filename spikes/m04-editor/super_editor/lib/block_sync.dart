@@ -28,9 +28,12 @@ class BlockSync {
     for (final change in changes) {
       if (change is! DocumentEdit) continue;
       final event = change.change;
+      if (event is NodeMovedEvent) _moved = true;
       if (event is NodeDocumentChange) _touched.add(event.nodeId);
     }
   }
+
+  bool _moved = false;
 
   void flush() {
     final document = editor.document;
@@ -59,16 +62,60 @@ class BlockSync {
         );
       } else {
         store.update(blockId, type: type, contentJson: contentJson);
-        final row = store.byId(blockId)!;
-        final expectedAfter = _previousPersisted(document, nodeId);
-        final ordered = store.visible;
-        final index = ordered.indexWhere((r) => r.id == row.id);
-        final actualAfter = index > 0 ? ordered[index - 1].id : null;
-        if (actualAfter != expectedAfter) {
-          store.move(blockId, afterId: expectedAfter);
-        }
       }
     }
+    if (_moved) {
+      _moved = false;
+      _reorder(document);
+    }
+  }
+
+  /// Moves the fewest rows needed for the store order to match the document:
+  /// rows on a longest increasing subsequence stay where they are.
+  void _reorder(Document document) {
+    final storeIndex = {for (final (i, r) in store.visible.indexed) r.id: i};
+    final order = [
+      for (final node in document)
+        if (_blockIdByNodeId[node.id] case final id?
+            when storeIndex.containsKey(id))
+          id,
+    ];
+    final keep = _longestIncreasing(order, storeIndex);
+    for (final (i, id) in order.indexed) {
+      if (keep.contains(id)) continue;
+      store.move(id, afterId: i == 0 ? null : order[i - 1]);
+    }
+  }
+
+  static Set<String> _longestIncreasing(
+    List<String> order,
+    Map<String, int> rank,
+  ) {
+    final tails = <int>[];
+    final previous = List<int>.filled(order.length, -1);
+    for (var i = 0; i < order.length; i++) {
+      var low = 0;
+      var high = tails.length;
+      while (low < high) {
+        final mid = (low + high) ~/ 2;
+        if (rank[order[tails[mid]]]! < rank[order[i]]!) {
+          low = mid + 1;
+        } else {
+          high = mid;
+        }
+      }
+      if (low > 0) previous[i] = tails[low - 1];
+      if (low == tails.length) {
+        tails.add(i);
+      } else {
+        tails[low] = i;
+      }
+    }
+    final keep = <String>{};
+    for (var i = tails.isEmpty ? -1 : tails.last; i >= 0; i = previous[i]) {
+      keep.add(order[i]);
+    }
+    return keep;
   }
 
   String? _previousPersisted(Document document, String nodeId) {
