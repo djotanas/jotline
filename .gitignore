@@ -1,2 +1,5 @@
 # Relatórios locais do harness-eval
 .harness-eval/
+
+# Configurações locais do VS Code
+.vscode/
