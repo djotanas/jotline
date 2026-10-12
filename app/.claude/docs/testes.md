@@ -37,7 +37,7 @@ tearDown(() => db.close());
 
 ## Migrations
 
-1. Configure the database in `build.yaml` (`drift_dev` → `databases`) once `AppDatabase` exists.
+1. `build.yaml` registers the database under `drift_dev` → `databases` (`app_database: lib/core/database/app_database.dart`) and sets `store_date_time_values_as_text: true`; add any new database there.
 2. On every table change: bump `schemaVersion` and run `fvm dart run drift_dev make-migrations`. The command exports the version's schema to `drift_schemas/`, generates the step-by-step migration helpers and the test in `test/drift/`.
 3. Write the `vN → vN+1` migration with the generated helpers and complete the generated test (`SchemaVerifier`) with data: rows created in the old version must survive the new one.
 4. Commit what the command generated in `drift_schemas/` and `test/drift/`. Exported schemas are never edited by hand.
