@@ -29,5 +29,6 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0023](0023-lixeira-local-da-fase-1.md) | Lixeira local da fase 1: caderno leva as páginas, sem esvaziar | Aceita |
 | [0024](0024-confirmacao-ao-excluir.md) | Confirmação ao excluir: página com desfazer, caderno com diálogo | Aceita |
 | [0025](0025-busca-inclui-cadernos-arquivados.md) | Páginas de caderno arquivado continuam na busca | Aceita |
+| [0026](0026-usuario-local-no-drift.md) | Usuário local anônimo numa tabela do Drift | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.
