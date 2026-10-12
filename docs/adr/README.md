@@ -31,5 +31,6 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0025](0025-busca-inclui-cadernos-arquivados.md) | Páginas de caderno arquivado continuam na busca | Aceita |
 | [0026](0026-usuario-local-no-drift.md) | Usuário local anônimo numa tabela do Drift | Aceita |
 | [0027](0027-exclusao-de-caderno-derivada.md) | Exclusão de caderno derivada para páginas e blocos | Aceita |
+| [0028](0028-colunas-alem-do-prd.md) | Colunas além do PRD §7: `blocks.deleted_at` e `notebook_members.id` | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.
