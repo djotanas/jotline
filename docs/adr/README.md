@@ -36,5 +36,6 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0030](0030-datas-em-texto-iso-8601.md) | Datas como texto ISO-8601 em UTC | Aceita |
 | [0031](0031-migracoes-passo-a-passo.md) | Versionamento do schema com migrações passo a passo | Aceita |
 | [0032](0032-aviso-de-desfazer.md) | Aviso de desfazer de 3 s com pausa ao segurar | Aceita |
+| [0033](0033-secao-paginas-da-lixeira.md) | Seção "Páginas" da lixeira | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.
