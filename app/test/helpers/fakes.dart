@@ -1,4 +1,5 @@
 import 'package:jotline/core/clock/clock.dart';
+import 'package:jotline/core/ids/id_generator.dart';
 
 class FakeClock implements Clock {
   new(DateTime initial) : _now = _validated(initial);
@@ -24,5 +25,15 @@ class FakeClock implements Clock {
       );
     }
     return value;
+  }
+}
+
+class SequentialIdGenerator implements IdGenerator {
+  int _next = 0;
+
+  @override
+  String newId() {
+    final suffix = (_next++).toRadixString(16).padLeft(12, '0');
+    return '01900000-0000-7000-8000-$suffix';
   }
 }
