@@ -39,9 +39,10 @@ void main() {
           'apoio': (s.apoio, ui, 14, 400, 0, 1.45, colors.ink2),
           'rotulo': (s.rotulo, ui, 13, 600, 0, null, colors.ink2),
           'meta': (s.meta, meta, 12, 400, 0, null, colors.ink2),
+          'selo': (s.selo, ui, 12, 500, 0, null, colors.inkCorpo),
         };
 
-    expect(rows, hasLength(12));
+    expect(rows, hasLength(13));
     for (final MapEntry(
           key: name,
           value: (style, family, size, weight, spacing, height, color),

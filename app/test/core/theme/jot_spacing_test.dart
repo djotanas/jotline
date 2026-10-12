@@ -17,6 +17,7 @@ void main() {
 
   test('THEME-03: radius tokens match the shape table', () {
     expect(JotRadius.rEtiqueta, 3);
+    expect(JotRadius.rSelo, 6);
     expect(JotRadius.rBloco, 10);
     expect(JotRadius.rCampo, 12);
     expect(JotRadius.rCard, 14);

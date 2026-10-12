@@ -541,8 +541,8 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget test checks the text, background `bgTrilho` and text color `inkCorpo`
-- [ ] Quick gate passes (≥ 1 new test)
+- [x] Widget test checks the text, background `bgTrilho` and text color `inkCorpo`
+- [x] Quick gate passes (≥ 1 new test)
 
 **Tests**: widget
 **Gate**: quick

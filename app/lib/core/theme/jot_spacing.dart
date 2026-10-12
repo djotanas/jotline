@@ -16,6 +16,7 @@ abstract final class JotSpace {
 /// Radius tokens of the canvas design system.
 abstract final class JotRadius {
   static const double rEtiqueta = 3;
+  static const double rSelo = 6;
   static const double rBloco = 10;
   static const double rCampo = 12;
   static const double rCard = 14;
