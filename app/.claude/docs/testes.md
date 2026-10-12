@@ -91,6 +91,7 @@ One file per flow in `integration_test/`, starting with `IntegrationTestWidgetsF
 | --- | --- |
 | Create, rename, archive and delete a notebook | RF-01 |
 | Create and reorder pages | RF-02 |
+| Delete and restore pages and notebooks through the trash, with undo | RF-12 |
 | Write in a block, close and reopen the app with the text preserved | RF-03, RF-04 |
 | Search by title and content | RF-05 |
 
