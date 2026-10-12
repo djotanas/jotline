@@ -57,6 +57,10 @@
   "@cancel": {
     "description": "Label of the action that closes a sheet or dialog without changes."
   },
+  "undo": "Desfazer",
+  "@undo": {
+    "description": "Label of the toast action that reverts the action just taken."
+  },
   "today": "hoje",
   "@today": {
     "description": "Relative date word for the current local day."

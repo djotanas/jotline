@@ -455,13 +455,13 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests cover:
+- [x] Widget tests cover:
   - `onTimeout` fires after exactly 3 s and not at 2.9 s
   - holding 5 s, then releasing, fires 3 s after release
   - tapping "Desfazer" calls `onUndo` and never `onTimeout`
   - dispose cancels the timer
   - semantics live region
-- [ ] Quick gate passes (≥ 5 new tests)
+- [x] Quick gate passes (≥ 5 new tests)
 
 **Tests**: widget
 **Gate**: quick
