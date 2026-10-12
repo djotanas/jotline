@@ -749,7 +749,7 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests with an in-memory DB, `FakeClock` and a recording preferences fake cover:
+- [x] Widget tests with an in-memory DB, `FakeClock` and a recording preferences fake cover:
   - `lastOpenedNotebookId` written (PGLIST-07)
   - empty state, "nenhuma página" and "Reordenar" hidden (PGLIST-03)
   - badge on an archived notebook (PGLIST-04)
@@ -763,7 +763,7 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
   - deleting a page from `PageScreen` shows "Página movida para a lixeira", and "Desfazer" restores it in place (PGOPT-04, PGOPT-05)
   - a second toast replaces the first without undoing it (TOAST-05)
   - leaving the screen dismisses the toast without undo (TOAST-06)
-- [ ] Quick gate passes (≥ 13 new tests)
+- [x] Quick gate passes (≥ 13 new tests)
 
 **Tests**: widget
 **Gate**: quick

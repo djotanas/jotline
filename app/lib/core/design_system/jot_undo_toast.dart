@@ -5,6 +5,15 @@ import 'package:jotline/core/theme/jot_spacing.dart';
 import 'package:jotline/core/theme/theme_context.dart';
 import 'package:jotline/l10n/app_localizations.dart';
 
+/// What a screen shows in its [JotUndoToast]: the text and how to revert.
+/// Each request is its own toast, so a new one replaces the visible one.
+final class UndoToastRequest {
+  const new({required this.message, required this.onUndo});
+
+  final String message;
+  final VoidCallback onUndo;
+}
+
 /// The canvas undo toast: a message and a "Desfazer" button.
 ///
 /// [onTimeout] fires [duration] after the toast appears. A finger held on the

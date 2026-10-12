@@ -212,5 +212,66 @@
   "coverLabel": "Capa",
   "@coverLabel": {
     "description": "Label of the notebook cover pattern picker."
+  },
+  "notebooksTitle": "Cadernos",
+  "@notebooksTitle": {
+    "description": "Title of the notebooks screen and back label that returns to it."
+  },
+  "reorder": "Reordenar",
+  "@reorder": {
+    "description": "Button that enters page reorder mode."
+  },
+  "reorderDone": "Concluir",
+  "@reorderDone": {
+    "description": "Button that leaves page reorder mode."
+  },
+  "reorderHint": "Arraste pela alça para mudar a ordem.",
+  "@reorderHint": {
+    "description": "Hint shown in reorder mode."
+  },
+  "notebookOptionsLabel": "Opções do caderno",
+  "@notebookOptionsLabel": {
+    "description": "Accessibility label of the notebook options button."
+  },
+  "emptyPagesTitle": "Nenhuma página ainda",
+  "@emptyPagesTitle": {
+    "description": "Title of the empty notebook state."
+  },
+  "emptyPagesMessage": "Toque em Nova página para começar.",
+  "@emptyPagesMessage": {
+    "description": "Message of the empty notebook state."
+  },
+  "newPage": "Nova página",
+  "@newPage": {
+    "description": "Label of the button that creates a page."
+  },
+  "archivedBadge": "Arquivado",
+  "@archivedBadge": {
+    "description": "Badge shown on an archived notebook."
+  },
+  "pageMovedToTrash": "Página movida para a lixeira",
+  "@pageMovedToTrash": {
+    "description": "Undo toast after a page is trashed."
+  },
+  "renameNotebookTitle": "Renomear caderno",
+  "@renameNotebookTitle": {
+    "description": "Title of the dialog that renames a notebook."
+  },
+  "deleteNotebookTitle": "Excluir “{title}”?",
+  "@deleteNotebookTitle": {
+    "description": "Title of the dialog that confirms trashing a notebook.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteNotebookMessage": "O caderno vai para a lixeira deste aparelho, com as páginas. Dá para desfazer logo depois ou restaurá-lo pela lixeira.",
+  "@deleteNotebookMessage": {
+    "description": "Message of the dialog that confirms trashing a notebook."
+  },
+  "moveToTrash": "Mover para a lixeira",
+  "@moveToTrash": {
+    "description": "Button that confirms trashing a notebook."
   }
 }

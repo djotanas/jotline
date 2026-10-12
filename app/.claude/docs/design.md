@@ -51,7 +51,7 @@ Every in-scope component of the canvas "Componentes" artboard lives in `lib/core
 | Linhas de lista — página arrastando | `DraggingPageRow` | `dragging_page_row.dart` |
 | Linhas de lista — caderno arquivado ou na lixeira | `ArchivedNotebookRow` | `archived_notebook_row.dart` |
 | Bottom sheet (`showJotSheet` para sheets cujo botão depende do estado) | `showJotBottomSheet<T>()` / `showJotSheet<T>()` → `JotBottomSheet` | `jot_bottom_sheet.dart` |
-| Aviso de desfazer (3 s, pausa ao segurar) | `JotUndoToast` | `jot_undo_toast.dart` |
+| Aviso de desfazer (3 s, pausa ao segurar) | `JotUndoToast` + `UndoToastRequest` | `jot_undo_toast.dart` |
 | Diálogo de texto (renomear, limite 50) | `showTextInputDialog()` → `JotTextInputDialog` | `jot_text_input_dialog.dart` |
 | Selo "Arquivado" (tokens `rSelo` 6 e `selo`) | `JotBadge` | `jot_badge.dart` |
 | Estado vazio | `EmptyState` | `empty_state.dart` |
