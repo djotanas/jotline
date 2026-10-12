@@ -132,5 +132,25 @@
   "pageOptionsDeleteHint": "Vai para a lixeira; dá para desfazer",
   "@pageOptionsDeleteHint": {
     "description": "Support text under the delete page option."
+  },
+  "pageTitleLabel": "Título da página",
+  "@pageTitleLabel": {
+    "description": "Accessibility label of the inline page title field."
+  },
+  "pageOptionsLabel": "Opções da página",
+  "@pageOptionsLabel": {
+    "description": "Accessibility label of the page options button."
+  },
+  "renamePageTitle": "Renomear página",
+  "@renamePageTitle": {
+    "description": "Title of the dialog that renames a page."
+  },
+  "titleLabel": "Título",
+  "@titleLabel": {
+    "description": "Label of the page title field in the rename dialog."
+  },
+  "renamePageHelp": "Opcional. Sem título, a página aparece como “Sem título”.",
+  "@renamePageHelp": {
+    "description": "Help text under the page title field in the rename dialog."
   }
 }

@@ -621,7 +621,7 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests with an in-memory DB and `FakeClock` cover:
+- [x] Widget tests with an in-memory DB and `FakeClock` cover:
   - type and pump 499 ms → no write; pump to 500 ms → row updated (PAGE-03)
   - type and pop at once → row has the text (PAGE-04)
   - lifecycle `hidden` flushes (PAGE-04)
@@ -631,7 +631,7 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
   - rename dialog saves an empty title (PGOPT-03)
   - delete pops with `PageOutcome.trashed` and sets `deleted_at` (PGOPT-04)
   - trashing from outside pops the screen (EDGE-03)
-- [ ] Quick gate passes (≥ 10 new tests)
+- [x] Quick gate passes (≥ 10 new tests)
 
 **Tests**: widget
 **Gate**: quick
