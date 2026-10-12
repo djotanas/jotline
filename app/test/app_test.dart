@@ -9,6 +9,8 @@ import 'package:jotline/core/preferences/unavailable_preferences_store.dart';
 import 'package:jotline/core/theme/jot_colors.dart';
 import 'package:jotline/l10n/app_localizations.dart';
 
+import 'helpers/lib_scan.dart';
+
 void main() {
   testWidgets('PREF-06: root Scaffold still renders with an unavailable '
       'preferences store', (tester) async {
@@ -128,4 +130,35 @@ void main() {
       );
     }
   });
+
+  test('NET-01: no file under lib/ imports a network client', () {
+    final forbidden = RegExp(r'package:(http|dio)/|\bHttpClient\b');
+
+    final offenders = [
+      for (final (file, source) in libSources())
+        if (forbidden.hasMatch(source)) file.path,
+    ];
+
+    expect(offenders, isEmpty);
+  });
+
+  test(
+    'NET-02: pubspec.yaml lists neither http nor dio under dependencies',
+    () {
+      final keys = <String>[];
+      var inDependencies = false;
+      for (final line in File('pubspec.yaml').readAsLinesSync()) {
+        if (RegExp(r'^\S').hasMatch(line)) {
+          inDependencies = line.trimRight() == 'dependencies:';
+          continue;
+        }
+        final key = RegExp('^  ([A-Za-z0-9_]+):').firstMatch(line)?.group(1);
+        if (inDependencies && key != null) keys.add(key);
+      }
+
+      expect(keys, contains('flutter_riverpod'));
+      expect(keys, isNot(contains('http')));
+      expect(keys, isNot(contains('dio')));
+    },
+  );
 }
