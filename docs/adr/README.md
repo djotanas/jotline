@@ -26,5 +26,14 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0020](0020-convencao-de-commits.md) | Convenção e verificação de mensagens de commit | Aceita |
 | [0021](0021-licenca-mit.md) | Licença MIT | Aceita |
 | [0022](0022-tokens-e-fontes.md) | Tokens do tema em `ThemeExtension` e fontes empacotadas | Aceita |
+| [0023](0023-lixeira-local-da-fase-1.md) | Lixeira local da fase 1: caderno leva as páginas, sem esvaziar | Aceita |
+| [0024](0024-confirmacao-ao-excluir.md) | Confirmação ao excluir: página com desfazer, caderno com diálogo | Aceita |
+| [0025](0025-busca-inclui-cadernos-arquivados.md) | Páginas de caderno arquivado continuam na busca | Aceita |
+| [0026](0026-usuario-local-no-drift.md) | Usuário local anônimo numa tabela do Drift | Aceita |
+| [0027](0027-exclusao-de-caderno-derivada.md) | Exclusão de caderno derivada para páginas e blocos | Aceita |
+| [0028](0028-colunas-alem-do-prd.md) | Colunas além do PRD §7: `blocks.deleted_at` e `notebook_members.id` | Aceita |
+| [0029](0029-indice-fracionario-em-texto.md) | Índice fracionário em chaves de texto base-62 | Aceita |
+| [0030](0030-datas-em-texto-iso-8601.md) | Datas como texto ISO-8601 em UTC | Aceita |
+| [0031](0031-migracoes-passo-a-passo.md) | Versionamento do schema com migrações passo a passo | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.

@@ -58,4 +58,20 @@ void main() {
 
     expect(box.keys, ['lastOpenedNotebookId']);
   });
+
+  test('USER-06: after every write the box keys are within '
+      '{lastOpenedNotebookId}', () async {
+    final box = await Hive.openBox<String>('preferences');
+    final store = HivePreferencesStore(box);
+    const allowed = {'lastOpenedNotebookId'};
+
+    await store.setLastOpenedNotebookId('notebook-1');
+    expect(box.keys.toSet().difference(allowed), isEmpty);
+
+    await store.setLastOpenedNotebookId('notebook-2');
+    expect(box.keys.toSet().difference(allowed), isEmpty);
+
+    await store.setLastOpenedNotebookId(null);
+    expect(box.keys.toSet().difference(allowed), isEmpty);
+  });
 }
