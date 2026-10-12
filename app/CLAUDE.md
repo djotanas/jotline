@@ -29,6 +29,7 @@ fvm dart format lib test integration_test
 fvm flutter test
 fvm flutter test path/to/file_test.dart
 fvm flutter test integration_test                              # e2e; needs an emulator or device
+fvm flutter drive --driver=test_driver/perf_driver.dart --target=integration_test/perf/launch_to_new_page_test.dart --profile -d DEVICE_ID   # PERF-01; see the M03 validation.md
 fvm dart run build_runner build --delete-conflicting-outputs   # after cloning and after changing Drift tables
 fvm dart run drift_dev make-migrations                         # after bumping schemaVersion
 ```
