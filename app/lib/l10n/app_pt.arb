@@ -338,5 +338,53 @@
   "sortNote": "Vale para Ativos e Arquivados, e fica salvo neste aparelho.",
   "@sortNote": {
     "description": "Note under the sort options."
+  },
+  "tabActive": "Ativos",
+  "@tabActive": {
+    "description": "Label of the tab that lists active notebooks."
+  },
+  "tabArchived": "Arquivados",
+  "@tabArchived": {
+    "description": "Label of the tab that lists archived notebooks."
+  },
+  "sortLabel": "Ordenar",
+  "@sortLabel": {
+    "description": "Accessibility label of the sort notebooks button."
+  },
+  "archivedExplanation": "Arquivar tira o caderno da lista principal sem apagar nada. As páginas continuam na busca.",
+  "@archivedExplanation": {
+    "description": "Text above the archived notebooks list."
+  },
+  "emptyNotebooksTitle": "Nenhum caderno ainda",
+  "@emptyNotebooksTitle": {
+    "description": "Title of the empty notebooks state."
+  },
+  "emptyNotebooksMessage": "Crie o primeiro para começar a escrever. Tudo fica neste aparelho, mesmo sem internet.",
+  "@emptyNotebooksMessage": {
+    "description": "Message of the empty notebooks state."
+  },
+  "emptyArchivedTitle": "Nenhum caderno arquivado",
+  "@emptyArchivedTitle": {
+    "description": "Title of the empty archived tab."
+  },
+  "emptyArchivedMessage": "Arquivar tira um caderno da lista sem apagar nada. Use as opções do caderno, no ⋯.",
+  "@emptyArchivedMessage": {
+    "description": "Message of the empty archived tab."
+  },
+  "unarchive": "Desarquivar",
+  "@unarchive": {
+    "description": "Button on an archived notebook row that unarchives it."
+  },
+  "notebookArchived": "Caderno arquivado",
+  "@notebookArchived": {
+    "description": "Undo toast after a notebook is archived."
+  },
+  "notebookUnarchived": "Caderno de volta à lista principal",
+  "@notebookUnarchived": {
+    "description": "Undo toast after a notebook is unarchived."
+  },
+  "notebookTrashed": "Caderno movido para a lixeira",
+  "@notebookTrashed": {
+    "description": "Undo toast after a notebook is trashed."
   }
 }

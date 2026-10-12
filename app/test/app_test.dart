@@ -7,38 +7,63 @@ import 'package:jotline/app.dart';
 import 'package:jotline/core/preferences/preferences_provider.dart';
 import 'package:jotline/core/preferences/unavailable_preferences_store.dart';
 import 'package:jotline/core/theme/jot_colors.dart';
+import 'package:jotline/features/notebooks/presentation/notebooks_screen.dart';
 import 'package:jotline/l10n/app_localizations.dart';
 
 import 'helpers/lib_scan.dart';
+import 'helpers/test_app.dart';
+
+Future<TestApp> _pumpApp(
+  WidgetTester tester, {
+  UnavailablePreferencesStore? preferences,
+}) async {
+  final app = TestApp();
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: [
+        ...app.overrides,
+        preferencesStoreProvider.overrideWithValue(
+          preferences ?? UnavailablePreferencesStore(),
+        ),
+      ],
+      child: const JotlineApp(),
+    ),
+  );
+  await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+  await tester.pump();
+  return app;
+}
+
+Future<void> _dispose(WidgetTester tester, TestApp app) async {
+  await tester.pumpWidget(const SizedBox());
+  await tester.pump();
+  await tester.runAsync(app.db.close);
+}
 
 void main() {
-  testWidgets('PREF-06: root Scaffold still renders with an unavailable '
+  testWidgets('PREF-06: the home still renders with an unavailable '
       'preferences store', (tester) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          preferencesStoreProvider.overrideWithValue(
-            UnavailablePreferencesStore(),
-          ),
-        ],
-        child: const JotlineApp(),
-      ),
+    final app = await _pumpApp(
+      tester,
+      preferences: UnavailablePreferencesStore(),
     );
 
     expect(find.byType(Scaffold), findsOneWidget);
+    await _dispose(tester, app);
   });
 
-  testWidgets('STRUCT-05: root Scaffold renders with no text or child widget', (
-    tester,
-  ) async {
-    await tester.pumpWidget(const ProviderScope(child: JotlineApp()));
+  testWidgets('NBLIST-01: the first screen is "Cadernos", with no login or '
+      'onboarding', (tester) async {
+    final app = await _pumpApp(tester);
 
-    expect(find.byType(Scaffold), findsOneWidget);
-    expect(find.byType(Text), findsNothing);
+    expect(find.byType(NotebooksScreen), findsOneWidget);
+    expect(find.text('Cadernos'), findsOneWidget);
+    expect(find.byType(Navigator), findsOneWidget);
+    await _dispose(tester, app);
   });
 
   testWidgets('STRUCT-05: root Scaffold background is bgMesa', (tester) async {
-    await tester.pumpWidget(const ProviderScope(child: JotlineApp()));
+    final app = await _pumpApp(tester);
 
     final material = tester.widget<Material>(
       find
@@ -50,17 +75,19 @@ void main() {
     );
 
     expect(material.color?.toARGB32(), 0xFFF3F2EE);
+    await _dispose(tester, app);
   });
 
   testWidgets('THEME-07: app uses the Jotline light theme and no dark theme', (
     tester,
   ) async {
-    await tester.pumpWidget(const ProviderScope(child: JotlineApp()));
+    final app = await _pumpApp(tester);
 
     final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
 
     expect(materialApp.theme?.extension<JotColors>(), JotColors.light);
     expect(materialApp.darkTheme, isNull);
+    await _dispose(tester, app);
   });
 
   testWidgets(
@@ -69,25 +96,27 @@ void main() {
       tester.platformDispatcher.textScaleFactorTestValue = 2;
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
 
-      await tester.pumpWidget(const ProviderScope(child: JotlineApp()));
+      final app = await _pumpApp(tester);
 
       final context = tester.element(find.byType(Scaffold));
 
       expect(MediaQuery.textScalerOf(context).scale(17), 34);
       expect(MediaQuery.textScalerOf(context).scale(34), 68);
+      await _dispose(tester, app);
     },
   );
 
   testWidgets('RVP-02: root widget is wrapped in a ProviderScope', (
     tester,
   ) async {
-    await tester.pumpWidget(const ProviderScope(child: JotlineApp()));
+    final app = await _pumpApp(tester);
 
     expect(find.byType(ProviderScope), findsOneWidget);
+    await _dispose(tester, app);
   });
 
   testWidgets('STRUCT-06: pt_BR is the only supported locale', (tester) async {
-    await tester.pumpWidget(const ProviderScope(child: JotlineApp()));
+    final app = await _pumpApp(tester);
 
     final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
 
@@ -97,6 +126,7 @@ void main() {
     );
     expect(materialApp.supportedLocales, hasLength(1));
     expect(materialApp.supportedLocales.single.languageCode, 'pt');
+    await _dispose(tester, app);
   });
 
   test('STRUCT-01: lib/ top level contains only allowed entries', () {

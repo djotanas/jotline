@@ -854,7 +854,7 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests with an in-memory DB cover:
+- [x] Widget tests with an in-memory DB cover:
   - first screen is "Cadernos" (NBLIST-01)
   - tab counts (NBLIST-02)
   - tile meta "3 páginas · hoje" (NBLIST-03)
@@ -868,8 +868,8 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
   - "Desarquivar" on a row: toast, and undo re-archives with the original date (ARCH-02, ARCH-03)
   - after delete: toast, and undo restores (NBDEL-02, NBDEL-04)
   - a stored sort applied on start (SORT-06)
-- [ ] `test/app_test.dart` updated for the new home
-- [ ] Quick gate passes (≥ 15 new tests)
+- [x] `test/app_test.dart` updated for the new home
+- [x] Quick gate passes (≥ 15 new tests)
 
 **Tests**: widget
 **Gate**: quick
