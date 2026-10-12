@@ -317,13 +317,13 @@ T26 → T32
 
 **Done when**:
 
-- [ ] Unit tests cover:
+- [x] Unit tests cover:
   - default `lastEdited` with nothing stored
   - unknown stored value falls back to the default (SORT-07)
   - stored value read on build (SORT-06)
   - `select` updates state and writes the name
   - with `UnavailablePreferencesStore` the state still changes (EDGE-06)
-- [ ] Quick gate passes (≥ 5 new tests)
+- [x] Quick gate passes (≥ 5 new tests)
 
 **Tests**: unit
 **Gate**: quick
