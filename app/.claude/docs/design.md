@@ -41,7 +41,7 @@ Every in-scope component of the canvas "Componentes" artboard lives in `lib/core
 | Botões — flutuante (FAB) | `JotFab` | `jot_fab.dart` |
 | Botões — ícone | `JotIconButton` | `jot_icon_button.dart` |
 | Segmentado | `JotSegmentedControl<T>` + `JotSegment<T>` | `jot_segmented_control.dart` |
-| Campo | `JotTextField` | `jot_text_field.dart` |
+| Campo (com limite, contador "N/50", dica e ajuda) | `JotTextField` | `jot_text_field.dart` |
 | Campo de busca | `JotSearchField` | `jot_search_field.dart` |
 | Capa de caderno | `NotebookCover` (`.mini` for swatches), painted by `NotebookCoverPainter` | `notebook_cover.dart` |
 | Capa + título + meta (grade) | `NotebookCoverTile` | `notebook_cover_tile.dart` |

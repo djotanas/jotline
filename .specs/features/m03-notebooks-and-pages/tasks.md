@@ -425,14 +425,14 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests cover:
+- [x] Widget tests cover:
   - the counter is hidden at 39 and shown at 40
   - 50 accepted, the 51st character blocked
   - 50 `👍🏽` clusters accepted (EDGE-07)
   - hint and helper shown
   - danger color at 50
-- [ ] Existing `jot_text_field_test.dart` tests unchanged and green
-- [ ] Quick gate passes (≥ 6 new tests)
+- [x] Existing `jot_text_field_test.dart` tests unchanged and green
+- [x] Quick gate passes (≥ 6 new tests)
 
 **Tests**: widget
 **Gate**: quick
