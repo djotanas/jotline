@@ -513,12 +513,12 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests cover:
+- [x] Widget tests cover:
   - field prefilled
   - "Salvar" disabled on blank text when `!allowEmpty`, enabled when `allowEmpty`
   - "Salvar" returns the text
   - "Cancelar" returns `null`
-- [ ] Quick gate passes (≥ 5 new tests)
+- [x] Quick gate passes (≥ 5 new tests)
 
 **Tests**: widget
 **Gate**: quick

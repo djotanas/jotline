@@ -52,6 +52,7 @@ Every in-scope component of the canvas "Componentes" artboard lives in `lib/core
 | Linhas de lista — caderno arquivado ou na lixeira | `ArchivedNotebookRow` | `archived_notebook_row.dart` |
 | Bottom sheet | `showJotBottomSheet<T>()` → `JotBottomSheet` | `jot_bottom_sheet.dart` |
 | Aviso de desfazer (3 s, pausa ao segurar) | `JotUndoToast` | `jot_undo_toast.dart` |
+| Diálogo de texto (renomear, limite 50) | `showTextInputDialog()` → `JotTextInputDialog` | `jot_text_input_dialog.dart` |
 | Estado vazio | `EmptyState` | `empty_state.dart` |
 | Navegação de topo | `JotTopBar.back` / `JotTopBar.root` | `jot_top_bar.dart` |
 | Bottom sheet de opções (grupos em cards, linha destrutiva ou marcada) | `showJotOptionsSheet<T>()` → `JotOptionsSheet<T>` + `JotOptionRow<T>` | `jot_options_sheet.dart` |
