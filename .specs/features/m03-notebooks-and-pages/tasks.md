@@ -1027,7 +1027,7 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 #### T32: Launch-to-new-page measurement
 
-**What**: Measure the time from the icon tap to the minimal page of a new page being open (cold start → "Cadernos" → notebook → "Nova página"). Use profile mode (`fvm flutter run --profile`) on a mid-range Android device. Record the device model and the median of 5 runs in `validation.md` and in the #21 PR description. If the median is 1 s or more, draft a follow-up issue for the user to open.
+**What**: Measure the time from the icon tap to the minimal page of a new page being open (cold start → "Cadernos" → notebook → "Nova página"). Use profile mode (`fvm flutter run --profile`) on a mid-range Android device. Record the device model and the median of 5 runs in `validation.md` and in the PR (#65) description. If the median is 1 s or more, draft a follow-up issue for the user to open.
 **Where**: `.specs/features/m03-notebooks-and-pages/validation.md`
 **Depends on**: T26
 **Reuses**: PRD §2 target

@@ -350,7 +350,7 @@ Every ambiguity is resolved or recorded here - nothing is left silently unclear.
 
 1. The `integration_test/` folder SHALL have one e2e test per flow, each run with no network access: create, rename, archive and delete a notebook (RF-01); create and reorder pages (RF-02); delete a page and a notebook and restore both from the trash (RF-12). (E2E-01)
 2. WHEN the e2e flows run THEN no screen SHALL wait on or call the network (RNF-01). (E2E-02)
-3. The time from tapping the app icon to the minimal page of a new page being open SHALL be measured in profile mode on a mid-range Android device and recorded in the #21 PR with the device model. (PERF-01)
+3. The time from tapping the app icon to the minimal page of a new page being open SHALL be measured in profile mode on a mid-range Android device and recorded in the PR (#65) with the device model. (PERF-01)
 4. IF the measured time is 1 second or more THEN the PR SHALL open a follow-up issue with the measurement. (PERF-02)
 
 **Independent Test**: `fvm flutter test integration_test` on an emulator in airplane mode; manual measurement recorded in the PR.
@@ -504,4 +504,4 @@ Every ambiguity is resolved or recorded here - nothing is left silently unclear.
 - [ ] Every flow in E2E-01 passes on an emulator with no network.
 - [ ] Zero physical `DELETE` statements in `app/lib/` (RNF-05).
 - [ ] Every artboard in "Canvas references" has a screen or state that matches it.
-- [ ] The #21 launch-to-new-page time is recorded in the PR.
+- [ ] The launch-to-new-page time (#21) is recorded in the PR (#65).
