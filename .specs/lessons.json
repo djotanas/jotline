@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "promote_threshold": 2,
+  "window_days": 45,
+  "quarantine_threshold": 2,
+  "next_id": 5,
+  "lessons": [
+    {
+      "id": "L-001",
+      "key": "surviving_mutant::when a requirement says a script prints a message the shell test must capture stderr and assert the message text not only the exit code",
+      "text": "When a requirement says a script prints a message, the shell test must capture stderr and assert the message text, not only the exit code",
+      "signal": "surviving_mutant",
+      "scope": "shell-tests",
+      "status": "candidate",
+      "features": [
+        "m01-foundation"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "validation.md M6 / COMMIT-03 .github/scripts/commit-msg_test.sh:23 (shell-tests)"
+      ],
+      "created": "2026-10-11T23:17:12Z",
+      "last_seen": "2026-10-11T23:17:12Z"
+    },
+    {
+      "id": "L-002",
+      "key": "surviving_mutant::test numeric limits at the exact boundary accept the maximum and reject maximum plus one",
+      "text": "Test numeric limits at the exact boundary: accept the maximum and reject maximum plus one",
+      "signal": "surviving_mutant",
+      "scope": "shell-tests",
+      "status": "candidate",
+      "features": [
+        "m01-foundation"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "validation.md M5 / COMMIT-05 .github/scripts/commit-msg_test.sh:47 (shell-tests)"
+      ],
+      "created": "2026-10-11T23:17:12Z",
+      "last_seen": "2026-10-11T23:17:12Z"
+    },
+    {
+      "id": "L-003",
+      "key": "spec_precision_gap::keep the locale identifier identical across spec design and l10n config and assert both language and country code when the spec names one",
+      "text": "Keep the locale identifier identical across spec, design and l10n config, and assert both language and country code when the spec names one",
+      "signal": "spec_precision_gap",
+      "scope": "l10n",
+      "status": "candidate",
+      "features": [
+        "m01-foundation"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "validation.md STRUCT-06 app/test/app_test.dart:96 (l10n)"
+      ],
+      "created": "2026-10-11T23:17:12Z",
+      "last_seen": "2026-10-11T23:17:12Z"
+    },
+    {
+      "id": "L-004",
+      "key": "spec_precision_gap::when the design canvas uses text styles absent from the typography token table add them as tokens in the spec instead of deriving them with copywith in components",
+      "text": "When the design canvas uses text styles absent from the typography token table, add them as tokens in the spec instead of deriving them with copyWith in components",
+      "signal": "spec_precision_gap",
+      "scope": "design-system",
+      "status": "candidate",
+      "features": [
+        "m01-foundation"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "validation.md COMP-15 (design-system)"
+      ],
+      "created": "2026-10-11T23:17:12Z",
+      "last_seen": "2026-10-11T23:17:12Z"
+    }
+  ]
+}

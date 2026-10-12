@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+import 'package:jotline/core/theme/jot_spacing.dart';
+import 'package:jotline/core/theme/theme_context.dart';
+
+/// A page in the notebook list: title, date and an optional excerpt.
+class PageRow extends StatelessWidget {
+  const new({
+    required this.title,
+    required this.date,
+    super.key,
+    this.excerpt,
+    this.onTap,
+  });
+
+  final String title;
+  final String date;
+  final String? excerpt;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final styles = context.textStyles;
+    final excerpt = this.excerpt;
+    return Semantics(
+      button: onTap != null,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.bgFolha,
+            border: Border.all(color: colors.bgTrilho),
+            borderRadius: BorderRadius.circular(JotRadius.rCard),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(JotSpace.space3),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: JotSpace.space1,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  spacing: JotSpace.space3,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: styles.itemTitulo,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Text(date, style: styles.meta),
+                  ],
+                ),
+                if (excerpt != null)
+                  Text(
+                    excerpt,
+                    style: styles.itemTrecho,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "@@locale": "pt",
+  "appName": "Jotline",
+  "@appName": {
+    "description": "The application name shown in the task switcher and window title."
+  },
+  "notebookColorAzulTinta": "Azul tinta",
+  "@notebookColorAzulTinta": {
+    "description": "Name of the notebook color azulTinta."
+  },
+  "notebookColorTerracota": "Terracota",
+  "@notebookColorTerracota": {
+    "description": "Name of the notebook color terracota."
+  },
+  "notebookColorMusgo": "Musgo",
+  "@notebookColorMusgo": {
+    "description": "Name of the notebook color musgo."
+  },
+  "notebookColorMostarda": "Mostarda",
+  "@notebookColorMostarda": {
+    "description": "Name of the notebook color mostarda."
+  },
+  "notebookColorAmeixa": "Ameixa",
+  "@notebookColorAmeixa": {
+    "description": "Name of the notebook color ameixa."
+  },
+  "notebookColorGrafite": "Grafite",
+  "@notebookColorGrafite": {
+    "description": "Name of the notebook color grafite."
+  },
+  "coverPatternLisa": "Lisa",
+  "@coverPatternLisa": {
+    "description": "Name of the notebook cover pattern lisa (solid color)."
+  },
+  "coverPatternPautada": "Pautada",
+  "@coverPatternPautada": {
+    "description": "Name of the notebook cover pattern pautada (horizontal lines)."
+  },
+  "coverPatternPontilhada": "Pontos",
+  "@coverPatternPontilhada": {
+    "description": "Name of the notebook cover pattern pontilhada (dots)."
+  },
+  "coverPatternQuadriculada": "Grade",
+  "@coverPatternQuadriculada": {
+    "description": "Name of the notebook cover pattern quadriculada (grid)."
+  },
+  "moveItem": "Mover {title}",
+  "@moveItem": {
+    "description": "Accessibility label of the drag handle that reorders an item.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "Cancelar",
+  "@cancel": {
+    "description": "Label of the action that closes a sheet or dialog without changes."
+  }
+}

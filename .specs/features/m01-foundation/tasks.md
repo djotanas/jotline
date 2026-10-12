@@ -136,10 +136,10 @@ T45 → T46
 
 **Done when**:
 
-- [ ] `pubspec.yaml` has no `#` comment lines and `description` names Jotline
-- [ ] `fvm flutter pub get` generates `lib/l10n/app_localizations.dart`; `git status` does not list it
-- [ ] `l10n.yaml` has `arb-dir`, `template-arb-file: app_pt.arb`, `output-localization-file`, `nullable-getter: false`, no `synthetic-package`
-- [ ] Build gate passes (template app still in place)
+- [x] `pubspec.yaml` has no `#` comment lines and `description` names Jotline
+- [x] `fvm flutter pub get` generates `lib/l10n/app_localizations.dart`; `git status` does not list it
+- [x] `l10n.yaml` has `arb-dir`, `template-arb-file: app_pt.arb`, `output-localization-file`, `nullable-getter: false`, no `synthetic-package`
+- [x] Build gate passes (template app still in place)
 
 **Tests**: none
 **Gate**: build
@@ -161,9 +161,9 @@ T45 → T46
 
 **Done when**:
 
-- [ ] `MyApp`/`MyHomePage` gone; `main.dart` has no template comments
-- [ ] `test/app_test.dart`: STRUCT-05 (one `Scaffold`, no `Text`), RVP-02 (`ProviderScope` ancestor), STRUCT-06 (only `pt` supported), STRUCT-01 (top level of `lib/` within the allowed set), STRUCT-03 (every `test/**/*_test.dart` has a `lib/` counterpart)
-- [ ] Quick gate passes: `cd app && fvm flutter test` — 5 tests pass
+- [x] `MyApp`/`MyHomePage` gone; `main.dart` has no template comments
+- [x] `test/app_test.dart`: STRUCT-05 (one `Scaffold`, no `Text`), RVP-02 (`ProviderScope` ancestor), STRUCT-06 (only `pt` supported), STRUCT-01 (top level of `lib/` within the allowed set), STRUCT-03 (every `test/**/*_test.dart` has a `lib/` counterpart)
+- [x] Quick gate passes: `cd app && fvm flutter test` — 5 tests pass
 
 **Tests**: widget
 **Gate**: quick
@@ -185,10 +185,10 @@ T45 → T46
 
 **Done when**:
 
-- [ ] `flutter_lints` absent and `very_good_analysis` present in `pubspec.yaml` (LINT-01, 02)
-- [ ] `fvm flutter analyze` → "No issues found!" (LINT-05)
-- [ ] No `// ignore` added
-- [ ] Build gate passes — 5 tests pass
+- [x] `flutter_lints` absent and `very_good_analysis` present in `pubspec.yaml` (LINT-01, 02)
+- [x] `fvm flutter analyze` → "No issues found!" (LINT-05)
+- [x] No `// ignore` added
+- [x] Build gate passes — 5 tests pass
 
 **Tests**: none
 **Gate**: build
@@ -212,10 +212,10 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Accepts: `feat(app): x`, `docs: x`, `fix!: x`, `refactor(infra)!: x`, `Merge branch 'a'`, `Revert "feat: x"`, message with `#` comment lines after the header (COMMIT-02, 06)
-- [ ] Rejects with message on stderr: `feature: x` (lists types), `feat(prd): x` (lists scopes), `feat:x`, `feat: ` (empty description), 101-char header, empty file, comments-only file (COMMIT-03, 04, 05, edge case)
-- [ ] Hook is executable and uses only `sh`, `grep`, `sed` (COMMIT-01)
-- [ ] Hook gate passes: `sh .github/scripts/commit-msg_test.sh` — all cases pass
+- [x] Accepts: `feat(app): x`, `docs: x`, `fix!: x`, `refactor(infra)!: x`, `Merge branch 'a'`, `Revert "feat: x"`, message with `#` comment lines after the header (COMMIT-02, 06)
+- [x] Rejects with message on stderr: `feature: x` (lists types), `feat(prd): x` (lists scopes), `feat:x`, `feat: ` (empty description), 101-char header, empty file, comments-only file (COMMIT-03, 04, 05, edge case)
+- [x] Hook is executable and uses only `sh`, `grep`, `sed` (COMMIT-01)
+- [x] Hook gate passes: `sh .github/scripts/commit-msg_test.sh` — all cases pass
 
 **Tests**: shell
 **Gate**: hook
@@ -237,9 +237,9 @@ T45 → T46
 
 **Done when**:
 
-- [ ] `sh .github/scripts/check-commits.sh HEAD~3..HEAD` exits 0 locally on conforming commits
-- [ ] The script exits 1 and prints the SHA for a range containing a scratch commit `feature: x` (made in a temp clone, never on the real branch)
-- [ ] Hook gate passes
+- [x] `sh .github/scripts/check-commits.sh HEAD~3..HEAD` exits 0 locally on conforming commits
+- [x] The script exits 1 and prints the SHA for a range containing a scratch commit `feature: x` (made in a temp clone, never on the real branch)
+- [x] Hook gate passes
 
 **Tests**: shell
 **Gate**: hook
@@ -259,12 +259,10 @@ T45 → T46
 - MCP: `context7` (GitHub Actions `subosito/flutter-action`)
 - Skill: NONE
 
-**Done when**:
-
-- [ ] Triggers cover CI-01/02 (push to `main` + PR, `paths: app/**` and the workflow file)
-- [ ] Step order matches CI-04…09
-- [ ] Every step command runs locally from `app/` without error (`build apk --debug` included)
-- [ ] First green run confirmed after the user authorizes the push (recorded in `validation.md`)
+- [x] Triggers cover CI-01/02 (push to `main` + PR, `paths: app/**` and the workflow file)
+- [x] Step order matches CI-04…09
+- [x] Every step command runs locally from `app/` without error (`build apk --debug` included)
+- [ ] First green run confirmed after the user authorizes the push (recorded in `validation.md`) — OPEN: blocked on push authorization, not performed by this worker
 
 **Tests**: none
 **Gate**: build
@@ -286,8 +284,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] `head -3 LICENSE` shows "MIT License" and the copyright line (LIC-01)
-- [ ] README no longer says "To be defined" (LIC-02)
+- [x] `head -3 LICENSE` shows "MIT License" and the copyright line (LIC-01)
+- [x] README no longer says "To be defined" (LIC-02)
 
 **Tests**: none
 **Gate**: build
@@ -309,8 +307,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Both files describe the format, allowed types and scopes, and the hook setup (COMMIT-09)
-- [ ] `git config core.hooksPath .githooks` set in this clone and the commit of this task passes the hook
+- [x] Both files describe the format, allowed types and scopes, and the hook setup (COMMIT-09)
+- [x] `git config core.hooksPath .githooks` set in this clone and the commit of this task passes the hook
 
 **Tests**: none
 **Gate**: hook
@@ -334,8 +332,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] ADR in Portuguese with Status, Data, Decisores, Relacionados, Contexto, Decisão, Alternativas descartadas, Consequências (ADR-01)
-- [ ] Listed in `docs/adr/README.md` (ADR-02); LINT-06 satisfied
+- [x] ADR in Portuguese with Status, Data, Decisores, Relacionados, Contexto, Decisão, Alternativas descartadas, Consequências (ADR-01)
+- [x] Listed in `docs/adr/README.md` (ADR-02); LINT-06 satisfied
 
 **Tests**: none
 **Gate**: build
@@ -357,8 +355,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] ADR + index entry (ADR-01, 02); STRUCT-02 satisfied
-- [ ] `testes.md` no longer says the organization is undecided (TEST-07, first half)
+- [x] ADR + index entry (ADR-01, 02); STRUCT-02 satisfied
+- [x] `testes.md` no longer says the organization is undecided (TEST-07, first half)
 
 **Tests**: none
 **Gate**: build
@@ -380,8 +378,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] ADR + index entry; RVP-01 (no generator deps) and RVP-03 satisfied
-- [ ] `app/CLAUDE.md` has no remaining "undecided" item among lint, structure, Riverpod
+- [x] ADR + index entry; RVP-01 (no generator deps) and RVP-03 satisfied
+- [x] `app/CLAUDE.md` has no remaining "undecided" item among lint, structure, Riverpod
 
 **Tests**: none
 **Gate**: build
@@ -403,7 +401,7 @@ T45 → T46
 
 **Done when**:
 
-- [ ] ADR + index entry (ADR-01, 02)
+- [x] ADR + index entry (ADR-01, 02)
 
 **Tests**: none
 **Gate**: build
@@ -425,7 +423,7 @@ T45 → T46
 
 **Done when**:
 
-- [ ] ADR + index entry (ADR-01, 02)
+- [x] ADR + index entry (ADR-01, 02)
 
 **Tests**: none
 **Gate**: build
@@ -449,9 +447,9 @@ T45 → T46
 
 **Done when**:
 
-- [ ] `build_runner` generates `app_database.g.dart` with zero tables (if it refuses: STOP and ask — see design risk)
-- [ ] Tests: TEST-01 (`schemaVersion` 1, no tables), TEST-03 (`SELECT 1` on the helper DB), TEST-04 (two helper calls → distinct instances, a temp table created in one is absent in the other)
-- [ ] Quick gate passes — 3 new tests
+- [x] `build_runner` generates `app_database.g.dart` with zero tables (if it refuses: STOP and ask — see design risk)
+- [x] Tests: TEST-01 (`schemaVersion` 1, no tables), TEST-03 (`SELECT 1` on the helper DB), TEST-04 (two helper calls → distinct instances, a temp table created in one is absent in the other)
+- [x] Quick gate passes — 3 new tests
 
 **Tests**: Drift
 **Gate**: quick
@@ -473,8 +471,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Test: TEST-02 — `ProviderContainer.test` with `databaseProvider.overrideWithValue(helperDb)` returns the helper instance
-- [ ] Quick gate passes — 1 new test
+- [x] Test: TEST-02 — `ProviderContainer.test` with `databaseProvider.overrideWithValue(helperDb)` returns the helper instance
+- [x] Quick gate passes — 1 new test
 
 **Tests**: Drift
 **Gate**: quick
@@ -496,7 +494,7 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Example matches the helper's code; TEST-07 complete
+- [x] Example matches the helper's code; TEST-07 complete
 
 **Tests**: none
 **Gate**: build
@@ -518,8 +516,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Tests (Hive in a temp dir): PREF-03 (write, close, reopen, read), PREF-04 (never written → `null`; cleared → `null`), PREF-05 (box holds only `lastOpenedNotebookId` after writes)
-- [ ] Quick gate passes — 4 new tests
+- [x] Tests (Hive in a temp dir): PREF-03 (write, close, reopen, read), PREF-04 (never written → `null`; cleared → `null`), PREF-05 (box holds only `lastOpenedNotebookId` after writes)
+- [x] Quick gate passes — 4 new tests
 
 **Tests**: unit
 **Gate**: quick
@@ -541,8 +539,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Tests: successful opener → `HivePreferencesStore`; throwing opener → `UnavailablePreferencesStore` whose reads return `null` and writes do not throw; box file still exists after a failed open (PREF-06)
-- [ ] Quick gate passes — 3 new tests
+- [x] Tests: successful opener → `HivePreferencesStore`; throwing opener → `UnavailablePreferencesStore` whose reads return `null` and writes do not throw; box file still exists after a failed open (PREF-06)
+- [x] Quick gate passes — 4 new tests
 
 **Tests**: unit
 **Gate**: quick
@@ -564,9 +562,9 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Tests: PREF-02 (override returns the fake); app test with `UnavailablePreferencesStore` still shows the root `Scaffold` (PREF-06 app level); reading the provider without override throws `UnimplementedError`
-- [ ] PREF-01: `main` awaits `openPreferencesStore()` before `runApp` (checked by reading `main.dart` in review)
-- [ ] Quick gate passes — 3 new tests
+- [x] Tests: PREF-02 (override returns the fake); app test with `UnavailablePreferencesStore` still shows the root `Scaffold` (PREF-06 app level); reading the provider without override throws `UnimplementedError`
+- [x] PREF-01: `main` awaits `openPreferencesStore()` before `runApp` (checked by reading `main.dart` in review)
+- [x] Quick gate passes — 3 new tests
 
 **Tests**: widget
 **Gate**: quick
@@ -590,8 +588,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Tests: THEME-05 (font manifest declares the three families with the weights/styles of the spec; no `google_fonts` dependency), THEME-06 (after `registerFontLicenses()`, `LicenseRegistry.licenses` has one entry per family)
-- [ ] Quick gate passes — 2 new tests
+- [x] Tests: THEME-05 (font manifest declares the three families with the weights/styles of the spec; no `google_fonts` dependency), THEME-06 (after `registerFontLicenses()`, `LicenseRegistry.licenses` has one entry per family)
+- [x] Quick gate passes — 2 new tests
 
 **Tests**: unit
 **Gate**: quick
@@ -613,8 +611,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Test: THEME-01 — each of the 20 names has the exact hex from the spec table
-- [ ] Quick gate passes — ≥1 new test covering 20 values
+- [x] Test: THEME-01 — each of the 20 names has the exact hex from the spec table
+- [x] Quick gate passes — ≥1 new test covering 20 values
 
 **Tests**: unit
 **Gate**: quick
@@ -636,8 +634,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Test: THEME-02 — family, size, weight, letter spacing (−0.02 × size for ≥ 28), line height and color of all 12 styles
-- [ ] Quick gate passes
+- [x] Test: THEME-02 — family, size, weight, letter spacing (−0.02 × size for ≥ 28), line height and color of all 12 styles
+- [x] Quick gate passes
 
 **Tests**: unit
 **Gate**: quick
@@ -659,8 +657,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Test: THEME-03 (spacing and radius rows) — every value
-- [ ] Quick gate passes
+- [x] Test: THEME-03 (spacing and radius rows) — every value
+- [x] Quick gate passes
 
 **Tests**: unit
 **Gate**: quick
@@ -682,8 +680,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Test: THEME-03 (shadow rows) — offsets, blur and colors of all four, `capa` with two layers
-- [ ] Quick gate passes
+- [x] Test: THEME-03 (shadow rows) — offsets, blur and colors of all four, `capa` with two layers
+- [x] Quick gate passes
 
 **Tests**: unit
 **Gate**: quick
@@ -705,8 +703,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Test: THEME-04 — enum names in order, the six hex values, the four patterns; `NotebookCoverPaint` values match the canvas (spine 12 px black 18%, elastic 6 px black 28% at 18 px)
-- [ ] Quick gate passes
+- [x] Test: THEME-04 — enum names in order, the six hex values, the four patterns; `NotebookCoverPaint` values match the canvas (spine 12 px black 18%, elastic 6 px black 28% at 18 px)
+- [x] Quick gate passes
 
 **Tests**: unit
 **Gate**: quick
@@ -728,9 +726,9 @@ T45 → T46
 
 **Done when**:
 
-- [ ] Tests: THEME-07 (M3, `scaffoldBackgroundColor` = `bgMesa`, `colorScheme.primary` = `accent`, no dark theme); `context.colors/textStyles/shadows` resolve; app test asserts root `Scaffold` background `bgMesa` (STRUCT-05) and that `MediaQuery.textScaler` 2.0 reaches a `Text` unclamped (THEME-08)
-- [ ] Scan tests: THEME-09 (no `Color(`, `Colors.`, `fontFamily:` in `lib/` outside `lib/core/theme/` and generated files) and STRUCT-07 (no `Text('` / `Text("` literal in `lib/`); each scan proven to fail on a temp fixture
-- [ ] Quick gate passes
+- [x] Tests: THEME-07 (M3, `scaffoldBackgroundColor` = `bgMesa`, `colorScheme.primary` = `accent`, no dark theme); `context.colors/textStyles/shadows` resolve; app test asserts root `Scaffold` background `bgMesa` (STRUCT-05) and that `MediaQuery.textScaler` 2.0 reaches a `Text` unclamped (THEME-08)
+- [x] Scan tests: THEME-09 (no `Color(`, `Colors.`, `fontFamily:` in `lib/` outside `lib/core/theme/` and generated files) and STRUCT-07 (no `Text('` / `Text("` literal in `lib/`); each scan proven to fail on a temp fixture
+- [x] Quick gate passes
 
 **Tests**: unit
 **Gate**: quick
@@ -752,8 +750,8 @@ T45 → T46
 
 **Done when**:
 
-- [ ] ADR + index entry (ADR-01, 02); THEME-10 satisfied
-- [ ] Build gate passes
+- [x] ADR + index entry (ADR-01, 02); THEME-10 satisfied
+- [x] Build gate passes
 
 **Tests**: none
 **Gate**: build
@@ -779,8 +777,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-14 — 10 glyphs exist; default size 22 on a 24 grid; color inherited from `IconTheme`; `strokeWidth` parameter honored; each glyph paints without error
-- [ ] Quick gate passes
+- [x] Tests: COMP-14 — 10 glyphs exist; default size 22 on a 24 grid; color inherited from `IconTheme`; `strokeWidth` parameter honored; each glyph paints without error
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -802,8 +800,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-01 (min 44 × 44, each variant's tokens), COMP-02 (`onPressed: null` → disabled style, tap does not call back) for primary, pill and text
-- [ ] Quick gate passes
+- [x] Tests: COMP-01 (min 44 × 44, each variant's tokens), COMP-02 (`onPressed: null` → disabled style, tap does not call back) for primary, pill and text
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -825,8 +823,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-01 (min 44, tokens), COMP-03 (`onPressed` required non-null), tap calls back
-- [ ] Quick gate passes
+- [x] Tests: COMP-01 (min 44, tokens), COMP-03 (`onPressed` required non-null), tap calls back
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -848,8 +846,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-01 (44 × 44), COMP-03, COMP-04 (`find.bySemanticsLabel` finds the label)
-- [ ] Quick gate passes
+- [x] Tests: COMP-01 (44 × 44), COMP-03, COMP-04 (`find.bySemanticsLabel` finds the label)
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -871,8 +869,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-05 — renders "Ativos · 6"; exactly one segment has `selected: true`; tapping another calls `onChanged` with its value
-- [ ] Quick gate passes
+- [x] Tests: COMP-05 — renders "Ativos · 6"; exactly one segment has `selected: true`; tapping another calls `onChanged` with its value
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -894,8 +892,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-06 (field half) — label shown; unfocused border `lineForte`, focused border `accent`; `onChanged` receives typed text
-- [ ] Quick gate passes
+- [x] Tests: COMP-06 (field half) — label shown; unfocused border `lineForte`, focused border `accent`; `onChanged` receives typed text
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -917,8 +915,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-06 (search half) — search glyph present, placeholder shown, `onChanged` receives text
-- [ ] Quick gate passes
+- [x] Tests: COMP-06 (search half) — search glyph present, placeholder shown, `onChanged` receives text
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -940,8 +938,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-11 — icon size 40 and stroke 1.4, title style, message shown, no button in the subtree
-- [ ] Quick gate passes
+- [x] Tests: COMP-11 — icon size 40 and stroke 1.4, title style, message shown, no button in the subtree
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -963,8 +961,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-12 — back mode shows label in `accent` and tap calls `onBack`; root mode title uses `tituloTela` and renders the actions; long title ellipsizes (edge case)
-- [ ] Quick gate passes
+- [x] Tests: COMP-12 — back mode shows label in `accent` and tap calls `onBack`; root mode title uses `tituloTela` and renders the actions; long title ellipsizes (edge case)
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -988,8 +986,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-07 — paints for every color × pattern; label text shown on `bgPapel`; decoration uses `shadowCapa` and `rCapa`; long label ellipsizes
-- [ ] Quick gate passes
+- [x] Tests: COMP-07 — paints for every color × pattern; label text shown on `bgPapel`; decoration uses `shadowCapa` and `rCapa`; long label ellipsizes
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -1011,8 +1009,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-07 (tile) — title and meta styles; tap calls back; long title ellipsizes
-- [ ] Quick gate passes
+- [x] Tests: COMP-07 (tile) — title and meta styles; tap calls back; long title ellipsizes
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -1034,8 +1032,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-08 — six options labeled with canvas names; selected has 2 px `ink1` ring and `selected: true`; tap calls `onChanged`
-- [ ] Quick gate passes
+- [x] Tests: COMP-08 — six options labeled with canvas names; selected has 2 px `ink1` ring and `selected: true`; tap calls `onChanged`
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -1057,8 +1055,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-08 — four options labeled Lisa/Pautada/Pontos/Grade; selected ring + `selected: true`; tap calls `onChanged`
-- [ ] Quick gate passes
+- [x] Tests: COMP-08 — four options labeled Lisa/Pautada/Pontos/Grade; selected ring + `selected: true`; tap calls `onChanged`
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -1080,8 +1078,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-09 (page) — styles; excerpt absent when `null`; tap calls back; long title/excerpt ellipsize
-- [ ] Quick gate passes
+- [x] Tests: COMP-09 (page) — styles; excerpt absent when `null`; tap calls back; long title/excerpt ellipsize
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -1103,8 +1101,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-09 (dragging) — handle semantic label "Mover <title>"; shadow is `shadowErguido`
-- [ ] Quick gate passes
+- [x] Tests: COMP-09 (dragging) — handle semantic label "Mover <title>"; shadow is `shadowErguido`
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -1126,8 +1124,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-09 (archived/trash) — cover, title, meta rendered; action label shown and tap calls `onAction`
-- [ ] Quick gate passes
+- [x] Tests: COMP-09 (archived/trash) — cover, title, meta rendered; action label shown and tap calls `onAction`
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -1149,8 +1147,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-10 — barrier color `bgVeu`; handle 40 × 5; "Cancelar" from l10n closes the sheet; primary tap calls `onPrimary`; title and child rendered
-- [ ] Quick gate passes
+- [x] Tests: COMP-10 — barrier color `bgVeu`; handle 40 × 5; "Cancelar" from l10n closes the sheet; primary tap calls `onPrimary`; title and child rendered
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -1172,8 +1170,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Tests: COMP-13 — confirm returns `true`, "Cancelar" returns `false`; radius 24 and `shadowErguido`; exposed as an alert dialog to semantics
-- [ ] Quick gate passes
+- [x] Tests: COMP-13 — confirm returns `true`, "Cancelar" returns `false`; radius 24 and `shadowErguido`; exposed as an alert dialog to semantics
+- [x] Quick gate passes
 
 **Tests**: widget
 **Gate**: quick
@@ -1195,8 +1193,8 @@ Every component task: widget test file mirrors the source file under `test/core/
 
 **Done when**:
 
-- [ ] Every in-scope "Componentes" component listed with its widget (COMP-16)
-- [ ] Build gate passes
+- [x] Every in-scope "Componentes" component listed with its widget (COMP-16)
+- [x] Build gate passes
 
 **Tests**: none
 **Gate**: build

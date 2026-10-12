@@ -20,5 +20,11 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0014](0014-progressive-disclosure-no-harness.md) | Progressive disclosure nas instruções do agente | Aceita |
 | [0015](0015-estrategia-de-testes-do-app.md) | Estratégia de testes do app: Drift em memória, mocktail, `integration_test` | Aceita |
 | [0016](0016-idioma-e-comentarios-no-codigo.md) | Código em inglês, interface em PT-BR com `gen-l10n`, sem comentários explicativos | Aceita |
+| [0017](0017-lint-very-good-analysis.md) | Conjunto de lint do app: `very_good_analysis` | Aceita |
+| [0018](0018-estrutura-feature-first.md) | Estrutura do `lib/`: feature-first | Aceita |
+| [0019](0019-riverpod-sem-codegen.md) | Riverpod sem geração de código | Aceita |
+| [0020](0020-convencao-de-commits.md) | Convenção e verificação de mensagens de commit | Aceita |
+| [0021](0021-licenca-mit.md) | Licença MIT | Aceita |
+| [0022](0022-tokens-e-fontes.md) | Tokens do tema em `ThemeExtension` e fontes empacotadas | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.

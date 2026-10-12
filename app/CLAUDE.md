@@ -2,12 +2,13 @@
 
 Jotline mobile app. General rules and invariants in the [root CLAUDE.md](../CLAUDE.md); requirements in [docs/prd/PRD.md](../docs/prd/PRD.md).
 
-> Skeleton created with `flutter create` (`com.jon.jotline`, Android and iOS) plus the stack dependencies. Still **undecided** — ask before assuming: `lib/` organization, Riverpod with or without code generation, lint set (currently the default `flutter_lints`).
+> Skeleton created with `flutter create` (`com.jon.jotline`, Android and iOS) plus the stack dependencies.
 
 ## Stack
 
 - **Flutter via FVM** (version pinned in `.fvmrc`); Android and iOS.
-- **State:** Riverpod. The UI consumes reactive streams from the local database.
+- **Lint:** `very_good_analysis` (ADR 0017).
+- **State:** Riverpod, hand-written providers, no code generation (ADR 0019). The UI consumes reactive streams from the local database.
 - **Local database:** SQLite with **Drift** — source of truth on the device (ADR 0001). In phase 2 SQLite becomes managed by PowerSync, with Drift on top.
 - **UI text:** PT-BR only in phase 1, via `flutter_localizations` + `gen-l10n` (`app_pt.arb`, keys in English); no strings hardcoded in widgets (ADR 0016). Set up in the scaffold.
 - **Preferences:** `hive_ce` — only theme, last opened notebook and the like; nothing that syncs.
@@ -36,7 +37,7 @@ Generated code (`*.g.dart`) is not committed: generate it locally before analyze
 
 ## Structure
 
-_To be defined in the scaffold._
+Feature-first (ADR 0018). `lib/main.dart` and `lib/app.dart` at the top; `lib/core/` for cross-feature code (theme, database, preferences, design system); `lib/features/<feature>/{data,presentation}/` per feature, starting with the first feature milestone; `lib/l10n/` for the ARB source and the generated localization files. `test/` mirrors `lib/` file by file: `lib/x/y.dart` → `test/x/y_test.dart`.
 
 ## References
 
