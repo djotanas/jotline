@@ -24,10 +24,6 @@ Limit: the clock starts at the first `pumpWidget`, so engine and process start a
 4. Sanity: `fvm flutter test integration_test/perf -d DEVICE_ID` (debug) must pass; it writes no json and its time is not a measurement. `fvm flutter test integration_test` includes this test.
 5. Record the medians in the table.
 
-### Known limitation
-
-The existing e2e flows (`notebooks_flow_test.dart` and the others) pass in debug but fail under `--profile`: the tap on "Criar caderno" after typing does not create the notebook. This is why the measurement seeds data instead of typing. Not investigated.
-
 ### Result
 
 | Field | Value |
