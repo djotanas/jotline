@@ -53,6 +53,10 @@ Read the doc before touching the topic (ADR 0014).
 - **Root invariants, app side:** IDs generated at creation time, offline; queries filter out records with `deleted_at`; screens and business rules never import the PowerSync SDK.
 - **The phase 1 data model already includes** `notebook_members` (owner only), `blocks.version` and `updated_by`, even without a server (PRD §7).
 - **Authorship before login:** an anonymous local user (UUID v7 generated on first launch) fills `created_by`, `user_id`, `added_by` and `updated_by`; on login, a transaction replaces it with the account id before the first upload (ADR 0011).
+- **The anonymous local user lives in the Drift `local_user` table**, single row and never synced (ADR 0026).
+- **A deleted notebook hides its pages and blocks without writing to them:** only `notebooks.deleted_at` is set (ADR 0027).
+- **Repositories trim titles:** notebook titles are required, ≤ 50; page titles are optional, ≤ 50, counted in grapheme clusters.
+- **Writes take `Placement`, never raw keys:** `PositionAllocator` turns it into a fractional index (ADR 0029).
 - **Archiving is per member:** `notebook_members.archived_at` on the user's row, not `deleted_at` (ADR 0012).
 - **The app never increments `blocks.version`:** it stores the version received from the server and sends it as the base on upload (ADR 0013).
 - **Phase 2:** the upload queue survives closing the app, restarting and switching networks (RNF-02); the status indicator is discreet — synced, pending, error (RF-09).
