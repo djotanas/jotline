@@ -108,5 +108,29 @@
         "type": "int"
       }
     }
+  },
+  "rename": "Renomear",
+  "@rename": {
+    "description": "Option and action label that renames a notebook or a page."
+  },
+  "untitled": "Sem título",
+  "@untitled": {
+    "description": "Placeholder and list label of a page with an empty title."
+  },
+  "pageEdited": "Editada",
+  "@pageEdited": {
+    "description": "Verb that precedes the relative date of the last page edit, at the start of a line."
+  },
+  "pageEditedInline": "editada",
+  "@pageEditedInline": {
+    "description": "Verb that precedes the relative date of the last page edit, inside a line."
+  },
+  "pageOptionsDelete": "Excluir página",
+  "@pageOptionsDelete": {
+    "description": "Option that moves a page to the trash."
+  },
+  "pageOptionsDeleteHint": "Vai para a lixeira; dá para desfazer",
+  "@pageOptionsDeleteHint": {
+    "description": "Support text under the delete page option."
   }
 }

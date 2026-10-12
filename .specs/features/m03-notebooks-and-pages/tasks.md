@@ -591,8 +591,8 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests: header content with a fixed clock; each row returns its action
-- [ ] Quick gate passes (≥ 3 new tests)
+- [x] Widget tests: header content with a fixed clock; each row returns its action
+- [x] Quick gate passes (≥ 3 new tests)
 
 **Tests**: widget
 **Gate**: quick
