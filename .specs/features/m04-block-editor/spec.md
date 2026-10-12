@@ -55,8 +55,9 @@ Every ambiguity is resolved or recorded here - nothing is left silently unclear.
 | Save timing | 500 ms after the last change of a block, and immediately when leaving the page or when the app goes to background | Same rule as the M03 page title; closing from the app switcher always passes through background | y |
 | Page excerpt | Plain text of the first block in `position` order, not deleted, of type text, list item or checklist item, with non-empty text after trimming; one line with ellipsis; no excerpt line when none exists | The canvas excerpt of "Roteiro — dia 2" skips the "Manhã" heading; "Páginas sem trecho" shows the row without the line | y |
 | Moving a block | Long press on the drag handle of the block with the cursor drags it; the drop saves one row through `Placement` | The canvas draws the handle on the block in edit; ADR 0029 | y |
-| Selection across blocks | Deleting or typing over a selection that spans blocks updates the first and last blocks and soft-deletes the blocks fully inside it | Needed for one row per block; no physical delete (RNF-05) | y |
+| Selection across blocks | Deleting or typing over a selection that spans blocks updates the first block with the joined text and soft-deletes every other block in the selection | User decision after the spike (2026-10-12): it is how `super_editor` merges; no physical delete (RNF-05) | y |
 | Paste | Pasted text keeps line breaks as separate text blocks and drops outside formatting | Plain paste only (Out of Scope) | y |
+| Drag handle size | As drawn in the canvas, inside the 12 px bleed of the block in edit, even though its touch target is below 44 × 44 | User decision after the spike (2026-10-12): the canvas layout wins over the touch-target minimum | y |
 | Drag handle label | "Mover bloco" | The canvas handle is decorative (`aria-hidden`); page rows use "Mover <title>", which a block has no equivalent for | y |
 | Text length | No limit per block or per page in phase 1 | RF-03 sets none; the 10,000-page load is tested in #27 | y |
 | Spike code | Prototypes live on a spike branch that is not merged; only the ADR, the `app/CLAUDE.md` editor line and the comparison go to `main` | The issue asks for a decision, not code; avoids shipping two editors | y |
@@ -191,7 +192,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 5. WHEN the user edits one block THEN no other `blocks` row and no `pages` row SHALL change. (SAVE-05)
 6. WHEN a block is split THEN the original row SHALL keep its id and a new row SHALL be inserted right after it with `Placement` between it and its next sibling. (SAVE-06)
 7. WHEN two blocks are merged THEN the upper row SHALL keep its id with the joined content and the lower row SHALL get `deleted_at`. (SAVE-07)
-8. WHEN a selection spanning several blocks is deleted or typed over THEN the first and last blocks SHALL be updated and every block fully inside the selection SHALL get `deleted_at`. (SAVE-08)
+8. WHEN a selection spanning several blocks is deleted or typed over THEN the first block SHALL be updated with the joined text and every other block in the selection SHALL get `deleted_at`. (SAVE-08)
 9. The editor SHALL NOT issue a physical delete on `blocks`. (SAVE-09)
 10. The `content_json` of every block SHALL be our own format holding the text, the bold and italic ranges and, for checklist items, `checked`, with no field from the editor library's internal model. (SAVE-10)
 11. WHEN a page is opened again THEN its blocks SHALL show the same types, text, marks, `checked` states and order as when it was left. (SAVE-11)
