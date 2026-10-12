@@ -149,9 +149,9 @@ Todo caderno tem membros desde a fase 1, mesmo que o único membro seja o dono. 
 | Tabela | Campos principais | Observação | Fase |
 | --- | --- | --- | --- |
 | `notebooks` | id, title, cover, color, created\_by, created\_at, deleted\_at | O "Moleskine" | 1 |
-| `notebook_members` | notebook\_id, user\_id, role, added\_by, created\_at, archived\_at | role = owner, editor ou viewer; arquivar é por membro (ADR 0012) | 1 (só owner) |
+| `notebook_members` | id, notebook\_id, user\_id, role, added\_by, created\_at, archived\_at | role = owner, editor ou viewer; arquivar é por membro (ADR 0012); `id` é a chave primária de coluna única exigida pelo PowerSync (ADR 0028) | 1 (só owner) |
 | `pages` | id, notebook\_id, title, position, updated\_at, updated\_by, deleted\_at | position em índice fracionário | 1 |
-| `blocks` | id, page\_id, type, content\_json, position, version, updated\_at, updated\_by | A unidade de conflito é o bloco | 1 |
+| `blocks` | id, page\_id, type, content\_json, position, version, updated\_at, updated\_by, deleted\_at | A unidade de conflito é o bloco; `deleted_at` para soft delete do bloco (ADR 0028) | 1 |
 | `attachments` | id, block\_id, storage\_key, mime, size, upload\_status | Arquivo local primeiro; upload depois | 2 |
 | `invites` | id, notebook\_id, token, role, expires\_at, accepted\_by | Criado e aceito só online | 3 |
 | `block_history` | id, block\_id, content\_json, version, changed\_by, changed\_at | Escrita só pelo .NET | 3 |
