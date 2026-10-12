@@ -894,9 +894,9 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Flow passes on an emulator
-- [ ] A planted `HttpClient().getUrl(...)` in the app makes it fail, then reverted (E2E-02)
-- [ ] Full gate passes
+- [x] Flow passes on an emulator
+- [x] A planted `HttpClient().getUrl(...)` in the app makes it fail, then reverted (E2E-02)
+- [x] Full gate passes
 
 **Tests**: e2e
 **Gate**: full
@@ -919,8 +919,8 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Flow passes on an emulator
-- [ ] Full gate passes
+- [x] Flow passes on an emulator
+- [x] Full gate passes
 
 **Tests**: e2e
 **Gate**: full
@@ -943,9 +943,9 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Flow passes on an emulator
-- [ ] `testes.md` lists the flow in the same commit
-- [ ] Full gate passes
+- [x] Flow passes on an emulator
+- [x] `testes.md` lists the flow in the same commit
+- [x] Full gate passes
 
 **Tests**: e2e
 **Gate**: full
