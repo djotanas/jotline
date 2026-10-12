@@ -346,11 +346,11 @@ T26 → T32
 
 **Done when**:
 
-- [ ] `ProviderContainer.test` tests cover:
+- [x] `ProviderContainer.test` tests cover:
   - order follows the notifier and changes when it changes
   - `notebookProvider` emits `null` after trashing
   - errors surface as `AsyncError`
-- [ ] Quick gate passes (≥ 4 new tests; replaced provider tests listed in the commit body)
+- [x] Quick gate passes (≥ 4 new tests; replaced provider tests listed in the commit body)
 
 **Tests**: unit
 **Gate**: quick
