@@ -54,6 +54,6 @@ Every in-scope component of the canvas "Componentes" artboard lives in `lib/core
 | Estado vazio | `EmptyState` | `empty_state.dart` |
 | Navegação de topo | `JotTopBar.back` / `JotTopBar.root` | `jot_top_bar.dart` |
 | Diálogo de confirmação | `showConfirmDialog()` → `ConfirmDialog` | `confirm_dialog.dart` |
-| Ícones ("Espaço, forma, elevação e ícones") | `JotIcon` + `JotIconGlyph` | `icons/jot_icon.dart` |
+| Ícones ("Espaço, forma, elevação e ícones") | `JotIcon` + `JotIconGlyph` (with `edit`, `cover`, `archive`, `unarchive`, `check`, `page`, `notebook`) | `icons/jot_icon.dart` |
 
 **Out of scope until the block editor ADR:** "Blocos do editor" and "Barra de blocos". They are the visual layer of the editor library still in spike (PRD §11) and are built after that decision.

@@ -72,7 +72,7 @@ JotIconPainter _painterOf(WidgetTester tester) {
 void main() {
   group('COMP-14', () {
     test('COMP-14: the ten canvas glyphs exist', () {
-      expect(JotIconGlyph.values, [
+      expect(JotIconGlyph.values.take(10), [
         JotIconGlyph.search,
         JotIconGlyph.sort,
         JotIconGlyph.trash,
@@ -160,6 +160,13 @@ void main() {
         JotIconGlyph.heading: ['path'],
         JotIconGlyph.checklist: ['rrect', 'path', 'rrect', 'path'],
         JotIconGlyph.drawing: ['path', 'path'],
+        JotIconGlyph.edit: ['path', 'path'],
+        JotIconGlyph.cover: ['rrect', 'path'],
+        JotIconGlyph.archive: ['rrect', 'path', 'path'],
+        JotIconGlyph.unarchive: ['rrect', 'path', 'path', 'path'],
+        JotIconGlyph.check: ['path'],
+        JotIconGlyph.page: ['path', 'path', 'path'],
+        JotIconGlyph.notebook: ['rrect', 'path'],
       };
       for (final MapEntry(key: glyph, value: kinds) in expected.entries) {
         expect(
@@ -201,6 +208,39 @@ void main() {
       expect(handle.every((d) => d.style == PaintingStyle.fill), isTrue);
     });
 
+    test('NBOPT-01: the seven M03 glyphs follow the original ten', () {
+      expect(JotIconGlyph.values.skip(10), [
+        JotIconGlyph.edit,
+        JotIconGlyph.cover,
+        JotIconGlyph.archive,
+        JotIconGlyph.unarchive,
+        JotIconGlyph.check,
+        JotIconGlyph.page,
+        JotIconGlyph.notebook,
+      ]);
+    });
+
+    for (final glyph in JotIconGlyph.values.skip(10)) {
+      testWidgets(
+        'NBOPT-01: ${glyph.name} renders at 22 px with the text color',
+        (tester) async {
+          await tester.pumpJot(
+            Center(
+              child: IconTheme(
+                data: IconThemeData(color: JotColors.light.danger),
+                child: JotIcon(glyph),
+              ),
+            ),
+          );
+
+          expect(tester.takeException(), isNull);
+          expect(tester.getSize(find.byType(JotIcon)), const Size(22, 22));
+          expect(_painterOf(tester).color, JotColors.light.danger);
+          expect(_painterOf(tester).glyph, glyph);
+        },
+      );
+    }
+
     testWidgets('COMP-14: every glyph renders in the widget tree', (
       tester,
     ) async {
@@ -211,7 +251,7 @@ void main() {
       );
 
       expect(tester.takeException(), isNull);
-      expect(find.byType(JotIcon), findsNWidgets(10));
+      expect(find.byType(JotIcon), findsNWidgets(JotIconGlyph.values.length));
     });
 
     testWidgets('COMP-14: text scale 2.0 renders without overflow', (

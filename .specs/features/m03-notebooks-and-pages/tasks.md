@@ -401,8 +401,8 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget test renders each new glyph at 22 px without exceptions and inherits the text color
-- [ ] Quick gate passes (≥ 7 new tests)
+- [x] Widget test renders each new glyph at 22 px without exceptions and inherits the text color
+- [x] Quick gate passes (≥ 7 new tests)
 
 **Tests**: widget
 **Gate**: quick
