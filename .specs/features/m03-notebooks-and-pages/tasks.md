@@ -654,14 +654,14 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests with an in-memory DB cover:
+- [x] Widget tests with an in-memory DB cover:
   - handles only in reorder mode
   - dragging the last of three to the top changes only that row's `position` (REORDER-03)
   - drop in place writes nothing (REORDER-04)
   - new order after rebuild from the DB (REORDER-06)
   - "Sem título" for an empty title (PGLIST-02)
   - tap calls `onOpen` (PGLIST-06)
-- [ ] Quick gate passes (≥ 6 new tests)
+- [x] Quick gate passes (≥ 6 new tests)
 
 **Tests**: widget
 **Gate**: quick

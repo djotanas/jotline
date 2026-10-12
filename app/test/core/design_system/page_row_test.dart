@@ -70,6 +70,34 @@ void main() {
     expect(find.byType(Text), findsNWidgets(2));
     expect(find.text(_excerpt), findsNothing);
   });
+  testWidgets('REORDER-01: a leading widget sits inside the card before the '
+      'text', (tester) async {
+    await tester.pumpJot(
+      const Center(
+        child: SizedBox(
+          width: 320,
+          child: PageRow(
+            title: 'O que levar',
+            date: '05 out',
+            leading: SizedBox.square(key: Key('handle'), dimension: 44),
+          ),
+        ),
+      ),
+    );
+
+    final card = find.byType(DecoratedBox).first;
+    expect(
+      find.descendant(of: card, matching: find.byKey(const Key('handle'))),
+      findsOneWidget,
+    );
+    expect(
+      tester.getTopLeft(find.text('O que levar')).dx,
+      greaterThanOrEqualTo(
+        tester.getTopRight(find.byKey(const Key('handle'))).dx,
+      ),
+    );
+  });
+
   testWidgets('COMP-09: title uses itemTitulo', (tester) async {
     await _pump(tester);
 

@@ -47,7 +47,7 @@ Every in-scope component of the canvas "Componentes" artboard lives in `lib/core
 | Capa + título + meta (grade) | `NotebookCoverTile` | `notebook_cover_tile.dart` |
 | Cor e capa — cor | `NotebookColorPicker` | `notebook_color_picker.dart` |
 | Cor e capa — capa | `NotebookCoverPicker` | `notebook_cover_picker.dart` |
-| Linhas de lista — página (`muted` para "Sem título") | `PageRow` | `page_row.dart` |
+| Linhas de lista — página (`muted` para "Sem título", `leading` para a alça de reordenar) | `PageRow` | `page_row.dart` |
 | Linhas de lista — página arrastando | `DraggingPageRow` | `dragging_page_row.dart` |
 | Linhas de lista — caderno arquivado ou na lixeira | `ArchivedNotebookRow` | `archived_notebook_row.dart` |
 | Bottom sheet | `showJotBottomSheet<T>()` → `JotBottomSheet` | `jot_bottom_sheet.dart` |
