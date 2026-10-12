@@ -26,8 +26,11 @@ void forbidNetwork() {
 }
 
 /// Pumps [JotlineApp] on an in-memory database and the unavailable
-/// preferences store, and returns the database for assertions.
+/// preferences store, and returns the database for assertions. It registers
+/// the test text input, which is not registered in profile mode, so
+/// `enterText` works there.
 Future<AppDatabase> pumpJotlineWithoutNetwork(WidgetTester tester) async {
+  tester.testTextInput.register();
   final db = AppDatabase(
     DatabaseConnection(
       NativeDatabase.memory(),
