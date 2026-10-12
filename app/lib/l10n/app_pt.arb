@@ -152,5 +152,37 @@
   "renamePageHelp": "Opcional. Sem título, a página aparece como “Sem título”.",
   "@renamePageHelp": {
     "description": "Help text under the page title field in the rename dialog."
+  },
+  "notebookOptionsCover": "Mudar capa e cor",
+  "@notebookOptionsCover": {
+    "description": "Option that opens the cover and color sheet of a notebook."
+  },
+  "notebookOptionsArchive": "Arquivar",
+  "@notebookOptionsArchive": {
+    "description": "Option that archives a notebook."
+  },
+  "notebookOptionsArchiveHint": "Sai da lista principal; nada é apagado",
+  "@notebookOptionsArchiveHint": {
+    "description": "Support text under the archive option."
+  },
+  "notebookOptionsUnarchive": "Desarquivar",
+  "@notebookOptionsUnarchive": {
+    "description": "Option that unarchives a notebook."
+  },
+  "notebookOptionsUnarchiveHint": "Volta para a lista principal",
+  "@notebookOptionsUnarchiveHint": {
+    "description": "Support text under the unarchive option."
+  },
+  "notebookOptionsDelete": "Excluir caderno",
+  "@notebookOptionsDelete": {
+    "description": "Option that moves a notebook to the trash."
+  },
+  "createdVerb": "criado",
+  "@createdVerb": {
+    "description": "Verb that precedes the creation date of a notebook."
+  },
+  "archivedVerb": "arquivado",
+  "@archivedVerb": {
+    "description": "Verb that precedes the archive date of a notebook."
   }
 }

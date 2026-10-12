@@ -684,11 +684,11 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests cover:
+- [x] Widget tests cover:
   - an active notebook shows "Arquivar" and its subtitle
   - an archived notebook shows "Desarquivar" and the "arquivado" meta
   - each row returns its action
-- [ ] Quick gate passes (≥ 4 new tests)
+- [x] Quick gate passes (≥ 4 new tests)
 
 **Tests**: widget
 **Gate**: quick
