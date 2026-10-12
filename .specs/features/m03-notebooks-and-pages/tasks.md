@@ -713,14 +713,14 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests with an in-memory DB cover:
+- [x] Widget tests with an in-memory DB cover:
   - defaults (NBNEW-01)
   - the preview follows input (NBNEW-02)
   - disabled on spaces (NBNEW-03)
   - create → one notebook + one owner row with the trimmed name (NBNEW-06)
   - "Cancelar" writes nothing (NBNEW-07, NBOPT-09)
   - cover sheet preselects the current values and saves `musgo` + `quadriculada` (NBOPT-07, NBOPT-08)
-- [ ] Quick gate passes (≥ 7 new tests)
+- [x] Quick gate passes (≥ 7 new tests)
 
 **Tests**: widget
 **Gate**: quick

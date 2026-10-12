@@ -43,14 +43,14 @@ Every in-scope component of the canvas "Componentes" artboard lives in `lib/core
 | Segmentado | `JotSegmentedControl<T>` + `JotSegment<T>` | `jot_segmented_control.dart` |
 | Campo (com limite, contador "N/50", dica e ajuda) | `JotTextField` | `jot_text_field.dart` |
 | Campo de busca | `JotSearchField` | `jot_search_field.dart` |
-| Capa de caderno | `NotebookCover` (`.mini` for swatches), painted by `NotebookCoverPainter` | `notebook_cover.dart` |
+| Capa de caderno | `NotebookCover` (`.mini` for swatches; `labelMuted` for the placeholder), painted by `NotebookCoverPainter` | `notebook_cover.dart` |
 | Capa + título + meta (grade) | `NotebookCoverTile` | `notebook_cover_tile.dart` |
 | Cor e capa — cor | `NotebookColorPicker` | `notebook_color_picker.dart` |
 | Cor e capa — capa | `NotebookCoverPicker` | `notebook_cover_picker.dart` |
 | Linhas de lista — página (`muted` para "Sem título", `leading` para a alça de reordenar) | `PageRow` | `page_row.dart` |
 | Linhas de lista — página arrastando | `DraggingPageRow` | `dragging_page_row.dart` |
 | Linhas de lista — caderno arquivado ou na lixeira | `ArchivedNotebookRow` | `archived_notebook_row.dart` |
-| Bottom sheet | `showJotBottomSheet<T>()` → `JotBottomSheet` | `jot_bottom_sheet.dart` |
+| Bottom sheet (`showJotSheet` para sheets cujo botão depende do estado) | `showJotBottomSheet<T>()` / `showJotSheet<T>()` → `JotBottomSheet` | `jot_bottom_sheet.dart` |
 | Aviso de desfazer (3 s, pausa ao segurar) | `JotUndoToast` | `jot_undo_toast.dart` |
 | Diálogo de texto (renomear, limite 50) | `showTextInputDialog()` → `JotTextInputDialog` | `jot_text_input_dialog.dart` |
 | Selo "Arquivado" (tokens `rSelo` 6 e `selo`) | `JotBadge` | `jot_badge.dart` |

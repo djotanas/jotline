@@ -12,6 +12,20 @@ Future<T?> showJotBottomSheet<T>(
   required String primaryLabel,
   required VoidCallback? onPrimary,
 }) {
+  return showJotSheet<T>(
+    context,
+    (context) => JotBottomSheet(
+      title: title,
+      primaryLabel: primaryLabel,
+      onPrimary: onPrimary,
+      child: child,
+    ),
+  );
+}
+
+/// Opens the canvas sheet frame over `bgVeu` around a [JotBottomSheet] that
+/// [builder] creates, for sheets whose primary action depends on their state.
+Future<T?> showJotSheet<T>(BuildContext context, WidgetBuilder builder) {
   final colors = context.colors;
   return showModalBottomSheet<T>(
     context: context,
@@ -25,12 +39,7 @@ Future<T?> showJotBottomSheet<T>(
     clipBehavior: Clip.antiAlias,
     isScrollControlled: true,
     useSafeArea: true,
-    builder: (context) => JotBottomSheet(
-      title: title,
-      primaryLabel: primaryLabel,
-      onPrimary: onPrimary,
-      child: child,
-    ),
+    builder: builder,
   );
 }
 

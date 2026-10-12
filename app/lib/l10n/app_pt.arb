@@ -184,5 +184,33 @@
   "archivedVerb": "arquivado",
   "@archivedVerb": {
     "description": "Verb that precedes the archive date of a notebook."
+  },
+  "newNotebookTitle": "Novo caderno",
+  "@newNotebookTitle": {
+    "description": "Title of the new notebook sheet and label of the button that opens it."
+  },
+  "coverSheetTitle": "Capa e cor",
+  "@coverSheetTitle": {
+    "description": "Title of the sheet that changes the cover and color of a notebook."
+  },
+  "createNotebook": "Criar caderno",
+  "@createNotebook": {
+    "description": "Label of the button that creates the notebook."
+  },
+  "nameLabel": "Nome",
+  "@nameLabel": {
+    "description": "Label of the notebook name field."
+  },
+  "notebookNameHint": "Nome do caderno",
+  "@notebookNameHint": {
+    "description": "Placeholder of the notebook name field and of the cover preview."
+  },
+  "colorLabel": "Cor",
+  "@colorLabel": {
+    "description": "Label of the notebook color picker."
+  },
+  "coverLabel": "Capa",
+  "@coverLabel": {
+    "description": "Label of the notebook cover pattern picker."
   }
 }
