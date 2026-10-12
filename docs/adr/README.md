@@ -37,5 +37,6 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0031](0031-migracoes-passo-a-passo.md) | Versionamento do schema com migrações passo a passo | Aceita |
 | [0032](0032-aviso-de-desfazer.md) | Aviso de desfazer de 3 s com pausa ao segurar | Aceita |
 | [0033](0033-secao-paginas-da-lixeira.md) | Seção "Páginas" da lixeira | Aceita |
+| [0034](0034-ordenacao-dos-cadernos.md) | Ordenação dos cadernos | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.
