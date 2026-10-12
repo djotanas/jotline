@@ -74,4 +74,4 @@ Read the doc before touching the topic (ADR 0014).
 - When in doubt — an ambiguous requirement, information the PRD does not have, a decision without an ADR — **ask before inferring**. If you have an interpretation, present it as a question ("does X make sense?") and wait for the answer.
 - In code, docs and ADRs, do not fill gaps with assumptions. List the point as an open question.
 
-Questions already open in the PRD (do not decide alone): block editor (1-week spike in phase 1) · local database encryption · business model · trash retention period · phase 1 local trash (pages along with the notebook, emptying) · local data on logout and account switch · whether phase 4 (CRDT) happens. Details in PRD §11.
+Questions already open in the PRD (do not decide alone): block editor (1-week spike in phase 1) · local database encryption · business model · trash retention period · local data on logout and account switch · whether phase 4 (CRDT) happens. Details in PRD §11.

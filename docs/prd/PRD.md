@@ -248,7 +248,7 @@ Questões em aberto:
 - [ ] Criptografia do banco local entra na fase 2 ou depois?
 - [ ] Modelo de negócio: grátis com limite de cadernos compartilhados, assinatura, ou outro?
 - [ ] Prazo final da lixeira: 30 dias é suficiente?
-- [ ] Lixeira local da fase 1 (RF-12): excluir um caderno leva as páginas dele para a lixeira e restaurar o caderno as traz de volta juntas? Há "esvaziar lixeira" na fase 1, sabendo que o app não apaga fisicamente?
+- [x] Lixeira local da fase 1 (RF-12): excluir um caderno leva as páginas dele para a lixeira e restaurar o caderno as traz de volta juntas? Há "esvaziar lixeira" na fase 1, sabendo que o app não apaga fisicamente? Resolvida na ADR 0023.
 - [ ] Logout e troca de conta no mesmo aparelho: o que acontece com os dados locais da conta anterior? (RNF-09)
 
 ### Fontes

@@ -26,5 +26,8 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0020](0020-convencao-de-commits.md) | Convenção e verificação de mensagens de commit | Aceita |
 | [0021](0021-licenca-mit.md) | Licença MIT | Aceita |
 | [0022](0022-tokens-e-fontes.md) | Tokens do tema em `ThemeExtension` e fontes empacotadas | Aceita |
+| [0023](0023-lixeira-local-da-fase-1.md) | Lixeira local da fase 1: caderno leva as páginas, sem esvaziar | Aceita |
+| [0024](0024-confirmacao-ao-excluir.md) | Confirmação ao excluir: página com desfazer, caderno com diálogo | Aceita |
+| [0025](0025-busca-inclui-cadernos-arquivados.md) | Páginas de caderno arquivado continuam na busca | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.
