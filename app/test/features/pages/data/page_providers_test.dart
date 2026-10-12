@@ -84,4 +84,56 @@ void main() {
       isA<AsyncError<Object?>>(),
     );
   });
+
+  test('EDGE-03: pageProvider emits its page and then null after '
+      'trashing', () async {
+    final notebookId = await createNotebook();
+    final repository = container.read(pageRepositoryProvider);
+    final id = await repository.create(notebookId, title: 'A');
+    container.listen(pageProvider(id), (_, _) {});
+
+    await container.read(pageProvider(id).future);
+    expect(container.read(pageProvider(id)).value?.title, 'A');
+
+    await repository.moveToTrash(id);
+    await pumpEventQueue();
+
+    expect(container.read(pageProvider(id)).value, isNull);
+  });
+
+  test('TRASH-04: trashedPagesProvider emits the repository stream', () async {
+    final notebookId = await createNotebook();
+    final repository = container.read(pageRepositoryProvider);
+    final id = await repository.create(notebookId, title: 'A');
+    container.listen(trashedPagesProvider, (_, _) {});
+    await container.read(trashedPagesProvider.future);
+    expect(container.read(trashedPagesProvider).value, isEmpty);
+
+    await repository.moveToTrash(id);
+    await pumpEventQueue();
+
+    final rows = container.read(trashedPagesProvider).requireValue;
+    expect(rows.map((t) => t.page.id), [id]);
+    expect(rows.single.notebookTitle, 'Work');
+  });
+
+  test('TRASH-04: the page providers surface a failing query as '
+      'AsyncError', () async {
+    await db.customStatement('DROP TABLE pages');
+    container
+      ..listen(pageProvider('x'), (_, _) {})
+      ..listen(trashedPagesProvider, (_, _) {});
+
+    await expectLater(
+      container.read(pageProvider('x').future),
+      throwsA(isA<Exception>()),
+    );
+    await expectLater(
+      container.read(trashedPagesProvider.future),
+      throwsA(isA<Exception>()),
+    );
+
+    expect(container.read(pageProvider('x')), isA<AsyncError<Object?>>());
+    expect(container.read(trashedPagesProvider), isA<AsyncError<Object?>>());
+  });
 }

@@ -22,3 +22,16 @@ final StreamProviderFamily<List<NotebookPage>, String> pagesProvider =
           ref.watch(pageRepositoryProvider).watchByNotebook(notebookId),
       retry: (_, _) => null,
     );
+
+final StreamProviderFamily<NotebookPage?, String> pageProvider = StreamProvider
+    .autoDispose
+    .family<NotebookPage?, String>(
+      (ref, id) => ref.watch(pageRepositoryProvider).watchOne(id),
+      retry: (_, _) => null,
+    );
+
+final StreamProvider<List<TrashedPage>> trashedPagesProvider =
+    StreamProvider.autoDispose<List<TrashedPage>>(
+      (ref) => ref.watch(pageRepositoryProvider).watchTrashed(),
+      retry: (_, _) => null,
+    );

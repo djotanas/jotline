@@ -373,8 +373,8 @@ T26 → T32
 
 **Done when**:
 
-- [ ] Tests cover: both providers emit the repository streams; `pageProvider` emits `null` after trashing
-- [ ] Quick gate passes (≥ 2 new tests)
+- [x] Tests cover: both providers emit the repository streams; `pageProvider` emits `null` after trashing
+- [x] Quick gate passes (≥ 2 new tests)
 
 **Tests**: unit
 **Gate**: quick
