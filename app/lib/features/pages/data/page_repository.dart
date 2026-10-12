@@ -6,6 +6,21 @@ import 'package:jotline/core/database/position_allocator.dart';
 import 'package:jotline/core/ids/id_generator.dart';
 import 'package:jotline/core/ordering/placement.dart';
 import 'package:jotline/core/text/title_rules.dart';
+import 'package:jotline/core/theme/notebook_palette.dart';
+
+/// A page deleted on its own, with the notebook it belongs to.
+final class TrashedPage {
+  const new({
+    required this.page,
+    required this.notebookTitle,
+    required this.notebookColor,
+  });
+
+  /// Its `deletedAt` is non-null.
+  final NotebookPage page;
+  final String notebookTitle;
+  final NotebookColor notebookColor;
+}
 
 /// Reads and writes the pages of a notebook.
 class PageRepository {
@@ -92,6 +107,61 @@ class PageRepository {
     await (_database.update(_database.pages)
           ..where((t) => t.id.equals(id) & t.deletedAt.isNull()))
         .write(PagesCompanion(deletedAt: Value(_clock.now())));
+  }
+
+  /// Clears only the page's `deleted_at`, so it returns to its `position`.
+  Future<void> restore(String id) async {
+    await (_database.update(_database.pages)..where((t) => t.id.equals(id)))
+        .write(const PagesCompanion(deletedAt: Value(null)));
+  }
+
+  /// Undo of [restore]: writes the original [deletedAt] back.
+  Future<void> putBackInTrash(String id, DateTime deletedAt) async {
+    await (_database.update(_database.pages)..where((t) => t.id.equals(id)))
+        .write(PagesCompanion(deletedAt: Value(deletedAt)));
+  }
+
+  /// Emits `null` when the page, or its notebook, is in the trash.
+  Stream<NotebookPage?> watchOne(String id) {
+    final pages = _database.pages;
+    final notebooks = _database.notebooks;
+    final query =
+        _database.select(pages).join([
+          innerJoin(notebooks, notebooks.id.equalsExp(pages.notebookId)),
+        ])..where(
+          pages.id.equals(id) &
+              pages.deletedAt.isNull() &
+              notebooks.deletedAt.isNull(),
+        );
+    return query.watch().map(
+      (rows) => rows.isEmpty ? null : rows.first.readTable(pages),
+    );
+  }
+
+  /// Pages deleted on their own whose notebook is not in the trash, newest
+  /// `deleted_at` first, then `id` descending.
+  Stream<List<TrashedPage>> watchTrashed() {
+    final pages = _database.pages;
+    final notebooks = _database.notebooks;
+    final query =
+        _database.select(pages).join([
+            innerJoin(notebooks, notebooks.id.equalsExp(pages.notebookId)),
+          ])
+          ..where(pages.deletedAt.isNotNull() & notebooks.deletedAt.isNull())
+          ..orderBy([
+            OrderingTerm.desc(pages.deletedAt),
+            OrderingTerm.desc(pages.id),
+          ]);
+    return query.watch().map(
+      (rows) => [
+        for (final row in rows)
+          TrashedPage(
+            page: row.readTable(pages),
+            notebookTitle: row.readTable(notebooks).title,
+            notebookColor: row.readTable(notebooks).color,
+          ),
+      ],
+    );
   }
 
   Stream<List<NotebookPage>> watchByNotebook(String notebookId) {

@@ -306,6 +306,163 @@ void main() {
     expect(await pageRows(), before);
   });
 
+  Future<List<TrashedPage>> trashed() async {
+    final recorder = StreamRecorder(repository.watchTrashed());
+    final emissions = await recorder.settle();
+    await recorder.cancel();
+    return emissions.last;
+  }
+
+  test('EDGE-03: watchOne emits the page and then null once it is '
+      'trashed', () async {
+    final id = await repository.create(notebookId, title: 'A');
+    final recorder = StreamRecorder(repository.watchOne(id));
+    await recorder.settle();
+    expect(recorder.emissions.last?.title, 'A');
+
+    await repository.rename(id, 'B');
+    await recorder.settle();
+    expect(recorder.emissions.last?.title, 'B');
+
+    await repository.moveToTrash(id);
+    await recorder.settle();
+
+    expect(recorder.emissions.last, isNull);
+    await recorder.cancel();
+  });
+
+  test('EDGE-03: watchOne emits null when the notebook is trashed', () async {
+    final id = await repository.create(notebookId, title: 'A');
+    final recorder = StreamRecorder(repository.watchOne(id));
+    await recorder.settle();
+
+    await notebookRepository.moveToTrash(notebookId);
+    await recorder.settle();
+
+    expect(recorder.emissions.last, isNull);
+    await recorder.cancel();
+  });
+
+  test('EDGE-03: watchOne emits null for an unknown id', () async {
+    final recorder = StreamRecorder(repository.watchOne('missing'));
+
+    await recorder.settle();
+
+    expect(recorder.emissions, [null]);
+    await recorder.cancel();
+  });
+
+  test('PGOPT-05: restore clears only deleted_at and keeps position, so the '
+      'page returns to its slot', () async {
+    final [a, b, c] = await seed(['A', 'B', 'C']);
+    final before = await pageRow(b);
+    await repository.moveToTrash(b);
+    expect(await titles(), ['A', 'C']);
+
+    await repository.restore(b);
+
+    expect(await titles(), ['A', 'B', 'C']);
+    expect(await pageRow(b), before);
+    expect((await pageRow(a)).deletedAt, isNull);
+    expect((await pageRow(c)).deletedAt, isNull);
+  });
+
+  test('TRASH-09: putBackInTrash writes the original deleted_at', () async {
+    final id = await repository.create(notebookId, title: 'A');
+    clock.current = DateTime.utc(2026, 10, 12);
+    await repository.moveToTrash(id);
+    final original = (await pageRow(id)).deletedAt!;
+    await repository.restore(id);
+    clock.current = DateTime.utc(2026, 11);
+
+    await repository.putBackInTrash(id, original);
+
+    expect((await pageRow(id)).deletedAt, DateTime.utc(2026, 10, 12));
+    expect(await titles(), isEmpty);
+  });
+
+  test('TRASH-04: watchTrashed lists pages deleted on their own with the '
+      'notebook title and color', () async {
+    final other = await notebookRepository.create(
+      title: 'Ideas',
+      cover: CoverPattern.pautada,
+      color: NotebookColor.musgo,
+    );
+    final kept = await repository.create(notebookId, title: 'Kept');
+    final gone = await repository.create(other, title: 'Gone');
+    await repository.moveToTrash(gone);
+
+    final rows = await trashed();
+
+    expect(kept, isNot(gone));
+    expect(rows.map((t) => t.page.id), [gone]);
+    expect(rows.single.notebookTitle, 'Ideas');
+    expect(rows.single.notebookColor, NotebookColor.musgo);
+    expect(rows.single.page.deletedAt, clock.current);
+  });
+
+  test('TRASH-05: watchTrashed excludes pages of a notebook in the trash, '
+      'TRASH-10: and includes them again after it is restored', () async {
+    final id = await repository.create(notebookId, title: 'A');
+    await repository.moveToTrash(id);
+    expect((await trashed()).map((t) => t.page.id), [id]);
+
+    await notebookRepository.moveToTrash(notebookId);
+    expect(await trashed(), isEmpty);
+
+    await notebookRepository.restore(notebookId);
+    expect((await trashed()).map((t) => t.page.id), [id]);
+  });
+
+  test('TRASH-11: watchTrashed orders by deleted_at descending, then id '
+      'descending', () async {
+    final [oldest, tieA, tieB, newest] = await seed(['O', 'A', 'B', 'N']);
+    clock.current = DateTime.utc(2026, 10, 12);
+    await repository.moveToTrash(oldest);
+    clock.current = DateTime.utc(2026, 10, 13);
+    await repository.moveToTrash(tieA);
+    await repository.moveToTrash(tieB);
+    clock.current = DateTime.utc(2026, 10, 14);
+    await repository.moveToTrash(newest);
+
+    expect(tieB.compareTo(tieA), greaterThan(0));
+    expect((await trashed()).map((t) => t.page.id), [
+      newest,
+      tieB,
+      tieA,
+      oldest,
+    ]);
+  });
+
+  test('TRASH-08: watchTrashed re-emits when a page is trashed and '
+      'restored', () async {
+    final id = await repository.create(notebookId, title: 'A');
+    final recorder = StreamRecorder(repository.watchTrashed());
+    await recorder.settle();
+    expect(recorder.emissions.last, isEmpty);
+
+    await repository.moveToTrash(id);
+    await recorder.settle();
+    expect(recorder.emissions.last, hasLength(1));
+
+    await repository.restore(id);
+    await recorder.settle();
+    expect(recorder.emissions.last, isEmpty);
+    await recorder.cancel();
+  });
+
+  test('EDGE-05: a page restored into an archived notebook shows in '
+      'watchByNotebook', () async {
+    final id = await repository.create(notebookId, title: 'A');
+    await notebookRepository.archive(notebookId);
+    await repository.moveToTrash(id);
+    expect(await titles(), isEmpty);
+
+    await repository.restore(id);
+
+    expect(await titles(), ['A']);
+  });
+
   test('REPO-18: the stream emits after create, rename, move and '
       'delete', () async {
     final recorder = StreamRecorder(repository.watchByNotebook(notebookId));

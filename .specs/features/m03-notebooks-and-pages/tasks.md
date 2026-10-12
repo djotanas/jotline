@@ -287,14 +287,14 @@ T26 → T32
 
 **Done when**:
 
-- [ ] Drift tests cover:
+- [x] Drift tests cover:
   - `watchOne` emits `null` when the page or its notebook is trashed
   - `restore` keeps `position`, so the page returns to its slot (PGOPT-05)
   - `watchTrashed` excludes pages of trashed notebooks (TRASH-05) and includes them again after the notebook is restored (TRASH-10)
   - notebook title and color joined
   - order by `deleted_at` desc
   - a page restored into an archived notebook shows in `watchByNotebook` (EDGE-05)
-- [ ] Quick gate passes (≥ 7 new tests)
+- [x] Quick gate passes (≥ 7 new tests)
 
 **Tests**: Drift
 **Gate**: quick
