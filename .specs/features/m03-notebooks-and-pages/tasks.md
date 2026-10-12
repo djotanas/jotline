@@ -197,11 +197,11 @@ T26 → T32
 
 **Done when**:
 
-- [ ] `test/features/notebooks/data/notebook_summary_test.dart` covers:
+- [x] `test/features/notebooks/data/notebook_summary_test.dart` covers:
   - each sort option, including ties broken by `id`
   - "árvore" < "Bloco" < "Caderno" under `name`
   - `foldForSort('ÁÇÃo')` == `'acao'`
-- [ ] Quick gate passes (≥ 6 new tests)
+- [x] Quick gate passes (≥ 6 new tests)
 
 **Tests**: unit
 **Gate**: quick
