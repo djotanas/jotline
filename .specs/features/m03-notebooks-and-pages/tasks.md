@@ -259,12 +259,12 @@ T26 → T32
 
 **Done when**:
 
-- [ ] Drift tests cover:
+- [x] Drift tests cover:
   - only trashed notebooks
   - count excludes pages deleted on their own (TRASH-03)
   - `archivedAt` carried
   - order `deleted_at` desc then `id` desc
-- [ ] Quick gate passes (≥ 4 new tests)
+- [x] Quick gate passes (≥ 4 new tests)
 
 **Tests**: Drift
 **Gate**: quick

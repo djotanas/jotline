@@ -8,6 +8,20 @@ import 'package:jotline/core/text/title_rules.dart';
 import 'package:jotline/core/theme/notebook_palette.dart';
 import 'package:jotline/features/notebooks/data/notebook_summary.dart';
 
+/// A notebook in the trash.
+final class TrashedNotebook {
+  const new({required this.notebook, required this.pageCount, this.archivedAt});
+
+  /// Its `deletedAt` is non-null.
+  final Notebook notebook;
+
+  /// Pages not deleted on their own.
+  final int pageCount;
+
+  /// The local user's `archived_at`, kept while the notebook is trashed.
+  final DateTime? archivedAt;
+}
+
 /// Reads and writes notebooks and the local user's membership in them.
 class NotebookRepository {
   new(this._database, this._clock, this._ids, this._localUser);
@@ -123,6 +137,47 @@ class NotebookRepository {
   Stream<NotebookSummary?> watchOne(String id) {
     return _watchSummaries((notebooks, members) => notebooks.id.equals(id))
         .map((rows) => rows.firstOrNull);
+  }
+
+  /// Notebooks in the trash, newest `deleted_at` first, then `id` descending.
+  Stream<List<TrashedNotebook>> watchTrashed() {
+    final notebooks = _database.notebooks;
+    final members = _database.notebookMembers;
+    final pages = _database.pages;
+    final pageCount = pages.id.count();
+    return Stream.fromFuture(_localUser.id()).asyncExpand((userId) {
+      final query =
+          _database.select(notebooks).join([
+              innerJoin(
+                members,
+                members.notebookId.equalsExp(notebooks.id) &
+                    members.userId.equals(userId),
+              ),
+              leftOuterJoin(
+                pages,
+                pages.notebookId.equalsExp(notebooks.id) &
+                    pages.deletedAt.isNull(),
+                useColumns: false,
+              ),
+            ])
+            ..addColumns([pageCount])
+            ..where(notebooks.deletedAt.isNotNull())
+            ..groupBy([notebooks.id])
+            ..orderBy([
+              OrderingTerm.desc(notebooks.deletedAt),
+              OrderingTerm.desc(notebooks.id),
+            ]);
+      return query.watch().map(
+        (rows) => [
+          for (final row in rows)
+            TrashedNotebook(
+              notebook: row.readTable(notebooks),
+              pageCount: row.read(pageCount) ?? 0,
+              archivedAt: row.readTable(members).archivedAt,
+            ),
+        ],
+      );
+    });
   }
 
   Stream<Iterable<NotebookSummary>> _watchSummaries(

@@ -488,6 +488,96 @@ void main() {
     expect(await activeTitles(), isEmpty);
   });
 
+  Future<List<TrashedNotebook>> trashed() async {
+    final recorder = StreamRecorder(repository.watchTrashed());
+    final emissions = await recorder.settle();
+    await recorder.cancel();
+    return emissions.last;
+  }
+
+  test('TRASH-02: watchTrashed holds only notebooks in the trash', () async {
+    final gone = await create('Gone');
+    await create('Kept');
+    await repository.moveToTrash(gone);
+
+    final rows = await trashed();
+
+    expect(rows.map((t) => t.notebook.id), [gone]);
+    expect(rows.single.notebook.deletedAt, clock.current);
+  });
+
+  test('TRASH-03: the count excludes pages deleted on their own', () async {
+    final id = await create('Gone');
+    await pageRepository.create(id, title: 'A');
+    await pageRepository.create(id, title: 'B');
+    final own = await pageRepository.create(id, title: 'C');
+    await pageRepository.moveToTrash(own);
+    await repository.moveToTrash(id);
+
+    expect((await trashed()).single.pageCount, 2);
+  });
+
+  test('TRASH-03: a trashed notebook without pages has a count of 0', () async {
+    final id = await create('Gone');
+    await repository.moveToTrash(id);
+
+    expect((await trashed()).single.pageCount, 0);
+  });
+
+  test('TRASH-02: archivedAt is carried for a notebook archived before '
+      'deletion', () async {
+    final archived = await create('Archived');
+    final active = await create('Active');
+    clock.current = DateTime.utc(2026, 10, 12);
+    await repository.archive(archived);
+    await repository.moveToTrash(archived);
+    await repository.moveToTrash(active);
+
+    final rows = {for (final t in await trashed()) t.notebook.id: t};
+
+    expect(rows[archived]!.archivedAt, DateTime.utc(2026, 10, 12));
+    expect(rows[active]!.archivedAt, isNull);
+  });
+
+  test('TRASH-11: order is deleted_at descending, then id '
+      'descending', () async {
+    final oldest = await create('Oldest');
+    final tieA = await create('TieA');
+    final tieB = await create('TieB');
+    final newest = await create('Newest');
+    clock.current = DateTime.utc(2026, 10, 12);
+    await repository.moveToTrash(oldest);
+    clock.current = DateTime.utc(2026, 10, 13);
+    await repository.moveToTrash(tieA);
+    await repository.moveToTrash(tieB);
+    clock.current = DateTime.utc(2026, 10, 14);
+    await repository.moveToTrash(newest);
+
+    expect(tieB.compareTo(tieA), greaterThan(0));
+    expect((await trashed()).map((t) => t.notebook.id), [
+      newest,
+      tieB,
+      tieA,
+      oldest,
+    ]);
+  });
+
+  test('TRASH-07: watchTrashed re-emits on trash and restore', () async {
+    final id = await create('Work');
+    final recorder = StreamRecorder(repository.watchTrashed());
+    await recorder.settle();
+    expect(recorder.emissions.last, isEmpty);
+
+    await repository.moveToTrash(id);
+    await recorder.settle();
+    expect(recorder.emissions.last.map((t) => t.notebook.id), [id]);
+
+    await repository.restore(id);
+    await recorder.settle();
+    expect(recorder.emissions.last, isEmpty);
+    await recorder.cancel();
+  });
+
   test('DEL-01: trashing sets deleted_at and keeps the row', () async {
     final id = await create('Work');
     clock.current = DateTime.utc(2026, 10, 12);
