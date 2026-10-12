@@ -1,6 +1,6 @@
 # 0035 — Editor de blocos: super_editor
 
-- **Status:** Proposta
+- **Status:** Aceita
 - **Data:** 2026-10-12
 - **Decisores:** @jon
 - **Relacionados:** PRD §4 (RF-03, RF-04), §11; ADR 0005, ADR 0013, ADR 0029; issue #22 (spike), #23, #24
@@ -29,7 +29,7 @@ O spike fez um protótipo de cada candidato no Flutter 3.47.5 fixado no `app/.fv
 1. **O editor de blocos do app é o `super_editor`**, na versão exata `0.3.0-dev.52` (pré-lançamento), sem faixa de versão. Atualizar é uma tarefa própria, com os testes do mapeamento.
 2. **O documento do editor nunca é persistido.** Uma camada própria converte cada nó em uma linha de `blocks` no formato de `content_json` da ADR do modelo de blocos. Os nós carregados usam o id do bloco como id do nó; nós criados pelo editor recebem o id gerado pelo repositório na primeira gravação.
 3. **A mudança de cada bloco vem do log de mudanças do editor** (`EditListener` com `DocumentEdit`), conferido contra o documento final: nó presente é gravado, nó ausente vai para a lixeira (`deleted_at`). Uma movimentação grava só a linha movida.
-4. **A aceitação desta ADR depende do roteiro manual em iOS e em um Android físico** (`spikes/m04-editor/REPORT.md` na branch `spike/22-block-editor`, "Manual checklist"). Se algum item de SPIKE-06 falhar, esta proposta volta para discussão antes do #23 (SPIKE-10).
+4. **A ADR é aceita sem verificação em iOS e com o Android testado só no emulador**, por falta de aparelho. O roteiro manual (`spikes/m04-editor/REPORT.md` na branch `spike/22-block-editor`, "Manual checklist") roda num iPhone e num Android físico na issue #67, antes do Gate 1. Se algum item de SPIKE-06 falhar, uma nova ADR substitui esta.
 
 ## Alternativas descartadas
 
@@ -39,7 +39,8 @@ O spike fez um protótipo de cada candidato no Flutter 3.47.5 fixado no `app/.fv
 
 ## Consequências
 
-- O `app/CLAUDE.md` passa a citar o `super_editor` e esta ADR na linha "Block editor" quando ela for aceita (SPIKE-09).
+- O `app/CLAUDE.md` cita o `super_editor` e esta ADR na linha "Block editor" (SPIKE-09).
+- O risco de IME no iOS (acentos, autocorreção, ditado, cursor flutuante; issue #2269 do `super_editor`) segue aberto até a #67.
 - O app depende de um pacote em pré-lançamento mantido quase só por uma pessoa. O risco é aceito na fase 1, e a camada de mapeamento isola o resto do app da biblioteca.
 - O build Android precisa de `compileSdk 36` para o `super_keyboard 0.4.1`, que ainda aplica o Kotlin Gradle Plugin; o Flutter avisa que versões futuras deixarão de compilar com ele. Reavaliar a cada atualização do Flutter.
 - O #23 precisa de um componente próprio de item de checklist (caixa 22×22, linha de 44 px) e de um wrapper para o bloco em edição. Decorações dentro dos componentes não podem capturar toques, senão o cursor deixa de ser posicionado.

@@ -12,7 +12,7 @@ Jotline mobile app. General rules and invariants in the [root CLAUDE.md](../CLAU
 - **Local database:** SQLite with **Drift** — source of truth on the device (ADR 0001). In phase 2 SQLite becomes managed by PowerSync, with Drift on top.
 - **UI text:** PT-BR only in phase 1, via `flutter_localizations` + `gen-l10n` (`app_pt.arb`, keys in English); no strings hardcoded in widgets (ADR 0016). Set up in the scaffold.
 - **Preferences:** `hive_ce` — only theme, last opened notebook and the like; nothing that syncs.
-- **Block editor:** _open_ — `flutter_quill`, `appflowy_editor` or `super_editor`, decided by a 1-week spike. Do not adopt one without the decision recorded in an ADR.
+- **Block editor:** `super_editor`, exact version pinned (ADR 0035). The editor document is never stored: our own mapping turns each node into one `blocks` row.
 - **Drawing (RF-06, Could):** `perfect_freehand`, strokes saved as JSON.
 - **Ordering:** fractional index in `position` — reordering changes a single row.
 - **Tests:** `flutter_test` + `mocktail`; database tested with real in-memory Drift; e2e with `integration_test` (ADR 0015).

@@ -62,6 +62,7 @@ Every ambiguity is resolved or recorded here - nothing is left silently unclear.
 | Text length | No limit per block or per page in phase 1 | RF-03 sets none; the 10,000-page load is tested in #27 | y |
 | Spike code | Prototypes live on a spike branch that is not merged; only the ADR, the `app/CLAUDE.md` editor line and the comparison go to `main` | The issue asks for a decision, not code; avoids shipping two editors | y |
 | Spike outcome when no candidate meets every mandatory criterion | The ADR records the gap and the user decides before #23 starts (another library or a custom editor) | CLAUDE.md: ask before inferring | y |
+| SPIKE-06 without iOS or physical Android | ADR 0035 accepted with iOS not verified and Android only on the emulator; the manual checklist runs in #67 (milestone #05, before Gate 1); a failure leads to a new ADR | User decision after the spike (2026-10-12): no device available | y |
 | PERF-01 repeat | From the icon tap to a new page open with the editor rendered and the title focused, in profile mode on the same mid-range Android device as M03 | M03 context: "repeated to the editor cursor in M04" | y |
 | ADRs | In Portuguese, from 0035: (1) editor library (spike result); (2) block model: one row per item, type identifiers, `content_json` format; (3) page "last edited" derived from blocks | Each issue's DoD; ADR 0005 and 0013 are not edited | y |
 
@@ -100,7 +101,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 7. The spike SHALL record, per candidate, the license, the date of the latest release and whether the canvas block styling (in-edit background, drag handle, checked style) can be applied. (SPIKE-07)
 8. WHEN the spike ends THEN the repository SHALL have an ADR in Portuguese with the comparison table, the chosen library and the reasons. (SPIKE-08)
 9. WHEN the editor ADR is accepted THEN the "Block editor" line of `app/CLAUDE.md` SHALL name the chosen library and the ADR. (SPIKE-09)
-10. IF no candidate meets SPIKE-02, SPIKE-04 and SPIKE-06 THEN the ADR SHALL record the gap and #23 SHALL NOT start until the user decides the next step. (SPIKE-10)
+10. IF no candidate meets SPIKE-02, SPIKE-04 and SPIKE-06 on the devices available THEN the ADR SHALL record the gap and #23 SHALL NOT start until the user decides the next step; criteria not verifiable for lack of a device SHALL be recorded as not verified and tracked in an issue. (SPIKE-10)
 11. The spike prototypes SHALL NOT be merged into `main`. (SPIKE-11)
 
 **Independent Test**: Review: the ADR exists with one row per candidate covering SPIKE-02 to SPIKE-07; `app/CLAUDE.md` names the library; `git log main` has no prototype code.

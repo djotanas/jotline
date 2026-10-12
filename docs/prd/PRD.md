@@ -244,7 +244,7 @@ Uma alternativa evitada de propósito: Realm com Atlas Device Sync, que a MongoD
 Questões em aberto:
 
 - [ ] O compartilhamento será assíncrono (cada um contribui com suas páginas) ou com coedição simultânea? Define se a fase 4 existe.
-- [ ] Qual editor de blocos adotar?
+- [x] Qual editor de blocos adotar? Resolvida na ADR 0035 (`super_editor`).
 - [ ] Criptografia do banco local entra na fase 2 ou depois?
 - [ ] Modelo de negócio: grátis com limite de cadernos compartilhados, assinatura, ou outro?
 - [ ] Prazo final da lixeira: 30 dias é suficiente?
