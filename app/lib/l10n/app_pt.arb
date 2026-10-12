@@ -273,5 +273,50 @@
   "moveToTrash": "Mover para a lixeira",
   "@moveToTrash": {
     "description": "Button that confirms trashing a notebook."
+  },
+  "trashTitle": "Lixeira",
+  "@trashTitle": {
+    "description": "Title of the trash screen and label of the button that opens it."
+  },
+  "trashIntro": "O que você exclui fica aqui, neste aparelho, e pode ser restaurado.",
+  "@trashIntro": {
+    "description": "Text under the trash screen title."
+  },
+  "trashNotebooksSection": "Cadernos",
+  "@trashNotebooksSection": {
+    "description": "Trash section that lists notebooks."
+  },
+  "trashPagesSection": "Páginas",
+  "@trashPagesSection": {
+    "description": "Trash section that lists pages deleted on their own."
+  },
+  "restore": "Restaurar",
+  "@restore": {
+    "description": "Button that restores an item from the trash."
+  },
+  "trashEmptyTitle": "A lixeira está vazia",
+  "@trashEmptyTitle": {
+    "description": "Title of the empty trash state."
+  },
+  "trashEmptyMessage": "O que você excluir fica aqui, neste aparelho, e pode ser restaurado.",
+  "@trashEmptyMessage": {
+    "description": "Message of the empty trash state."
+  },
+  "deletedVerb": "excluído",
+  "@deletedVerb": {
+    "description": "Verb that precedes the deletion date of a notebook."
+  },
+  "notebookRestored": "Caderno restaurado",
+  "@notebookRestored": {
+    "description": "Undo toast after a notebook is restored from the trash."
+  },
+  "restoredIn": "Restaurado em {notebook}",
+  "@restoredIn": {
+    "description": "Undo toast after a page is restored from the trash.",
+    "placeholders": {
+      "notebook": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -792,7 +792,7 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests with an in-memory DB cover:
+- [x] Widget tests with an in-memory DB cover:
   - header copy (TRASH-01)
   - notebook row and count (TRASH-02, TRASH-03)
   - pages of a trashed notebook hidden, then shown after restoring it (TRASH-05, TRASH-10)
@@ -802,7 +802,7 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
   - undo puts back the original `deleted_at` (TRASH-09)
   - order (TRASH-11)
   - no "empty trash" action (TRASH-12)
-- [ ] Quick gate passes (≥ 10 new tests)
+- [x] Quick gate passes (≥ 10 new tests)
 
 **Tests**: widget
 **Gate**: quick
