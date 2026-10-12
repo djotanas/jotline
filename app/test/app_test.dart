@@ -113,7 +113,8 @@ void main() {
     final testFiles = Directory('test')
         .listSync(recursive: true)
         .whereType<File>()
-        .where((f) => f.path.endsWith('_test.dart'));
+        .where((f) => f.path.endsWith('_test.dart'))
+        .where((f) => !f.path.startsWith('test${Platform.pathSeparator}drift'));
 
     for (final file in testFiles) {
       final relative = file.path
