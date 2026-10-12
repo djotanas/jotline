@@ -968,8 +968,8 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] ADR file plus its index line in `docs/adr/README.md`
-- [ ] Build gate passes
+- [x] ADR file plus its index line in `docs/adr/README.md`
+- [x] Build gate passes
 
 **Tests**: none
 **Gate**: build
