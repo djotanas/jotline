@@ -565,8 +565,8 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests: muted style when `muted`, default style otherwise, no excerpt line when `excerpt` is null
-- [ ] Quick gate passes (≥ 2 new tests)
+- [x] Widget tests: muted style when `muted`, default style otherwise, no excerpt line when `excerpt` is null
+- [x] Quick gate passes (≥ 2 new tests)
 
 **Tests**: widget
 **Gate**: quick

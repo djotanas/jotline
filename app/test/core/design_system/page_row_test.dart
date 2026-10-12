@@ -16,6 +16,7 @@ Future<void> _pump(
   String title = 'O que levar',
   String? excerpt = _excerpt,
   VoidCallback? onTap,
+  bool muted = false,
   double textScale = 1,
 }) {
   return tester.pumpJot(
@@ -29,6 +30,7 @@ Future<void> _pump(
             date: '05 out',
             excerpt: excerpt,
             onTap: onTap,
+            muted: muted,
           ),
         ),
       ),
@@ -40,6 +42,34 @@ RenderParagraph _paragraph(WidgetTester tester, String text) =>
     tester.renderObject<RenderParagraph>(find.text(text));
 
 void main() {
+  testWidgets('PGLIST-02: a muted title is weight 500 in inkFeito', (
+    tester,
+  ) async {
+    await _pump(tester, title: 'Sem título', excerpt: null, muted: true);
+
+    final style = _paragraph(tester, 'Sem título').text.style!;
+    expect(style.fontFamily, JotTextStyles.fontUi);
+    expect(style.fontSize, 16);
+    expect(style.fontWeight, FontWeight.w500);
+    expect(style.color, _colors.inkFeito);
+  });
+
+  testWidgets('PGLIST-02: a title is not muted by default', (tester) async {
+    await _pump(tester, title: 'Sem título');
+
+    final style = _paragraph(tester, 'Sem título').text.style!;
+    expect(style.fontWeight, FontWeight.w600);
+    expect(style.color, _colors.ink1);
+  });
+
+  testWidgets('PGLIST-02: no excerpt line when excerpt is null', (
+    tester,
+  ) async {
+    await _pump(tester, title: 'Sem título', excerpt: null, muted: true);
+
+    expect(find.byType(Text), findsNWidgets(2));
+    expect(find.text(_excerpt), findsNothing);
+  });
   testWidgets('COMP-09: title uses itemTitulo', (tester) async {
     await _pump(tester);
 

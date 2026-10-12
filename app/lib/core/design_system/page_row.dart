@@ -10,12 +10,16 @@ class PageRow extends StatelessWidget {
     super.key,
     this.excerpt,
     this.onTap,
+    this.muted = false,
   });
 
   final String title;
   final String date;
   final String? excerpt;
   final VoidCallback? onTap;
+
+  /// Draws the title as a placeholder ("Sem título"): weight 500, `inkFeito`.
+  final bool muted;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +51,12 @@ class PageRow extends StatelessWidget {
                     Expanded(
                       child: Text(
                         title,
-                        style: styles.itemTitulo,
+                        style: muted
+                            ? styles.itemTitulo.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: colors.inkFeito,
+                              )
+                            : styles.itemTitulo,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
