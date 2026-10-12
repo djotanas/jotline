@@ -172,9 +172,9 @@ T26 → T32
 
 **Done when**:
 
-- [ ] Write, reopen and read return the value; never written returns `null`; the unavailable store returns `null` and ignores writes
-- [ ] PREF-05 / USER-06 assert the two-key set
-- [ ] Quick gate passes (≥ 3 new tests, none removed)
+- [x] Write, reopen and read return the value; never written returns `null`; the unavailable store returns `null` and ignores writes
+- [x] PREF-05 / USER-06 assert the two-key set
+- [x] Quick gate passes (≥ 3 new tests, none removed)
 
 **Tests**: unit
 **Gate**: quick

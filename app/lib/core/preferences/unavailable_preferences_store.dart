@@ -6,4 +6,10 @@ class UnavailablePreferencesStore implements PreferencesStore {
 
   @override
   Future<void> setLastOpenedNotebookId(String? id) async {}
+
+  @override
+  String? get notebookSort => null;
+
+  @override
+  Future<void> setNotebookSort(String name) async {}
 }
