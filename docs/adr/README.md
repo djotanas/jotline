@@ -30,5 +30,6 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0024](0024-confirmacao-ao-excluir.md) | Confirmação ao excluir: página com desfazer, caderno com diálogo | Aceita |
 | [0025](0025-busca-inclui-cadernos-arquivados.md) | Páginas de caderno arquivado continuam na busca | Aceita |
 | [0026](0026-usuario-local-no-drift.md) | Usuário local anônimo numa tabela do Drift | Aceita |
+| [0027](0027-exclusao-de-caderno-derivada.md) | Exclusão de caderno derivada para páginas e blocos | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.
