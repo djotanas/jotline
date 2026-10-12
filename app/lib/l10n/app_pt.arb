@@ -56,5 +56,49 @@
   "cancel": "Cancelar",
   "@cancel": {
     "description": "Label of the action that closes a sheet or dialog without changes."
+  },
+  "today": "hoje",
+  "@today": {
+    "description": "Relative date word for the current local day."
+  },
+  "yesterday": "ontem",
+  "@yesterday": {
+    "description": "Relative date word for the previous local day."
+  },
+  "onDate": "em {date}",
+  "@onDate": {
+    "description": "Preposition before a date that is neither today nor yesterday.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "weekdayShort": "{value, select, 1{seg} 2{ter} 3{qua} 4{qui} 5{sex} 6{sáb} 7{dom} other{}}",
+  "@weekdayShort": {
+    "description": "Weekday abbreviation; value is DateTime.weekday, 1 (Monday) to 7 (Sunday).",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "monthShort": "{value, select, 1{jan} 2{fev} 3{mar} 4{abr} 5{mai} 6{jun} 7{jul} 8{ago} 9{set} 10{out} 11{nov} 12{dez} other{}}",
+  "@monthShort": {
+    "description": "Month abbreviation; value is DateTime.month, 1 to 12.",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "pageCount": "{count, plural, =0{nenhuma página} =1{1 página} other{{count} páginas}}",
+  "@pageCount": {
+    "description": "Number of pages in a notebook.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

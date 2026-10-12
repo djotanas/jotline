@@ -142,14 +142,14 @@ T26 → T32
 
 **Done when**:
 
-- [ ] `test/core/text/relative_dates_test.dart` covers:
+- [x] `test/core/text/relative_dates_test.dart` covers:
   - every DATE-01 branch at its boundaries: same day, 1 day, 2 days, 6 days, 7 days, Dec 31 vs Jan 1 of the next year, other year
   - DATE-02 for "hoje", "ontem" and "em …"
   - `withTime` padding ("09:05")
   - DATE-03 with a −03:00 `toLocal` where `2026-10-12T02:00Z` reads "ontem" on local Oct 12
   - DATE-04 for 0, 1 and 12
-- [ ] No `DateTime.now()` (TIME-03 scan still green)
-- [ ] Quick gate passes (≥ 12 new tests, none removed)
+- [x] No `DateTime.now()` (TIME-03 scan still green)
+- [x] Quick gate passes (≥ 12 new tests, none removed)
 
 **Tests**: unit
 **Gate**: quick
