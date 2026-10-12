@@ -253,7 +253,9 @@ void main() {
     final pages = StreamRecorder(pageRepository.watchByNotebook(notebookId));
     expect((await pages.settle()).last, isEmpty);
     await pages.cancel();
-    final active = StreamRecorder(notebookRepository.watchActive());
+    final active = StreamRecorder(
+      notebookRepository.watchSummaries(archived: false),
+    );
     expect((await active.settle()).last, isEmpty);
     await active.cancel();
   });

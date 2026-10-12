@@ -226,7 +226,7 @@ T26 → T32
 
 **Done when**:
 
-- [ ] Drift tests cover:
+- [x] Drift tests cover:
   - `pageCount` excludes trashed pages
   - `lastEditedAt` = max page `updated_at`, else `created_at` (EDGE-01)
   - archived filter
@@ -235,8 +235,8 @@ T26 → T32
   - `setArchivedAt` restores the previous value
   - `restore` clears only `notebooks.deleted_at`, and no `pages`/`blocks` row changes (NBDEL-05)
   - `putBackInTrash` writes the given date
-- [ ] Migrated M02 tests still assert the same behavior through the new API
-- [ ] Quick gate passes (≥ 10 new tests; removed tests only those replaced 1:1, listed in the commit body)
+- [x] Migrated M02 tests still assert the same behavior through the new API
+- [x] Quick gate passes (≥ 10 new tests; removed tests only those replaced 1:1, listed in the commit body)
 
 **Tests**: Drift
 **Gate**: quick

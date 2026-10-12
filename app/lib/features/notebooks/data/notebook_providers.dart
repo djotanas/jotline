@@ -17,12 +17,18 @@ final notebookRepositoryProvider = Provider<NotebookRepository>(
 
 final StreamProvider<List<Notebook>> activeNotebooksProvider =
     StreamProvider.autoDispose<List<Notebook>>(
-      (ref) => ref.watch(notebookRepositoryProvider).watchActive(),
+      (ref) => ref
+          .watch(notebookRepositoryProvider)
+          .watchSummaries(archived: false)
+          .map((rows) => [for (final row in rows) row.notebook]),
       retry: (_, _) => null,
     );
 
 final StreamProvider<List<Notebook>> archivedNotebooksProvider =
     StreamProvider.autoDispose<List<Notebook>>(
-      (ref) => ref.watch(notebookRepositoryProvider).watchArchived(),
+      (ref) => ref
+          .watch(notebookRepositoryProvider)
+          .watchSummaries(archived: true)
+          .map((rows) => [for (final row in rows) row.notebook]),
       retry: (_, _) => null,
     );

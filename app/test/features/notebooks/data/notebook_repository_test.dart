@@ -1,8 +1,11 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/core/database/local_user_repository.dart';
 import 'package:jotline/core/theme/notebook_palette.dart';
 import 'package:jotline/features/notebooks/data/notebook_repository.dart';
+import 'package:jotline/features/notebooks/data/notebook_summary.dart';
+import 'package:jotline/features/pages/data/page_repository.dart';
 
 import '../../../helpers/fakes.dart';
 import '../../../helpers/stream_recorder.dart';
@@ -14,6 +17,7 @@ void main() {
   late SequentialIdGenerator ids;
   late LocalUserRepository localUser;
   late NotebookRepository repository;
+  late PageRepository pageRepository;
 
   setUp(() async {
     db = createTestDatabase();
@@ -21,6 +25,7 @@ void main() {
     ids = SequentialIdGenerator();
     localUser = LocalUserRepository(db, ids);
     repository = NotebookRepository(db, clock, ids, localUser);
+    pageRepository = PageRepository(db, clock, ids, localUser);
   });
   tearDown(() => db.close());
 
@@ -33,12 +38,18 @@ void main() {
   Future<List<Notebook>> notebooks() => db.select(db.notebooks).get();
   Future<List<NotebookMember>> members() => db.select(db.notebookMembers).get();
 
-  Future<List<String>> activeTitles() async {
-    final recorder = StreamRecorder(repository.watchActive());
+  Future<List<NotebookSummary>> summaries({required bool archived}) async {
+    final recorder = StreamRecorder(
+      repository.watchSummaries(archived: archived),
+    );
     final emissions = await recorder.settle();
     await recorder.cancel();
-    return [for (final n in emissions.last) n.title];
+    return emissions.last;
   }
+
+  Future<List<String>> activeTitles() async => [
+    for (final s in await summaries(archived: false)) s.notebook.title,
+  ];
 
   test('REPO-01: creating writes the notebook and an owner member row for the '
       'local user', () async {
@@ -161,47 +172,39 @@ void main() {
     },
   );
 
-  test('REPO-06: the active stream orders by created_at descending, then id '
-      'descending', () async {
-    final oldest = await create('Oldest');
-    clock.current = DateTime.utc(2026, 10, 11, 9);
-    final tieA = await create('TieA');
-    final tieB = await create('TieB');
-    clock.current = DateTime.utc(2026, 10, 11, 10);
-    final newest = await create('Newest');
+  test('REPO-06: the active summaries hold only notebooks that are neither '
+      'archived nor trashed', () async {
+    final active = await create('Active');
+    final archived = await create('Archived');
+    final trashed = await create('Trashed');
+    await repository.archive(archived);
+    await repository.moveToTrash(trashed);
 
-    final recorder = StreamRecorder(repository.watchActive());
-    final emissions = await recorder.settle();
-    await recorder.cancel();
+    final rows = await summaries(archived: false);
 
-    expect(tieB.compareTo(tieA), greaterThan(0));
-    expect(emissions.last.map((n) => n.id), [newest, tieB, tieA, oldest]);
+    expect(rows.map((s) => s.notebook.id), [active]);
+    expect(rows.single.archivedAt, isNull);
   });
 
-  test('REPO-07: the archived stream holds only archived notebooks, ordered by '
-      'archived_at descending, then id descending', () async {
+  test('REPO-07: the archived summaries hold only archived notebooks and '
+      'carry the member archived_at', () async {
     final a = await create('A');
-    final b = await create('B');
-    final c = await create('C');
     await create('Active');
     clock.current = DateTime.utc(2026, 10, 12);
     await repository.archive(a);
-    clock.current = DateTime.utc(2026, 10, 13);
-    await repository.archive(b);
-    await repository.archive(c);
 
-    final recorder = StreamRecorder(repository.watchArchived());
-    final emissions = await recorder.settle();
-    await recorder.cancel();
+    final rows = await summaries(archived: true);
 
-    expect(c.compareTo(b), greaterThan(0));
-    expect(emissions.last.map((n) => n.id), [c, b, a]);
+    expect(rows.map((s) => s.notebook.id), [a]);
+    expect(rows.single.archivedAt, DateTime.utc(2026, 10, 12));
   });
 
   test('REPO-18: the active stream emits after create, rename, archive and '
       'delete', () async {
-    final recorder = StreamRecorder(repository.watchActive());
-    List<String> titles() => [for (final n in recorder.emissions.last) n.title];
+    final recorder = StreamRecorder(repository.watchSummaries(archived: false));
+    List<String> titles() => [
+      for (final s in recorder.emissions.last) s.notebook.title,
+    ];
     await recorder.settle();
     expect(titles(), isEmpty);
 
@@ -225,6 +228,264 @@ void main() {
     await recorder.settle();
     expect(titles(), isEmpty);
     await recorder.cancel();
+  });
+
+  test('NBLIST-03: the page count excludes pages in the trash', () async {
+    final id = await create('Work');
+    await pageRepository.create(id, title: 'A');
+    final trashed = await pageRepository.create(id, title: 'B');
+    await pageRepository.moveToTrash(trashed);
+
+    final summary = (await summaries(archived: false)).single;
+
+    expect(summary.pageCount, 1);
+  });
+
+  test('NBLIST-03: a notebook without pages has a count of 0', () async {
+    await create('Work');
+
+    expect((await summaries(archived: false)).single.pageCount, 0);
+  });
+
+  test('EDGE-01: lastEditedAt is the latest page updated_at among pages not in '
+      'the trash', () async {
+    final id = await create('Work');
+    clock.current = DateTime.utc(2026, 10, 11, 9);
+    await pageRepository.create(id, title: 'A');
+    clock.current = DateTime.utc(2026, 10, 11, 12);
+    final latest = await pageRepository.create(id, title: 'B');
+    clock.current = DateTime.utc(2026, 10, 11, 10);
+    await pageRepository.create(id, title: 'C');
+    expect(
+      (await summaries(archived: false)).single.lastEditedAt,
+      DateTime.utc(2026, 10, 11, 12),
+    );
+
+    await pageRepository.moveToTrash(latest);
+
+    expect(
+      (await summaries(archived: false)).single.lastEditedAt,
+      DateTime.utc(2026, 10, 11, 10),
+    );
+  });
+
+  test('EDGE-01: lastEditedAt is created_at when the notebook has no '
+      'pages', () async {
+    await create('Work');
+
+    expect(
+      (await summaries(archived: false)).single.lastEditedAt,
+      DateTime.utc(2026, 10, 11, 8),
+    );
+  });
+
+  test('EDGE-01: when every page is in the trash the count is 0 and '
+      'lastEditedAt is created_at', () async {
+    final id = await create('Work');
+    clock.current = DateTime.utc(2026, 10, 12);
+    final page = await pageRepository.create(id, title: 'A');
+    await pageRepository.moveToTrash(page);
+
+    final summary = (await summaries(archived: false)).single;
+
+    expect(summary.pageCount, 0);
+    expect(summary.lastEditedAt, DateTime.utc(2026, 10, 11, 8));
+  });
+
+  test('NBLIST-04: archived summaries carry the count and the member '
+      'archived_at', () async {
+    final id = await create('Work');
+    await pageRepository.create(id, title: 'A');
+    await pageRepository.create(id, title: 'B');
+    clock.current = DateTime.utc(2026, 10, 12);
+    await repository.archive(id);
+
+    final summary = (await summaries(archived: true)).single;
+
+    expect(summary.pageCount, 2);
+    expect(summary.archivedAt, DateTime.utc(2026, 10, 12));
+  });
+
+  test('NBLIST-07: the summaries re-emit when a page is added, renamed or '
+      'trashed', () async {
+    final id = await create('Work');
+    final recorder = StreamRecorder(repository.watchSummaries(archived: false));
+    await recorder.settle();
+    expect(recorder.emissions.last.single.pageCount, 0);
+
+    clock.current = DateTime.utc(2026, 10, 12);
+    final page = await pageRepository.create(id, title: 'A');
+    await recorder.settle();
+    expect(recorder.emissions.last.single.pageCount, 1);
+    expect(
+      recorder.emissions.last.single.lastEditedAt,
+      DateTime.utc(2026, 10, 12),
+    );
+
+    clock.current = DateTime.utc(2026, 10, 13);
+    await pageRepository.rename(page, 'Renamed');
+    await recorder.settle();
+    expect(
+      recorder.emissions.last.single.lastEditedAt,
+      DateTime.utc(2026, 10, 13),
+    );
+
+    await pageRepository.moveToTrash(page);
+    await recorder.settle();
+    expect(recorder.emissions.last.single.pageCount, 0);
+    await recorder.cancel();
+  });
+
+  test(
+    'NBLIST-07: the summaries re-emit when the member row changes',
+    () async {
+      final id = await create('Work');
+      final active = StreamRecorder(repository.watchSummaries(archived: false));
+      final archived = StreamRecorder(
+        repository.watchSummaries(archived: true),
+      );
+      await active.settle();
+      await archived.settle();
+
+      await repository.archive(id);
+      await active.settle();
+      await archived.settle();
+      expect(active.emissions.last, isEmpty);
+      expect(archived.emissions.last.single.archivedAt, clock.current);
+
+      await repository.unarchive(id);
+      await active.settle();
+      await archived.settle();
+      expect(active.emissions.last.single.archivedAt, isNull);
+      expect(archived.emissions.last, isEmpty);
+      await active.cancel();
+      await archived.cancel();
+    },
+  );
+
+  test('NBLIST-07: watchOne emits the summary and then null after '
+      'moveToTrash', () async {
+    final id = await create('Work');
+    await pageRepository.create(id, title: 'A');
+    final recorder = StreamRecorder(repository.watchOne(id));
+    await recorder.settle();
+    expect(recorder.emissions.last?.notebook.id, id);
+    expect(recorder.emissions.last?.pageCount, 1);
+
+    await repository.moveToTrash(id);
+    await recorder.settle();
+
+    expect(recorder.emissions.last, isNull);
+    await recorder.cancel();
+  });
+
+  test('NBLIST-07: watchOne also emits an archived notebook', () async {
+    final id = await create('Work');
+    await repository.archive(id);
+    final recorder = StreamRecorder(repository.watchOne(id));
+
+    await recorder.settle();
+
+    expect(recorder.emissions.last?.archivedAt, clock.current);
+    await recorder.cancel();
+  });
+
+  test('NBLIST-07: watchOne emits null for an unknown id', () async {
+    final recorder = StreamRecorder(repository.watchOne('missing'));
+
+    await recorder.settle();
+
+    expect(recorder.emissions, [null]);
+    await recorder.cancel();
+  });
+
+  test('ARCH-03: setArchivedAt puts back the previous value, including '
+      'null', () async {
+    final id = await create('Work');
+    clock.current = DateTime.utc(2026, 10, 12);
+    await repository.archive(id);
+    final previous = (await members()).single.archivedAt;
+    clock.current = DateTime.utc(2026, 10, 20);
+    await repository.unarchive(id);
+    expect((await members()).single.archivedAt, isNull);
+
+    await repository.setArchivedAt(id, previous);
+    expect((await members()).single.archivedAt, DateTime.utc(2026, 10, 12));
+
+    await repository.setArchivedAt(id, null);
+    expect((await members()).single.archivedAt, isNull);
+  });
+
+  test('ARCH-04: archive and unarchive never write deleted_at', () async {
+    final id = await create('Work');
+
+    await repository.archive(id);
+    expect((await notebooks()).single.deletedAt, isNull);
+    await repository.unarchive(id);
+
+    expect((await notebooks()).single.deletedAt, isNull);
+  });
+
+  test(
+    'NBDEL-04: restore brings a trashed notebook back to its list',
+    () async {
+      final id = await create('Work');
+      await repository.moveToTrash(id);
+      expect(await activeTitles(), isEmpty);
+
+      await repository.restore(id);
+
+      expect(await activeTitles(), ['Work']);
+      expect((await notebooks()).single.deletedAt, isNull);
+    },
+  );
+
+  test('NBDEL-05: restore changes only notebooks.deleted_at and no page or '
+      'block row', () async {
+    final id = await create('Work');
+    final page = await pageRepository.create(id, title: 'A');
+    await db.customStatement(
+      "INSERT INTO blocks VALUES ('b1', '$page', 'text', 'a0', 'x', 1, "
+      "'2026-10-11T08:00:00.000Z', 'u', NULL)",
+    );
+    await repository.moveToTrash(id);
+    final pagesBefore = await db.select(db.pages).get();
+    final blocksBefore = await db.select(db.blocks).get();
+    final membersBefore = await members();
+    final notebookBefore = (await notebooks()).single;
+
+    await repository.restore(id);
+
+    expect(await db.select(db.pages).get(), pagesBefore);
+    expect(await db.select(db.blocks).get(), blocksBefore);
+    expect(await members(), membersBefore);
+    expect(
+      (await notebooks()).single,
+      notebookBefore.copyWith(deletedAt: const Value(null)),
+    );
+  });
+
+  test('NBDEL-04: restore keeps the archived state of the member', () async {
+    final id = await create('Work');
+    await repository.archive(id);
+    await repository.moveToTrash(id);
+
+    await repository.restore(id);
+
+    expect((await summaries(archived: true)).single.notebook.id, id);
+  });
+
+  test('NBDEL-04: putBackInTrash writes the given date', () async {
+    final id = await create('Work');
+    await repository.moveToTrash(id);
+    final original = (await notebooks()).single.deletedAt!;
+    await repository.restore(id);
+    clock.current = DateTime.utc(2026, 11);
+
+    await repository.putBackInTrash(id, original);
+
+    expect((await notebooks()).single.deletedAt, original);
+    expect(await activeTitles(), isEmpty);
   });
 
   test('DEL-01: trashing sets deleted_at and keeps the row', () async {
@@ -257,9 +518,7 @@ void main() {
     await repository.moveToTrash(id);
 
     expect(await activeTitles(), ['Kept']);
-    final archived = StreamRecorder(repository.watchArchived());
-    expect((await archived.settle()).last, isEmpty);
-    await archived.cancel();
+    expect(await summaries(archived: true), isEmpty);
   });
 
   test('DEL-04: a notebook archived and then trashed is in neither '
@@ -268,9 +527,7 @@ void main() {
     await repository.archive(id);
     await repository.moveToTrash(id);
 
-    final archived = StreamRecorder(repository.watchArchived());
-    expect((await archived.settle()).last, isEmpty);
-    await archived.cancel();
+    expect(await summaries(archived: true), isEmpty);
     expect(await activeTitles(), isEmpty);
   });
 
@@ -352,7 +609,7 @@ void main() {
 
   test('closing the database completes the stream without an error', () async {
     await create('Work');
-    final recorder = StreamRecorder(repository.watchActive());
+    final recorder = StreamRecorder(repository.watchSummaries(archived: false));
     await recorder.settle();
 
     await db.close();
