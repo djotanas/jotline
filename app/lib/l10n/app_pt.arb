@@ -56,5 +56,335 @@
   "cancel": "Cancelar",
   "@cancel": {
     "description": "Label of the action that closes a sheet or dialog without changes."
+  },
+  "save": "Salvar",
+  "@save": {
+    "description": "Label of the action that confirms a text edit dialog."
+  },
+  "undo": "Desfazer",
+  "@undo": {
+    "description": "Label of the toast action that reverts the action just taken."
+  },
+  "today": "hoje",
+  "@today": {
+    "description": "Relative date word for the current local day."
+  },
+  "yesterday": "ontem",
+  "@yesterday": {
+    "description": "Relative date word for the previous local day."
+  },
+  "onDate": "em {date}",
+  "@onDate": {
+    "description": "Preposition before a date that is neither today nor yesterday.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "weekdayShort": "{value, select, 1{seg} 2{ter} 3{qua} 4{qui} 5{sex} 6{sáb} 7{dom} other{}}",
+  "@weekdayShort": {
+    "description": "Weekday abbreviation; value is DateTime.weekday, 1 (Monday) to 7 (Sunday).",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "monthShort": "{value, select, 1{jan} 2{fev} 3{mar} 4{abr} 5{mai} 6{jun} 7{jul} 8{ago} 9{set} 10{out} 11{nov} 12{dez} other{}}",
+  "@monthShort": {
+    "description": "Month abbreviation; value is DateTime.month, 1 to 12.",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "pageCount": "{count, plural, =0{nenhuma página} =1{1 página} other{{count} páginas}}",
+  "@pageCount": {
+    "description": "Number of pages in a notebook.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "rename": "Renomear",
+  "@rename": {
+    "description": "Option and action label that renames a notebook or a page."
+  },
+  "untitled": "Sem título",
+  "@untitled": {
+    "description": "Placeholder and list label of a page with an empty title."
+  },
+  "pageEdited": "Editada",
+  "@pageEdited": {
+    "description": "Verb that precedes the relative date of the last page edit, at the start of a line."
+  },
+  "pageEditedInline": "editada",
+  "@pageEditedInline": {
+    "description": "Verb that precedes the relative date of the last page edit, inside a line."
+  },
+  "pageOptionsDelete": "Excluir página",
+  "@pageOptionsDelete": {
+    "description": "Option that moves a page to the trash."
+  },
+  "pageOptionsDeleteHint": "Vai para a lixeira; dá para desfazer",
+  "@pageOptionsDeleteHint": {
+    "description": "Support text under the delete page option."
+  },
+  "pageTitleLabel": "Título da página",
+  "@pageTitleLabel": {
+    "description": "Accessibility label of the inline page title field."
+  },
+  "pageOptionsLabel": "Opções da página",
+  "@pageOptionsLabel": {
+    "description": "Accessibility label of the page options button."
+  },
+  "renamePageTitle": "Renomear página",
+  "@renamePageTitle": {
+    "description": "Title of the dialog that renames a page."
+  },
+  "titleLabel": "Título",
+  "@titleLabel": {
+    "description": "Label of the page title field in the rename dialog."
+  },
+  "renamePageHelp": "Opcional. Sem título, a página aparece como “Sem título”.",
+  "@renamePageHelp": {
+    "description": "Help text under the page title field in the rename dialog."
+  },
+  "notebookOptionsCover": "Mudar capa e cor",
+  "@notebookOptionsCover": {
+    "description": "Option that opens the cover and color sheet of a notebook."
+  },
+  "notebookOptionsArchive": "Arquivar",
+  "@notebookOptionsArchive": {
+    "description": "Option that archives a notebook."
+  },
+  "notebookOptionsArchiveHint": "Sai da lista principal; nada é apagado",
+  "@notebookOptionsArchiveHint": {
+    "description": "Support text under the archive option."
+  },
+  "notebookOptionsUnarchive": "Desarquivar",
+  "@notebookOptionsUnarchive": {
+    "description": "Option that unarchives a notebook."
+  },
+  "notebookOptionsUnarchiveHint": "Volta para a lista principal",
+  "@notebookOptionsUnarchiveHint": {
+    "description": "Support text under the unarchive option."
+  },
+  "notebookOptionsDelete": "Excluir caderno",
+  "@notebookOptionsDelete": {
+    "description": "Option that moves a notebook to the trash."
+  },
+  "createdVerb": "criado",
+  "@createdVerb": {
+    "description": "Verb that precedes the creation date of a notebook."
+  },
+  "archivedVerb": "arquivado",
+  "@archivedVerb": {
+    "description": "Verb that precedes the archive date of a notebook."
+  },
+  "newNotebookTitle": "Novo caderno",
+  "@newNotebookTitle": {
+    "description": "Title of the new notebook sheet and label of the button that opens it."
+  },
+  "coverSheetTitle": "Capa e cor",
+  "@coverSheetTitle": {
+    "description": "Title of the sheet that changes the cover and color of a notebook."
+  },
+  "createNotebook": "Criar caderno",
+  "@createNotebook": {
+    "description": "Label of the button that creates the notebook."
+  },
+  "nameLabel": "Nome",
+  "@nameLabel": {
+    "description": "Label of the notebook name field."
+  },
+  "notebookNameHint": "Nome do caderno",
+  "@notebookNameHint": {
+    "description": "Placeholder of the notebook name field and of the cover preview."
+  },
+  "colorLabel": "Cor",
+  "@colorLabel": {
+    "description": "Label of the notebook color picker."
+  },
+  "coverLabel": "Capa",
+  "@coverLabel": {
+    "description": "Label of the notebook cover pattern picker."
+  },
+  "notebooksTitle": "Cadernos",
+  "@notebooksTitle": {
+    "description": "Title of the notebooks screen and back label that returns to it."
+  },
+  "reorder": "Reordenar",
+  "@reorder": {
+    "description": "Button that enters page reorder mode."
+  },
+  "reorderDone": "Concluir",
+  "@reorderDone": {
+    "description": "Button that leaves page reorder mode."
+  },
+  "reorderHint": "Arraste pela alça para mudar a ordem.",
+  "@reorderHint": {
+    "description": "Hint shown in reorder mode."
+  },
+  "notebookOptionsLabel": "Opções do caderno",
+  "@notebookOptionsLabel": {
+    "description": "Accessibility label of the notebook options button."
+  },
+  "emptyPagesTitle": "Nenhuma página ainda",
+  "@emptyPagesTitle": {
+    "description": "Title of the empty notebook state."
+  },
+  "emptyPagesMessage": "Toque em Nova página para começar.",
+  "@emptyPagesMessage": {
+    "description": "Message of the empty notebook state."
+  },
+  "newPage": "Nova página",
+  "@newPage": {
+    "description": "Label of the button that creates a page."
+  },
+  "archivedBadge": "Arquivado",
+  "@archivedBadge": {
+    "description": "Badge shown on an archived notebook."
+  },
+  "pageMovedToTrash": "Página movida para a lixeira",
+  "@pageMovedToTrash": {
+    "description": "Undo toast after a page is trashed."
+  },
+  "renameNotebookTitle": "Renomear caderno",
+  "@renameNotebookTitle": {
+    "description": "Title of the dialog that renames a notebook."
+  },
+  "deleteNotebookTitle": "Excluir “{title}”?",
+  "@deleteNotebookTitle": {
+    "description": "Title of the dialog that confirms trashing a notebook.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteNotebookMessage": "O caderno vai para a lixeira deste aparelho, com as páginas. Dá para desfazer logo depois ou restaurá-lo pela lixeira.",
+  "@deleteNotebookMessage": {
+    "description": "Message of the dialog that confirms trashing a notebook."
+  },
+  "moveToTrash": "Mover para a lixeira",
+  "@moveToTrash": {
+    "description": "Button that confirms trashing a notebook."
+  },
+  "trashTitle": "Lixeira",
+  "@trashTitle": {
+    "description": "Title of the trash screen and label of the button that opens it."
+  },
+  "trashIntro": "O que você exclui fica aqui, neste aparelho, e pode ser restaurado.",
+  "@trashIntro": {
+    "description": "Text under the trash screen title."
+  },
+  "trashNotebooksSection": "Cadernos",
+  "@trashNotebooksSection": {
+    "description": "Trash section that lists notebooks."
+  },
+  "trashPagesSection": "Páginas",
+  "@trashPagesSection": {
+    "description": "Trash section that lists pages deleted on their own."
+  },
+  "restore": "Restaurar",
+  "@restore": {
+    "description": "Button that restores an item from the trash."
+  },
+  "trashEmptyTitle": "A lixeira está vazia",
+  "@trashEmptyTitle": {
+    "description": "Title of the empty trash state."
+  },
+  "trashEmptyMessage": "O que você excluir fica aqui, neste aparelho, e pode ser restaurado.",
+  "@trashEmptyMessage": {
+    "description": "Message of the empty trash state."
+  },
+  "deletedVerb": "excluído",
+  "@deletedVerb": {
+    "description": "Verb that precedes the deletion date of a notebook."
+  },
+  "notebookRestored": "Caderno restaurado",
+  "@notebookRestored": {
+    "description": "Undo toast after a notebook is restored from the trash."
+  },
+  "restoredIn": "Restaurado em {notebook}",
+  "@restoredIn": {
+    "description": "Undo toast after a page is restored from the trash.",
+    "placeholders": {
+      "notebook": {
+        "type": "String"
+      }
+    }
+  },
+  "sortBy": "Ordenar por",
+  "@sortBy": {
+    "description": "Title of the sheet that sorts the notebooks."
+  },
+  "sortLastEdited": "Editados recentemente",
+  "@sortLastEdited": {
+    "description": "Sort option: notebooks by last edited date."
+  },
+  "sortName": "Nome (A–Z)",
+  "@sortName": {
+    "description": "Sort option: notebooks by name."
+  },
+  "sortCreatedAt": "Data de criação",
+  "@sortCreatedAt": {
+    "description": "Sort option: notebooks by creation date."
+  },
+  "sortNote": "Vale para Ativos e Arquivados, e fica salvo neste aparelho.",
+  "@sortNote": {
+    "description": "Note under the sort options."
+  },
+  "tabActive": "Ativos",
+  "@tabActive": {
+    "description": "Label of the tab that lists active notebooks."
+  },
+  "tabArchived": "Arquivados",
+  "@tabArchived": {
+    "description": "Label of the tab that lists archived notebooks."
+  },
+  "sortLabel": "Ordenar",
+  "@sortLabel": {
+    "description": "Accessibility label of the sort notebooks button."
+  },
+  "archivedExplanation": "Arquivar tira o caderno da lista principal sem apagar nada. As páginas continuam na busca.",
+  "@archivedExplanation": {
+    "description": "Text above the archived notebooks list."
+  },
+  "emptyNotebooksTitle": "Nenhum caderno ainda",
+  "@emptyNotebooksTitle": {
+    "description": "Title of the empty notebooks state."
+  },
+  "emptyNotebooksMessage": "Crie o primeiro para começar a escrever. Tudo fica neste aparelho, mesmo sem internet.",
+  "@emptyNotebooksMessage": {
+    "description": "Message of the empty notebooks state."
+  },
+  "emptyArchivedTitle": "Nenhum caderno arquivado",
+  "@emptyArchivedTitle": {
+    "description": "Title of the empty archived tab."
+  },
+  "emptyArchivedMessage": "Arquivar tira um caderno da lista sem apagar nada. Use as opções do caderno, no ⋯.",
+  "@emptyArchivedMessage": {
+    "description": "Message of the empty archived tab."
+  },
+  "unarchive": "Desarquivar",
+  "@unarchive": {
+    "description": "Button on an archived notebook row that unarchives it."
+  },
+  "notebookArchived": "Caderno arquivado",
+  "@notebookArchived": {
+    "description": "Undo toast after a notebook is archived."
+  },
+  "notebookUnarchived": "Caderno de volta à lista principal",
+  "@notebookUnarchived": {
+    "description": "Undo toast after a notebook is unarchived."
+  },
+  "notebookTrashed": "Caderno movido para a lixeira",
+  "@notebookTrashed": {
+    "description": "Undo toast after a notebook is trashed."
   }
 }

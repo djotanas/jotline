@@ -5,18 +5,27 @@ import 'package:jotline/core/theme/theme_context.dart';
 
 /// A notebook cover that fills the size given by its parent.
 class NotebookCover extends StatelessWidget {
-  const new({required this.color, required this.pattern, super.key, this.label})
-    : _mini = false;
+  const new({
+    required this.color,
+    required this.pattern,
+    super.key,
+    this.label,
+    this.labelMuted = false,
+  }) : _mini = false;
 
   /// A small swatch of the cover: color and pattern only, as in the cover
   /// picker and the archived notebook row.
   const new mini({required this.color, required this.pattern, super.key})
     : label = null,
+      labelMuted = false,
       _mini = true;
 
   final NotebookColor color;
   final CoverPattern pattern;
   final String? label;
+
+  /// Draws [label] as a placeholder, in `inkDeco`.
+  final bool labelMuted;
   final bool _mini;
 
   @override
@@ -76,7 +85,7 @@ class NotebookCover extends StatelessWidget {
                             style: context.textStyles.apoio.copyWith(
                               fontWeight: FontWeight.w600,
                               height: 1.2,
-                              color: colors.ink1,
+                              color: labelMuted ? colors.inkDeco : colors.ink1,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,

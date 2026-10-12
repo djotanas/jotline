@@ -214,6 +214,31 @@ void main() {
     expect(style.color, _colors.ink1);
   });
 
+  testWidgets('NBNEW-02: a muted label is drawn as a placeholder in inkDeco', (
+    tester,
+  ) async {
+    await tester.pumpJot(
+      const Center(
+        child: SizedBox(
+          width: 150,
+          height: 196,
+          child: NotebookCover(
+            color: NotebookColor.azulTinta,
+            pattern: CoverPattern.lisa,
+            label: 'Nome do caderno',
+            labelMuted: true,
+          ),
+        ),
+      ),
+    );
+
+    final style = tester
+        .renderObject<RenderParagraph>(find.text('Nome do caderno'))
+        .text
+        .style!;
+    expect(style.color, _colors.inkDeco);
+  });
+
   testWidgets('COMP-07: without a label no text is shown', (tester) async {
     await _pump(tester, label: null);
 

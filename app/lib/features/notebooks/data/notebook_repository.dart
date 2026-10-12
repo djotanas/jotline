@@ -6,6 +6,21 @@ import 'package:jotline/core/database/tables/member_role.dart';
 import 'package:jotline/core/ids/id_generator.dart';
 import 'package:jotline/core/text/title_rules.dart';
 import 'package:jotline/core/theme/notebook_palette.dart';
+import 'package:jotline/features/notebooks/data/notebook_summary.dart';
+
+/// A notebook in the trash.
+final class TrashedNotebook {
+  const new({required this.notebook, required this.pageCount, this.archivedAt});
+
+  /// Its `deletedAt` is non-null.
+  final Notebook notebook;
+
+  /// Pages not deleted on their own.
+  final int pageCount;
+
+  /// The local user's `archived_at`, kept while the notebook is trashed.
+  final DateTime? archivedAt;
+}
 
 /// Reads and writes notebooks and the local user's membership in them.
 class NotebookRepository {
@@ -77,15 +92,17 @@ class NotebookRepository {
   }
 
   /// Archives the notebook for the local user only (ADR 0012).
-  Future<void> archive(String id) => _setArchivedAt(id, _clock.now());
+  Future<void> archive(String id) => setArchivedAt(id, _clock.now());
 
-  Future<void> unarchive(String id) => _setArchivedAt(id, null);
+  Future<void> unarchive(String id) => setArchivedAt(id, null);
 
-  Future<void> _setArchivedAt(String id, DateTime? archivedAt) async {
+  /// Writes `archived_at` on the local user's member row; undo uses it to put
+  /// back the previous value.
+  Future<void> setArchivedAt(String id, DateTime? value) async {
     final userId = await _localUser.id();
     await (_database.update(_database.notebookMembers)
           ..where((t) => t.notebookId.equals(id) & t.userId.equals(userId)))
-        .write(NotebookMembersCompanion(archivedAt: Value(archivedAt)));
+        .write(NotebookMembersCompanion(archivedAt: Value(value)));
   }
 
   /// Sets `deleted_at` once; a later call keeps the original value.
@@ -95,36 +112,39 @@ class NotebookRepository {
         .write(NotebooksCompanion(deletedAt: Value(_clock.now())));
   }
 
-  Stream<List<Notebook>> watchActive() {
-    return _watch(
-      archived: false,
-      order: (notebooks, members) => [
-        OrderingTerm.desc(notebooks.createdAt),
-        OrderingTerm.desc(notebooks.id),
-      ],
-    );
+  /// Clears only `notebooks.deleted_at`; no page or block row is written.
+  Future<void> restore(String id) async {
+    await (_database.update(_database.notebooks)..where((t) => t.id.equals(id)))
+        .write(const NotebooksCompanion(deletedAt: Value(null)));
   }
 
-  Stream<List<Notebook>> watchArchived() {
-    return _watch(
-      archived: true,
-      order: (notebooks, members) => [
-        OrderingTerm.desc(members.archivedAt),
-        OrderingTerm.desc(notebooks.id),
-      ],
-    );
+  /// Undo of [restore]: writes the original [deletedAt] back.
+  Future<void> putBackInTrash(String id, DateTime deletedAt) async {
+    await (_database.update(_database.notebooks)..where((t) => t.id.equals(id)))
+        .write(NotebooksCompanion(deletedAt: Value(deletedAt)));
   }
 
-  Stream<List<Notebook>> _watch({
-    required bool archived,
-    required List<OrderingTerm> Function(
-      $NotebooksTable notebooks,
-      $NotebookMembersTable members,
-    )
-    order,
-  }) {
+  /// Notebooks not in the trash on the active or archived tab, unordered.
+  Stream<List<NotebookSummary>> watchSummaries({required bool archived}) {
+    return _watchSummaries(
+      (notebooks, members) => archived
+          ? members.archivedAt.isNotNull()
+          : members.archivedAt.isNull(),
+    ).map((rows) => rows.toList());
+  }
+
+  /// Emits `null` once the notebook is in the trash.
+  Stream<NotebookSummary?> watchOne(String id) {
+    return _watchSummaries((notebooks, members) => notebooks.id.equals(id))
+        .map((rows) => rows.firstOrNull);
+  }
+
+  /// Notebooks in the trash, newest `deleted_at` first, then `id` descending.
+  Stream<List<TrashedNotebook>> watchTrashed() {
     final notebooks = _database.notebooks;
     final members = _database.notebookMembers;
+    final pages = _database.pages;
+    final pageCount = pages.id.count();
     return Stream.fromFuture(_localUser.id()).asyncExpand((userId) {
       final query =
           _database.select(notebooks).join([
@@ -133,16 +153,73 @@ class NotebookRepository {
                 members.notebookId.equalsExp(notebooks.id) &
                     members.userId.equals(userId),
               ),
+              leftOuterJoin(
+                pages,
+                pages.notebookId.equalsExp(notebooks.id) &
+                    pages.deletedAt.isNull(),
+                useColumns: false,
+              ),
             ])
-            ..where(
-              notebooks.deletedAt.isNull() &
-                  (archived
-                      ? members.archivedAt.isNotNull()
-                      : members.archivedAt.isNull()),
-            )
-            ..orderBy(order(notebooks, members));
+            ..addColumns([pageCount])
+            ..where(notebooks.deletedAt.isNotNull())
+            ..groupBy([notebooks.id])
+            ..orderBy([
+              OrderingTerm.desc(notebooks.deletedAt),
+              OrderingTerm.desc(notebooks.id),
+            ]);
       return query.watch().map(
-        (rows) => [for (final row in rows) row.readTable(notebooks)],
+        (rows) => [
+          for (final row in rows)
+            TrashedNotebook(
+              notebook: row.readTable(notebooks),
+              pageCount: row.read(pageCount) ?? 0,
+              archivedAt: row.readTable(members).archivedAt,
+            ),
+        ],
+      );
+    });
+  }
+
+  Stream<Iterable<NotebookSummary>> _watchSummaries(
+    Expression<bool> Function(
+      $NotebooksTable notebooks,
+      $NotebookMembersTable members,
+    )
+    filter,
+  ) {
+    final notebooks = _database.notebooks;
+    final members = _database.notebookMembers;
+    final pages = _database.pages;
+    final pageCount = pages.id.count();
+    final lastPageEdit = pages.updatedAt.max();
+    return Stream.fromFuture(_localUser.id()).asyncExpand((userId) {
+      final query =
+          _database.select(notebooks).join([
+              innerJoin(
+                members,
+                members.notebookId.equalsExp(notebooks.id) &
+                    members.userId.equals(userId),
+              ),
+              leftOuterJoin(
+                pages,
+                pages.notebookId.equalsExp(notebooks.id) &
+                    pages.deletedAt.isNull(),
+                useColumns: false,
+              ),
+            ])
+            ..addColumns([pageCount, lastPageEdit])
+            ..where(notebooks.deletedAt.isNull() & filter(notebooks, members))
+            ..groupBy([notebooks.id]);
+      return query.watch().map(
+        (rows) => rows.map((row) {
+          final notebook = row.readTable(notebooks);
+          return NotebookSummary(
+            notebook: notebook,
+            pageCount: row.read(pageCount) ?? 0,
+            lastEditedAt: row.read(lastPageEdit) ?? notebook.createdAt,
+            archivedAt: row.readTable(members).archivedAt,
+          );
+        }),
       );
     });
   }

@@ -41,19 +41,23 @@ Every in-scope component of the canvas "Componentes" artboard lives in `lib/core
 | Botões — flutuante (FAB) | `JotFab` | `jot_fab.dart` |
 | Botões — ícone | `JotIconButton` | `jot_icon_button.dart` |
 | Segmentado | `JotSegmentedControl<T>` + `JotSegment<T>` | `jot_segmented_control.dart` |
-| Campo | `JotTextField` | `jot_text_field.dart` |
+| Campo (com limite, contador "N/50", dica e ajuda) | `JotTextField` | `jot_text_field.dart` |
 | Campo de busca | `JotSearchField` | `jot_search_field.dart` |
-| Capa de caderno | `NotebookCover` (`.mini` for swatches), painted by `NotebookCoverPainter` | `notebook_cover.dart` |
+| Capa de caderno | `NotebookCover` (`.mini` for swatches; `labelMuted` for the placeholder), painted by `NotebookCoverPainter` | `notebook_cover.dart` |
 | Capa + título + meta (grade) | `NotebookCoverTile` | `notebook_cover_tile.dart` |
 | Cor e capa — cor | `NotebookColorPicker` | `notebook_color_picker.dart` |
 | Cor e capa — capa | `NotebookCoverPicker` | `notebook_cover_picker.dart` |
-| Linhas de lista — página | `PageRow` | `page_row.dart` |
+| Linhas de lista — página (`muted` para "Sem título", `leading` para a alça de reordenar) | `PageRow` | `page_row.dart` |
 | Linhas de lista — página arrastando | `DraggingPageRow` | `dragging_page_row.dart` |
 | Linhas de lista — caderno arquivado ou na lixeira | `ArchivedNotebookRow` | `archived_notebook_row.dart` |
-| Bottom sheet | `showJotBottomSheet<T>()` → `JotBottomSheet` | `jot_bottom_sheet.dart` |
+| Bottom sheet (`showJotSheet` para sheets cujo botão depende do estado) | `showJotBottomSheet<T>()` / `showJotSheet<T>()` → `JotBottomSheet` | `jot_bottom_sheet.dart` |
+| Aviso de desfazer (3 s, pausa ao segurar) | `JotUndoToast` + `UndoToastRequest` | `jot_undo_toast.dart` |
+| Diálogo de texto (renomear, limite 50) | `showTextInputDialog()` → `JotTextInputDialog` | `jot_text_input_dialog.dart` |
+| Selo "Arquivado" (tokens `rSelo` 6 e `selo`) | `JotBadge` | `jot_badge.dart` |
 | Estado vazio | `EmptyState` | `empty_state.dart` |
 | Navegação de topo | `JotTopBar.back` / `JotTopBar.root` | `jot_top_bar.dart` |
+| Bottom sheet de opções (grupos em cards, linha destrutiva ou marcada, `footer` com nota) | `showJotOptionsSheet<T>()` → `JotOptionsSheet<T>` + `JotOptionRow<T>` | `jot_options_sheet.dart` |
 | Diálogo de confirmação | `showConfirmDialog()` → `ConfirmDialog` | `confirm_dialog.dart` |
-| Ícones ("Espaço, forma, elevação e ícones") | `JotIcon` + `JotIconGlyph` | `icons/jot_icon.dart` |
+| Ícones ("Espaço, forma, elevação e ícones") | `JotIcon` + `JotIconGlyph` (with `edit`, `cover`, `archive`, `unarchive`, `check`, `page`, `notebook`) | `icons/jot_icon.dart` |
 
 **Out of scope until the block editor ADR:** "Blocos do editor" and "Barra de blocos". They are the visual layer of the editor library still in spike (PRD §11) and are built after that decision.

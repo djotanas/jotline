@@ -44,6 +44,35 @@ Future<void> _open(
 Finder get _sheet => find.byType(BottomSheet);
 
 void main() {
+  testWidgets('NBNEW-03: showJotSheet frames a sheet whose primary action '
+      'follows its own state', (tester) async {
+    await tester.pumpJot(
+      Scaffold(
+        body: Builder(
+          builder: (context) => Center(
+            child: GestureDetector(
+              onTap: () =>
+                  showJotSheet<void>(context, (context) => const _Stateful()),
+              child: const SizedBox.square(dimension: 44, child: Text('open')),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.text('open'));
+    await tester.pumpAndSettle();
+
+    final sheet = tester.widget<BottomSheet>(_sheet);
+    expect(sheet.backgroundColor, _colors.bgMesa);
+    final button = find.widgetWithText(JotButton, 'Criar');
+    expect(tester.widget<JotButton>(button).onPressed, isNull);
+
+    await tester.tap(find.text('toggle'));
+    await tester.pump();
+
+    expect(tester.widget<JotButton>(button).onPressed, isNotNull);
+  });
+
   testWidgets('COMP-10: sheet is shown over bgVeu', (tester) async {
     await _open(tester);
 
@@ -187,4 +216,28 @@ void main() {
     );
     expect(tester.takeException(), isNull);
   });
+}
+
+class _Stateful extends StatefulWidget {
+  const new();
+
+  @override
+  State<_Stateful> createState() => _StatefulState();
+}
+
+class _StatefulState extends State<_Stateful> {
+  bool _on = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return JotBottomSheet(
+      title: 'Novo caderno',
+      primaryLabel: 'Criar',
+      onPrimary: _on ? () {} : null,
+      child: GestureDetector(
+        onTap: () => setState(() => _on = true),
+        child: const Text('toggle'),
+      ),
+    );
+  }
 }

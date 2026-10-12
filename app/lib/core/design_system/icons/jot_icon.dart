@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-/// The ten icons of the canvas, drawn on a 24 grid.
+/// The icons of the canvas, drawn on a 24 grid.
 enum JotIconGlyph {
   search,
   sort,
@@ -12,6 +12,13 @@ enum JotIconGlyph {
   heading,
   checklist,
   drawing,
+  edit,
+  cover,
+  archive,
+  unarchive,
+  check,
+  page,
+  notebook,
 }
 
 /// A canvas icon painted with the color of the surrounding [IconTheme].
@@ -125,8 +132,67 @@ class JotIconPainter extends CustomPainter {
             _polyline([(16, 4), (20, 8), (11, 17), (7, 17), (7, 13)])..close(),
             stroke,
           );
+      case JotIconGlyph.edit:
+        canvas
+          ..drawPath(
+            _polyline([(4, 20), (8, 20), (19, 9), (15, 5), (4, 16)])..close(),
+            stroke,
+          )
+          ..drawPath(_lines([(13.5, 6.5, 17.5, 10.5)]), stroke);
+      case JotIconGlyph.cover:
+        canvas
+          ..drawRRect(_cover, stroke)
+          ..drawPath(_lines([(9, 3, 9, 21)]), stroke);
+      case JotIconGlyph.archive:
+        _paintArchiveBox(canvas, stroke);
+        canvas.drawPath(_lines([(10, 13, 14, 13)]), stroke);
+      case JotIconGlyph.unarchive:
+        _paintArchiveBox(canvas, stroke);
+        canvas
+          ..drawPath(_lines([(12, 18, 12, 12)]), stroke)
+          ..drawPath(_polyline([(9.5, 14.5), (12, 12), (14.5, 14.5)]), stroke);
+      case JotIconGlyph.check:
+        canvas.drawPath(_polyline([(5, 12.5), (9.5, 17), (19, 7.5)]), stroke);
+      case JotIconGlyph.page:
+        canvas
+          ..drawPath(
+            _polyline([(6, 3), (15, 3), (19, 7), (19, 21), (6, 21)])..close(),
+            stroke,
+          )
+          ..drawPath(_polyline([(14, 3), (14, 8), (19, 8)]), stroke)
+          ..drawPath(_lines([(9, 13, 16, 13), (9, 17, 14, 17)]), stroke);
+      case JotIconGlyph.notebook:
+        canvas
+          ..drawRRect(_cover, stroke)
+          ..drawPath(_lines([(9, 3, 9, 21), (12, 8, 16, 8)]), stroke);
     }
     canvas.restore();
+  }
+
+  static final RRect _cover = RRect.fromRectAndRadius(
+    const Rect.fromLTWH(5, 3, 14, 18),
+    const Radius.circular(2),
+  );
+
+  static void _paintArchiveBox(Canvas canvas, Paint stroke) {
+    canvas
+      ..drawRRect(
+        RRect.fromRectAndRadius(
+          const Rect.fromLTWH(3, 4, 18, 5),
+          const Radius.circular(1),
+        ),
+        stroke,
+      )
+      ..drawPath(
+        Path()
+          ..moveTo(5, 9)
+          ..lineTo(5, 19)
+          ..arcToPoint(const Offset(6, 20), radius: const Radius.circular(1))
+          ..lineTo(18, 20)
+          ..arcToPoint(const Offset(19, 19), radius: const Radius.circular(1))
+          ..lineTo(19, 9),
+        stroke,
+      );
   }
 
   static Path _lines(List<(double, double, double, double)> segments) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jotline/core/theme/jot_theme.dart';
+import 'package:jotline/features/notebooks/presentation/notebooks_screen.dart';
 import 'package:jotline/l10n/app_localizations.dart';
 
 class JotlineApp extends StatelessWidget {
@@ -12,7 +13,7 @@ class JotlineApp extends StatelessWidget {
       onGenerateTitle: (context) => AppLocalizations.of(context).appName,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const Scaffold(),
+      home: const NotebooksScreen(),
     );
   }
 }

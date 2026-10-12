@@ -91,8 +91,11 @@ One file per flow in `integration_test/`, starting with `IntegrationTestWidgetsF
 | --- | --- |
 | Create, rename, archive and delete a notebook | RF-01 |
 | Create and reorder pages | RF-02 |
+| Delete and restore pages and notebooks through the trash, with undo | RF-12 |
 | Write in a block, close and reopen the app with the text preserved | RF-03, RF-04 |
 | Search by title and content | RF-05 |
+
+`integration_test/perf/` holds measurements, not flows: run them with `flutter drive --profile` (commands in `CLAUDE.md`), never judge them from debug.
 
 The RF-03 flow waits for the block editor ADR. A new main flow is added to this table in the same commit as its test.
 

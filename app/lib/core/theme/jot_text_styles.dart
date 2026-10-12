@@ -16,6 +16,7 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
     required this.apoio,
     required this.rotulo,
     required this.meta,
+    required this.selo,
   });
 
   /// Builds the canvas text styles with the given color tokens.
@@ -110,6 +111,13 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
         letterSpacing: 0,
         color: colors.ink2,
       ),
+      selo: TextStyle(
+        fontFamily: fontUi,
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0,
+        color: colors.inkCorpo,
+      ),
     );
   }
 
@@ -129,6 +137,7 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
   final TextStyle apoio;
   final TextStyle rotulo;
   final TextStyle meta;
+  final TextStyle selo;
 
   @override
   JotTextStyles copyWith({
@@ -144,6 +153,7 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
     TextStyle? apoio,
     TextStyle? rotulo,
     TextStyle? meta,
+    TextStyle? selo,
   }) {
     return JotTextStyles(
       tituloTela: tituloTela ?? this.tituloTela,
@@ -158,6 +168,7 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
       apoio: apoio ?? this.apoio,
       rotulo: rotulo ?? this.rotulo,
       meta: meta ?? this.meta,
+      selo: selo ?? this.selo,
     );
   }
 
@@ -177,6 +188,7 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
       apoio: TextStyle.lerp(apoio, other.apoio, t)!,
       rotulo: TextStyle.lerp(rotulo, other.rotulo, t)!,
       meta: TextStyle.lerp(meta, other.meta, t)!,
+      selo: TextStyle.lerp(selo, other.selo, t)!,
     );
   }
 }
