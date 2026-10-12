@@ -33,5 +33,6 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0027](0027-exclusao-de-caderno-derivada.md) | Exclusão de caderno derivada para páginas e blocos | Aceita |
 | [0028](0028-colunas-alem-do-prd.md) | Colunas além do PRD §7: `blocks.deleted_at` e `notebook_members.id` | Aceita |
 | [0029](0029-indice-fracionario-em-texto.md) | Índice fracionário em chaves de texto base-62 | Aceita |
+| [0030](0030-datas-em-texto-iso-8601.md) | Datas como texto ISO-8601 em UTC | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.
