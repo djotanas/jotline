@@ -20,6 +20,7 @@ class _Result {
 Future<_Result> _open(
   WidgetTester tester, {
   List<List<JotOptionRow<String>>>? groups,
+  Widget? footer,
 }) async {
   final result = _Result();
   await tester.pumpJot(
@@ -32,6 +33,7 @@ Future<_Result> _open(
                 ..value = await showJotOptionsSheet<String>(
                   context,
                   header: const Text('Viagem a Lisboa'),
+                  footer: footer,
                   groups:
                       groups ??
                       const [
@@ -93,6 +95,18 @@ void main() {
     expect(find.byType(Divider), findsOneWidget);
     expect(find.byType(JotIcon), findsNWidgets(3));
     expect(find.text('Sai da lista principal; nada é apagado'), findsOneWidget);
+  });
+
+  testWidgets('SORT-01: a footer is drawn under the last group', (
+    tester,
+  ) async {
+    await _open(tester, footer: const Text('Vale para Ativos e Arquivados'));
+
+    final footer = tester.getTopLeft(
+      find.text('Vale para Ativos e Arquivados'),
+    );
+    final lastRow = tester.getBottomLeft(find.text('Excluir caderno'));
+    expect(footer.dy, greaterThan(lastRow.dy));
   });
 
   testWidgets('NBOPT-02: a destructive row uses the danger color', (

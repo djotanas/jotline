@@ -10,6 +10,7 @@ Future<T?> showJotOptionsSheet<T>(
   BuildContext context, {
   required Widget header,
   required List<List<JotOptionRow<T>>> groups,
+  Widget? footer,
 }) {
   final colors = context.colors;
   return showModalBottomSheet<T>(
@@ -24,7 +25,8 @@ Future<T?> showJotOptionsSheet<T>(
     clipBehavior: Clip.antiAlias,
     isScrollControlled: true,
     useSafeArea: true,
-    builder: (context) => JotOptionsSheet<T>(header: header, groups: groups),
+    builder: (context) =>
+        JotOptionsSheet<T>(header: header, groups: groups, footer: footer),
   );
 }
 
@@ -50,10 +52,18 @@ class JotOptionRow<T> {
 /// The content of the canvas options sheet: handle, a header slot and
 /// groups of rows, each group drawn as a white card with dividers.
 class JotOptionsSheet<T> extends StatelessWidget {
-  const new({required this.header, required this.groups, super.key});
+  const new({
+    required this.header,
+    required this.groups,
+    super.key,
+    this.footer,
+  });
 
   final Widget header;
   final List<List<JotOptionRow<T>>> groups;
+
+  /// A note drawn under the last group.
+  final Widget? footer;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +100,16 @@ class JotOptionsSheet<T> extends StatelessWidget {
             child: header,
           ),
           for (final group in groups) _OptionGroup<T>(rows: group),
+          if (footer != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                JotSpace.space2,
+                JotSpace.space1,
+                JotSpace.space2,
+                0,
+              ),
+              child: footer,
+            ),
         ],
       ),
     );

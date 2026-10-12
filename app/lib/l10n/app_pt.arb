@@ -318,5 +318,25 @@
         "type": "String"
       }
     }
+  },
+  "sortBy": "Ordenar por",
+  "@sortBy": {
+    "description": "Title of the sheet that sorts the notebooks."
+  },
+  "sortLastEdited": "Editados recentemente",
+  "@sortLastEdited": {
+    "description": "Sort option: notebooks by last edited date."
+  },
+  "sortName": "Nome (A–Z)",
+  "@sortName": {
+    "description": "Sort option: notebooks by name."
+  },
+  "sortCreatedAt": "Data de criação",
+  "@sortCreatedAt": {
+    "description": "Sort option: notebooks by creation date."
+  },
+  "sortNote": "Vale para Ativos e Arquivados, e fica salvo neste aparelho.",
+  "@sortNote": {
+    "description": "Note under the sort options."
   }
 }

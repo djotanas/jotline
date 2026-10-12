@@ -56,7 +56,7 @@ Every in-scope component of the canvas "Componentes" artboard lives in `lib/core
 | Selo "Arquivado" (tokens `rSelo` 6 e `selo`) | `JotBadge` | `jot_badge.dart` |
 | Estado vazio | `EmptyState` | `empty_state.dart` |
 | Navegação de topo | `JotTopBar.back` / `JotTopBar.root` | `jot_top_bar.dart` |
-| Bottom sheet de opções (grupos em cards, linha destrutiva ou marcada) | `showJotOptionsSheet<T>()` → `JotOptionsSheet<T>` + `JotOptionRow<T>` | `jot_options_sheet.dart` |
+| Bottom sheet de opções (grupos em cards, linha destrutiva ou marcada, `footer` com nota) | `showJotOptionsSheet<T>()` → `JotOptionsSheet<T>` + `JotOptionRow<T>` | `jot_options_sheet.dart` |
 | Diálogo de confirmação | `showConfirmDialog()` → `ConfirmDialog` | `confirm_dialog.dart` |
 | Ícones ("Espaço, forma, elevação e ícones") | `JotIcon` + `JotIconGlyph` (with `edit`, `cover`, `archive`, `unarchive`, `check`, `page`, `notebook`) | `icons/jot_icon.dart` |
 

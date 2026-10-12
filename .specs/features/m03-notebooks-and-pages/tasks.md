@@ -825,8 +825,8 @@ Each task adds its row to the component table in `app/.claude/docs/design.md` in
 
 **Done when**:
 
-- [ ] Widget tests: the current option is checked; picking "Nome (A–Z)" updates the provider and closes the sheet; the note text is shown
-- [ ] Quick gate passes (≥ 3 new tests)
+- [x] Widget tests: the current option is checked; picking "Nome (A–Z)" updates the provider and closes the sheet; the note text is shown
+- [x] Quick gate passes (≥ 3 new tests)
 
 **Tests**: widget
 **Gate**: quick
