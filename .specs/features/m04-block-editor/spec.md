@@ -331,7 +331,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | EDIT-08 | P1: Write in a page | - | Pending |
 | EDIT-09 | P1: Write in a page | - | Pending |
 | EDIT-10 | P1: Write in a page | - | Pending |
-| EDIT-11 | P1: Write in a page | - | Pending |
+| EDIT-11 | P1: Write in a page | Execute | Implementing |
 | EDIT-12 | P1: Write in a page | - | Pending |
 | BAR-01 | P1: Block bar and block types | Execute | Implementing |
 | BAR-02 | P1: Block bar and block types | - | Pending |

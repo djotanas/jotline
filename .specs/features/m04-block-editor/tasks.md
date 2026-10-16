@@ -542,16 +542,17 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `plain_paste_test.dart` covers:
+- [x] `plain_paste_test.dart` covers:
   - three lines into "Ab|c" → "Ab1", "2", "3c" as paragraphs, no marks
   - `\r\n` and `\r` separators
   - pasted URL → plain text, no link attribution
   - paste over a cross-block selection deletes it first
-- [ ] Quick gate passes (≥ 4 new tests)
+- [x] Quick gate passes (≥ 4 new tests)
 
 **Tests**: unit
 **Gate**: quick
 **Commit**: `feat(app): colar sem formatação no editor (EDIT-11)`
+**Status**: ✅ Done
 
 ---
 
