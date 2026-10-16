@@ -344,14 +344,14 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | BAR-09 | P1: Block bar and block types | Execute | Implementing |
 | BAR-10 | P1: Block bar and block types | Execute | Implementing |
 | BAR-11 | P1: Block bar and block types | Execute | Implementing |
-| CHECK-01 | P1: Checklist | - | Pending |
-| CHECK-02 | P1: Checklist | - | Pending |
-| CHECK-03 | P1: Checklist | - | Pending |
+| CHECK-01 | P1: Checklist | Execute | Implementing |
+| CHECK-02 | P1: Checklist | Execute | Implementing |
+| CHECK-03 | P1: Checklist | Execute | Implementing |
 | CHECK-04 | P1: Checklist | Execute | Implementing |
 | CHECK-05 | P1: Checklist | Execute | Implementing |
 | CHECK-06 | P1: Checklist | Execute | Implementing |
 | CHECK-07 | P1: Checklist | Execute | Implementing |
-| CHECK-08 | P1: Checklist | - | Pending |
+| CHECK-08 | P1: Checklist | Execute | Implementing |
 | SAVE-01 | P1: Block persistence | Execute | Implementing |
 | SAVE-02 | P1: Block persistence | Execute | Implementing |
 | SAVE-03 | P1: Block persistence | - | Pending |

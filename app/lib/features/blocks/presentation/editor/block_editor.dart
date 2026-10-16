@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jotline/core/theme/jot_spacing.dart';
 import 'package:jotline/core/theme/theme_context.dart';
 import 'package:jotline/features/blocks/presentation/editor/components/active_block_builder.dart';
+import 'package:jotline/features/blocks/presentation/editor/components/checklist_item.dart';
 import 'package:jotline/features/blocks/presentation/editor/plain_paste.dart';
 import 'package:super_editor/super_editor.dart';
 
@@ -53,7 +54,7 @@ class BlockEditor extends StatelessWidget {
       componentBuilders: [
         ActiveBlockBuilder([
           const _BulletedListItemBuilder(),
-          TaskComponentBuilder(editor),
+          ChecklistItemBuilder(editor),
           ...defaultComponentBuilders,
         ]),
       ],

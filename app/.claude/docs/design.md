@@ -60,5 +60,4 @@ Every in-scope component of the canvas "Componentes" artboard lives in `lib/core
 | Diálogo de confirmação | `showConfirmDialog()` → `ConfirmDialog` | `confirm_dialog.dart` |
 | Ícones ("Espaço, forma, elevação e ícones") | `JotIcon` + `JotIconGlyph` (with `edit`, `cover`, `archive`, `unarchive`, `check`, `page`, `notebook`, and the bar's `text` and `list`) | `icons/jot_icon.dart` |
 | Barra de blocos (block type, bold and italic; no "Desenho"; `BlockBarType` mirrors the block type) | `BlockBar` + `JotBlockBarButton` | `block_bar.dart` |
-
-**Out of scope until the block editor ADR:** "Blocos do editor". It is the visual layer of the editor library still in spike (PRD §11) and is built after that decision.
+| Blocos do editor (block in edit with drag handle, checklist item; text, heading, list, bold and italic in the editor stylesheet). Editor layer, the only folder that imports `super_editor` (ADR 0035), so outside `design_system/` | `ActiveBlockBuilder` + `ActiveBlock` + `BlockDragHandle`, `ChecklistItemBuilder` + `ChecklistItemComponent`, `blockStylesheet` | `lib/features/blocks/presentation/editor/`: `components/active_block_builder.dart`, `components/checklist_item.dart`, `block_editor.dart` |

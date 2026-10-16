@@ -655,17 +655,18 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `checklist_item_test.dart` covers:
+- [x] `checklist_item_test.dart` covers:
   - row ≥ 44 px, checkbox 22 × 22 with Q3 tokens (unchecked and checked)
   - tap on the checkbox toggles `isComplete` without moving the caret
   - checked text `inkFeito` + `lineThrough`
   - semantics expose the item text and checked state
-- [ ] `design.md` row added, note dropped
-- [ ] Quick gate passes (≥ 5 new tests)
+- [x] `design.md` row added, note dropped
+- [x] Quick gate passes (≥ 5 new tests)
 
 **Tests**: widget
 **Gate**: quick
 **Commit**: `feat(app): item de checklist no editor (CHECK-01…CHECK-03, CHECK-08)`
+**Status**: ✅ Done
 
 ---
 
