@@ -367,12 +367,13 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `page_options_sheet_test.dart`: a block saved after the page row → the sheet date is the block's
-- [ ] Quick gate passes (≥ 1 new test)
+- [x] `page_options_sheet_test.dart`: a block saved after the page row → the sheet date is the block's
+- [x] Quick gate passes (≥ 1 new test)
 
 **Tests**: widget
 **Gate**: quick
 **Commit**: `feat(app): data de edição da página nas opções vem dos blocos (EDITED-02)`
+**Status**: ✅ Done
 
 ---
 

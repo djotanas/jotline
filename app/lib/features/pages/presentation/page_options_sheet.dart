@@ -7,6 +7,7 @@ import 'package:jotline/core/design_system/jot_options_sheet.dart';
 import 'package:jotline/core/text/relative_dates.dart';
 import 'package:jotline/core/theme/jot_spacing.dart';
 import 'package:jotline/core/theme/theme_context.dart';
+import 'package:jotline/features/pages/data/page_summary.dart';
 import 'package:jotline/l10n/app_localizations.dart';
 
 enum PageAction { rename, delete }
@@ -15,9 +16,10 @@ enum PageAction { rename, delete }
 /// or `null` when the sheet is dismissed.
 Future<PageAction?> showPageOptionsSheet(
   BuildContext context,
-  NotebookPage page,
+  PageSummary summary,
   Notebook notebook,
 ) {
+  final page = summary.page;
   final l10n = AppLocalizations.of(context);
   final dates = RelativeDates(
     l10n,
@@ -28,7 +30,7 @@ Future<PageAction?> showPageOptionsSheet(
     header: PageOptionsHeader(
       title: page.title.isEmpty ? l10n.untitled : page.title,
       notebook: notebook,
-      edited: dates.withTime(l10n.pageEditedInline, page.updatedAt),
+      edited: dates.withTime(l10n.pageEditedInline, summary.lastEditedAt),
     ),
     groups: [
       [

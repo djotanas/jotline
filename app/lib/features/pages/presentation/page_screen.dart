@@ -15,6 +15,7 @@ import 'package:jotline/core/theme/jot_spacing.dart';
 import 'package:jotline/core/theme/theme_context.dart';
 import 'package:jotline/features/notebooks/data/notebook_providers.dart';
 import 'package:jotline/features/pages/data/page_providers.dart';
+import 'package:jotline/features/pages/data/page_summary.dart';
 import 'package:jotline/features/pages/presentation/page_options_sheet.dart';
 import 'package:jotline/features/pages/presentation/page_outcome.dart';
 import 'package:jotline/l10n/app_localizations.dart';
@@ -81,10 +82,10 @@ class _PageScreenState extends ConsumerState<PageScreen> {
 
   void _pop([PageOutcome? outcome]) => Navigator.of(context).pop(outcome);
 
-  Future<void> _openOptions(NotebookPage page, Notebook notebook) async {
+  Future<void> _openOptions(PageSummary summary, Notebook notebook) async {
     await _flush();
     if (!mounted) return;
-    final action = await showPageOptionsSheet(context, page, notebook);
+    final action = await showPageOptionsSheet(context, summary, notebook);
     if (!mounted) return;
     switch (action) {
       case PageAction.rename:
@@ -128,13 +129,14 @@ class _PageScreenState extends ConsumerState<PageScreen> {
         _pop();
       }
     });
-    final page = ref.watch(pageProvider(widget.pageId)).value?.page;
+    final summary = ref.watch(pageProvider(widget.pageId)).value;
     final colors = context.colors;
     final l10n = AppLocalizations.of(context);
     final Widget body;
-    if (page == null) {
+    if (summary == null) {
       body = const SizedBox.shrink();
     } else {
+      final page = summary.page;
       _adopt(page);
       final notebook = ref.watch(notebookProvider(page.notebookId)).value;
       final dates = RelativeDates(l10n, now: ref.watch(clockProvider).now());
@@ -151,7 +153,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
                   JotIconButton(
                     icon: JotIconGlyph.more,
                     semanticLabel: l10n.pageOptionsLabel,
-                    onPressed: () => _openOptions(page, notebook.notebook),
+                    onPressed: () => _openOptions(summary, notebook.notebook),
                   ),
               ],
             ),
