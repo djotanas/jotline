@@ -246,20 +246,21 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `test/features/pages/data/page_repository_test.dart` covers:
+- [x] `test/features/pages/data/page_repository_test.dart` covers:
   - page edited yesterday + block saved today → today; `pages` row unchanged
   - a deleted block's `deleted_at` counts; a page with no blocks → `pages.updated_at`
   - excerpt skips a heading, an empty block, a whitespace-only block and a deleted block; trims the result
   - no qualifying block → `null`; every block deleted → `null` (EDGE-05)
   - order stays `position, id` after a block write (EDITED-05)
   - the stream re-emits on a block insert, update, move and trash
-- [ ] `page_providers_test.dart` updated to `PageSummary`
-- [ ] Existing page widget tests still pass unchanged
-- [ ] Quick gate passes (≥ 9 new tests)
+- [x] `page_providers_test.dart` updated to `PageSummary`
+- [x] Existing page widget tests still pass unchanged
+- [x] Quick gate passes (≥ 9 new tests)
 
 **Tests**: Drift
 **Gate**: quick
 **Commit**: `feat(app): resumo da página com última edição e trecho (EDITED-01, EXCERPT-01)`
+**Status**: ✅ Done
 
 ---
 

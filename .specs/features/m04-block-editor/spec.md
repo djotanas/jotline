@@ -365,16 +365,16 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | SAVE-11 | P1: Block persistence | - | Pending |
 | SAVE-12 | P1: Block persistence | - | Pending |
 | SAVE-13 | P1: Block persistence | - | Pending |
-| EDITED-01 | P1: Page "last edited" from blocks | - | Pending |
+| EDITED-01 | P1: Page "last edited" from blocks | Execute | Implementing |
 | EDITED-02 | P1: Page "last edited" from blocks | - | Pending |
 | EDITED-03 | P1: Page "last edited" from blocks | - | Pending |
-| EDITED-04 | P1: Page "last edited" from blocks | - | Pending |
-| EDITED-05 | P1: Page "last edited" from blocks | - | Pending |
-| EXCERPT-01 | P2: Page excerpt in the list | - | Pending |
+| EDITED-04 | P1: Page "last edited" from blocks | Execute | Implementing |
+| EDITED-05 | P1: Page "last edited" from blocks | Execute | Implementing |
+| EXCERPT-01 | P2: Page excerpt in the list | Execute | Implementing |
 | EXCERPT-02 | P2: Page excerpt in the list | - | Pending |
-| EXCERPT-03 | P2: Page excerpt in the list | - | Pending |
-| EXCERPT-04 | P2: Page excerpt in the list | - | Pending |
-| EXCERPT-05 | P2: Page excerpt in the list | - | Pending |
+| EXCERPT-03 | P2: Page excerpt in the list | Execute | Implementing |
+| EXCERPT-04 | P2: Page excerpt in the list | Execute | Implementing |
+| EXCERPT-05 | P2: Page excerpt in the list | Execute | Implementing |
 | BMOVE-01 | P2: Move a block | - | Pending |
 | BMOVE-02 | P2: Move a block | - | Pending |
 | BMOVE-03 | P2: Move a block | - | Pending |
@@ -391,7 +391,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | EDGE-02 | Edge cases | - | Pending |
 | EDGE-03 | Edge cases | Execute | Implementing |
 | EDGE-04 | Edge cases | - | Pending |
-| EDGE-05 | Edge cases | - | Pending |
+| EDGE-05 | Edge cases | Execute | Implementing |
 | EDGE-06 | Edge cases | - | Pending |
 | EDGE-07 | Edge cases | Execute | Implementing |
 

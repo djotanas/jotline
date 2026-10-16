@@ -128,7 +128,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
         _pop();
       }
     });
-    final page = ref.watch(pageProvider(widget.pageId)).value;
+    final page = ref.watch(pageProvider(widget.pageId)).value?.page;
     final colors = context.colors;
     final l10n = AppLocalizations.of(context);
     final Widget body;
