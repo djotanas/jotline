@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jotline/core/theme/jot_spacing.dart';
 import 'package:jotline/core/theme/theme_context.dart';
+import 'package:jotline/features/blocks/presentation/editor/block_drag_controller.dart';
 import 'package:jotline/features/blocks/presentation/editor/components/active_block_builder.dart';
 import 'package:jotline/features/blocks/presentation/editor/components/checklist_item.dart';
 import 'package:jotline/features/blocks/presentation/editor/plain_paste.dart';
@@ -37,26 +38,56 @@ final List<SuperEditorKeyboardAction> blockKeyboardActions = [
     if (!_indentActions.contains(action)) action,
 ];
 
-/// The page blocks as a sliver of the page's scroll view.
-class BlockEditor extends StatelessWidget {
+/// The page blocks as a sliver of the page's scroll view, with blocks
+/// dragged by their handle (BMOVE-02).
+class BlockEditor extends StatefulWidget {
   const new({required this.editor, required this.focusNode, super.key});
 
   final Editor editor;
   final FocusNode focusNode;
 
   @override
+  State<BlockEditor> createState() => _BlockEditorState();
+}
+
+class _BlockEditorState extends State<BlockEditor> {
+  final GlobalKey _layoutKey = GlobalKey();
+  late final BlockDragController _drag = BlockDragController(
+    editor: widget.editor,
+    layoutKey: _layoutKey,
+    styler: _proxyStyle,
+  );
+
+  TextStyle _proxyStyle(DocumentNode node, Set<Attribution> attributions) {
+    final textStyles = context.textStyles;
+    final base =
+        node.getMetadataValue(NodeMetadata.blockType) == header1Attribution
+        ? textStyles.blocoTitulo
+        : textStyles.blocoTexto;
+    return _inlineTextStyler(attributions, base);
+  }
+
+  @override
+  void dispose() {
+    _drag.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final editor = widget.editor;
     final caretColor = context.colors.accent;
     return SuperEditor(
       editor: editor,
-      focusNode: focusNode,
+      focusNode: widget.focusNode,
+      documentLayoutKey: _layoutKey,
       stylesheet: blockStylesheet(context),
       componentBuilders: [
         ActiveBlockBuilder([
           const _BulletedListItemBuilder(),
           ChecklistItemBuilder(editor),
           ...defaultComponentBuilders,
-        ]),
+        ], dragController: _drag),
       ],
       contentTapDelegateFactories: const [],
       keyboardActions: blockKeyboardActions,

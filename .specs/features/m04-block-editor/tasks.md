@@ -780,17 +780,18 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `block_drag_controller_test.dart` covers:
+- [x] `block_drag_controller_test.dart` covers:
   - three blocks, drag the last to the top → only its `position` changed; reopen → new order
   - drop where it started → no write
   - proxy drawn with `shadow.erguido` while dragging
   - long press on the handle does not select a word
-- [ ] Manual check on the emulator recorded in the commit body
-- [ ] Quick gate passes (≥ 4 new tests)
+- [x] Manual check on the emulator recorded in the commit body
+- [x] Quick gate passes (≥ 4 new tests)
 
 **Tests**: widget
 **Gate**: quick
 **Commit**: `feat(app): arrastar bloco pela alça (BMOVE-02…BMOVE-04)`
+**Status**: ✅ Done
 
 ---
 

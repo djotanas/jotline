@@ -378,7 +378,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | BMOVE-01 | P2: Move a block | Execute | Implementing |
 | BMOVE-02 | P2: Move a block | Execute | Implementing |
 | BMOVE-03 | P2: Move a block | Execute | Implementing |
-| BMOVE-04 | P2: Move a block | - | Pending |
+| BMOVE-04 | P2: Move a block | Execute | Implementing |
 | E2E-01 | P2: Offline flows and launch time | - | Pending |
 | E2E-02 | P2: Offline flows and launch time | Execute | Implementing |
 | PERF-01 | P2: Offline flows and launch time | - | Pending |
