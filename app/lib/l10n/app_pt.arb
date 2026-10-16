@@ -414,5 +414,9 @@
   "blockBarLabel": "Tipo de bloco e formatação",
   "@blockBarLabel": {
     "description": "Accessible label of the block bar above the keyboard."
+  },
+  "moveBlock": "Mover bloco",
+  "@moveBlock": {
+    "description": "Accessible label of the drag handle of the block in edit."
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jotline/core/theme/jot_spacing.dart';
 import 'package:jotline/core/theme/theme_context.dart';
+import 'package:jotline/features/blocks/presentation/editor/components/active_block_builder.dart';
 import 'package:jotline/features/blocks/presentation/editor/plain_paste.dart';
 import 'package:super_editor/super_editor.dart';
 
@@ -50,9 +51,11 @@ class BlockEditor extends StatelessWidget {
       focusNode: focusNode,
       stylesheet: blockStylesheet(context),
       componentBuilders: [
-        const _BulletedListItemBuilder(),
-        TaskComponentBuilder(editor),
-        ...defaultComponentBuilders,
+        ActiveBlockBuilder([
+          const _BulletedListItemBuilder(),
+          TaskComponentBuilder(editor),
+          ...defaultComponentBuilders,
+        ]),
       ],
       contentTapDelegateFactories: const [],
       keyboardActions: blockKeyboardActions,
@@ -82,8 +85,8 @@ Stylesheet blockStylesheet(BuildContext context) {
         BlockSelector.all,
         (document, node) => {
           Styles.padding: const CascadingPadding.only(
-            left: JotSpace.space6,
-            right: JotSpace.space6,
+            left: 0,
+            right: 0,
             top: JotSpace.space4,
             bottom: 0,
           ),

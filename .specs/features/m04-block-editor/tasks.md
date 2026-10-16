@@ -627,15 +627,16 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `active_block_builder_test.dart` covers:
+- [x] `active_block_builder_test.dart` covers:
   - only the block with the caret has the box, radius 10, 12 px past the text
   - a tap through the box places the caret
   - handle visible only on the block with the caret, label "Mover bloco"
-- [ ] Quick gate passes (≥ 4 new tests)
+- [x] Quick gate passes (≥ 4 new tests)
 
 **Tests**: widget
 **Gate**: quick
 **Commit**: `feat(app): bloco em edição com alça de mover (EDIT-02, BMOVE-01)`
+**Status**: ✅ Done
 
 ---
 

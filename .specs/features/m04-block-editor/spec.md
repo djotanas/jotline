@@ -322,7 +322,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | SPIKE-10 | P1: Editor library spike | - | Pending |
 | SPIKE-11 | P1: Editor library spike | - | Pending |
 | EDIT-01 | P1: Write in a page | Execute | Implementing |
-| EDIT-02 | P1: Write in a page | - | Pending |
+| EDIT-02 | P1: Write in a page | Execute | Implementing |
 | EDIT-03 | P1: Write in a page | Execute | Implementing |
 | EDIT-04 | P1: Write in a page | Execute | Implementing |
 | EDIT-05 | P1: Write in a page | Execute | Implementing |
@@ -375,7 +375,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | EXCERPT-03 | P2: Page excerpt in the list | Execute | Implementing |
 | EXCERPT-04 | P2: Page excerpt in the list | Execute | Implementing |
 | EXCERPT-05 | P2: Page excerpt in the list | Execute | Implementing |
-| BMOVE-01 | P2: Move a block | - | Pending |
+| BMOVE-01 | P2: Move a block | Execute | Implementing |
 | BMOVE-02 | P2: Move a block | Execute | Implementing |
 | BMOVE-03 | P2: Move a block | Execute | Implementing |
 | BMOVE-04 | P2: Move a block | - | Pending |
