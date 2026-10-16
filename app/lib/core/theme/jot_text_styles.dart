@@ -17,6 +17,8 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
     required this.rotulo,
     required this.meta,
     required this.selo,
+    required this.barNegrito,
+    required this.barItalico,
   });
 
   /// Builds the canvas text styles with the given color tokens.
@@ -118,6 +120,22 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
         letterSpacing: 0,
         color: colors.inkCorpo,
       ),
+      barNegrito: TextStyle(
+        fontFamily: fontUi,
+        fontSize: 18,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0,
+        color: colors.ink1,
+      ),
+      barItalico: TextStyle(
+        fontFamily: fontTexto,
+        fontSize: 19,
+        fontWeight: FontWeight.w400,
+        fontStyle: FontStyle.italic,
+        letterSpacing: 0,
+        color: colors.ink1,
+        fontVariations: const [FontVariation.opticalSize(19)],
+      ),
     );
   }
 
@@ -139,6 +157,12 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
   final TextStyle meta;
   final TextStyle selo;
 
+  /// The "B" glyph of the block bar's "Negrito" button.
+  final TextStyle barNegrito;
+
+  /// The "I" glyph of the block bar's "Itálico" button.
+  final TextStyle barItalico;
+
   @override
   JotTextStyles copyWith({
     TextStyle? tituloTela,
@@ -154,6 +178,8 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
     TextStyle? rotulo,
     TextStyle? meta,
     TextStyle? selo,
+    TextStyle? barNegrito,
+    TextStyle? barItalico,
   }) {
     return JotTextStyles(
       tituloTela: tituloTela ?? this.tituloTela,
@@ -169,6 +195,8 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
       rotulo: rotulo ?? this.rotulo,
       meta: meta ?? this.meta,
       selo: selo ?? this.selo,
+      barNegrito: barNegrito ?? this.barNegrito,
+      barItalico: barItalico ?? this.barItalico,
     );
   }
 
@@ -189,6 +217,8 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
       rotulo: TextStyle.lerp(rotulo, other.rotulo, t)!,
       meta: TextStyle.lerp(meta, other.meta, t)!,
       selo: TextStyle.lerp(selo, other.selo, t)!,
+      barNegrito: TextStyle.lerp(barNegrito, other.barNegrito, t)!,
+      barItalico: TextStyle.lerp(barItalico, other.barItalico, t)!,
     );
   }
 }

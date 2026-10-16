@@ -392,12 +392,13 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `jot_text_styles_test.dart` asserts family, size, weight and style of both tokens
-- [ ] Quick gate passes (≥ 2 new tests)
+- [x] `jot_text_styles_test.dart` asserts family, size, weight and style of both tokens
+- [x] Quick gate passes (≥ 2 new tests)
 
 **Tests**: unit
 **Gate**: quick
 **Commit**: `feat(app): estilos dos glifos B e I da barra de blocos`
+**Status**: ✅ Done
 
 ---
 
