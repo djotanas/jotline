@@ -309,12 +309,13 @@ T25 → T26
 
 **Done when**:
 
-- [ ] ADR has Context, Decision, Consequences; index line added
-- [ ] Build gate passes
+- [x] ADR has Context, Decision, Consequences; index line added
+- [x] Build gate passes
 
 **Tests**: none
 **Gate**: build
 **Commit**: `docs: ADR 0037, última edição da página derivada dos blocos (#24)`
+**Status**: ✅ Done
 
 ---
 
