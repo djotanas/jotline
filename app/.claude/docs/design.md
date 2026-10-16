@@ -58,6 +58,7 @@ Every in-scope component of the canvas "Componentes" artboard lives in `lib/core
 | Navegação de topo | `JotTopBar.back` / `JotTopBar.root` | `jot_top_bar.dart` |
 | Bottom sheet de opções (grupos em cards, linha destrutiva ou marcada, `footer` com nota) | `showJotOptionsSheet<T>()` → `JotOptionsSheet<T>` + `JotOptionRow<T>` | `jot_options_sheet.dart` |
 | Diálogo de confirmação | `showConfirmDialog()` → `ConfirmDialog` | `confirm_dialog.dart` |
-| Ícones ("Espaço, forma, elevação e ícones") | `JotIcon` + `JotIconGlyph` (with `edit`, `cover`, `archive`, `unarchive`, `check`, `page`, `notebook`) | `icons/jot_icon.dart` |
+| Ícones ("Espaço, forma, elevação e ícones") | `JotIcon` + `JotIconGlyph` (with `edit`, `cover`, `archive`, `unarchive`, `check`, `page`, `notebook`, and the bar's `text` and `list`) | `icons/jot_icon.dart` |
+| Barra de blocos (block type, bold and italic; no "Desenho"; `BlockBarType` mirrors the block type) | `BlockBar` + `JotBlockBarButton` | `block_bar.dart` |
 
-**Out of scope until the block editor ADR:** "Blocos do editor" and "Barra de blocos". They are the visual layer of the editor library still in spike (PRD §11) and are built after that decision.
+**Out of scope until the block editor ADR:** "Blocos do editor". It is the visual layer of the editor library still in spike (PRD §11) and is built after that decision.

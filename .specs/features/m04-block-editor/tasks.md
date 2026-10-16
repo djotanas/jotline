@@ -442,19 +442,20 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `test/core/design_system/block_bar_test.dart` covers:
+- [x] `test/core/design_system/block_bar_test.dart` covers:
   - six buttons, each 48 × 48 with its label, in canvas order
   - no "Desenho" button (BAR-03)
   - the active type button has `accentSoft` background, icon in `accentPress` and `toggled: true`; the others are inactive
   - bold / italic active state and `toggled`
   - each tap calls its callback with the right value
   - `bgMesa` background and `bgTrilho` top border
-- [ ] `design.md` row added; no `super_editor` import (T1 scan)
-- [ ] Quick gate passes (≥ 7 new tests)
+- [x] `design.md` row added; no `super_editor` import (T1 scan)
+- [x] Quick gate passes (≥ 7 new tests)
 
 **Tests**: widget
 **Gate**: quick
 **Commit**: `feat(app): barra de blocos no design system (BAR-01, BAR-04)`
+**Status**: ✅ Done
 
 ---
 

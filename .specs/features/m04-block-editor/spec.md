@@ -335,13 +335,13 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | EDIT-12 | P1: Write in a page | - | Pending |
 | BAR-01 | P1: Block bar and block types | Execute | Implementing |
 | BAR-02 | P1: Block bar and block types | - | Pending |
-| BAR-03 | P1: Block bar and block types | - | Pending |
-| BAR-04 | P1: Block bar and block types | - | Pending |
+| BAR-03 | P1: Block bar and block types | Execute | Implementing |
+| BAR-04 | P1: Block bar and block types | Execute | Implementing |
 | BAR-05 | P1: Block bar and block types | Execute | Implementing |
 | BAR-06 | P1: Block bar and block types | Execute | Implementing |
 | BAR-07 | P1: Block bar and block types | - | Pending |
 | BAR-08 | P1: Block bar and block types | - | Pending |
-| BAR-09 | P1: Block bar and block types | - | Pending |
+| BAR-09 | P1: Block bar and block types | Execute | Implementing |
 | BAR-10 | P1: Block bar and block types | - | Pending |
 | BAR-11 | P1: Block bar and block types | - | Pending |
 | CHECK-01 | P1: Checklist | - | Pending |
@@ -384,7 +384,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | PERF-01 | P2: Offline flows and launch time | - | Pending |
 | PERF-02 | P2: Offline flows and launch time | - | Pending |
 | ADR-01 | P3: Decision records and docs | Execute | Implementing |
-| DOC-01 | P3: Decision records and docs | - | Pending |
+| DOC-01 | P3: Decision records and docs | Execute | Implementing |
 | DOC-02 | P3: Decision records and docs | - | Pending |
 | DOC-03 | P3: Decision records and docs | - | Pending |
 | EDGE-01 | Edge cases | - | Pending |
