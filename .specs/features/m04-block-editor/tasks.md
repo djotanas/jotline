@@ -602,12 +602,13 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `editing_rules_test.dart` (widget, through the IME path) covers one test per AC listed, plus a split next to a flag emoji (EDGE-03)
-- [ ] Quick gate passes (≥ 10 new tests)
+- [x] `editing_rules_test.dart` (widget, through the IME path) covers one test per AC listed, plus a split next to a flag emoji (EDGE-03)
+- [x] Quick gate passes (≥ 10 new tests)
 
 **Tests**: widget
 **Gate**: quick
 **Commit**: `feat(app): regras de Enter e Backspace nos blocos (EDIT-07…EDIT-10, CHECK-04…CHECK-07)`
+**Status**: ✅ Done
 
 ---
 

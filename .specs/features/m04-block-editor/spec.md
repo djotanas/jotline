@@ -327,10 +327,10 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | EDIT-04 | P1: Write in a page | Execute | Implementing |
 | EDIT-05 | P1: Write in a page | Execute | Implementing |
 | EDIT-06 | P1: Write in a page | - | Pending |
-| EDIT-07 | P1: Write in a page | - | Pending |
-| EDIT-08 | P1: Write in a page | - | Pending |
-| EDIT-09 | P1: Write in a page | - | Pending |
-| EDIT-10 | P1: Write in a page | - | Pending |
+| EDIT-07 | P1: Write in a page | Execute | Implementing |
+| EDIT-08 | P1: Write in a page | Execute | Implementing |
+| EDIT-09 | P1: Write in a page | Execute | Implementing |
+| EDIT-10 | P1: Write in a page | Execute | Implementing |
 | EDIT-11 | P1: Write in a page | Execute | Implementing |
 | EDIT-12 | P1: Write in a page | - | Pending |
 | BAR-01 | P1: Block bar and block types | Execute | Implementing |
@@ -347,10 +347,10 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | CHECK-01 | P1: Checklist | - | Pending |
 | CHECK-02 | P1: Checklist | - | Pending |
 | CHECK-03 | P1: Checklist | - | Pending |
-| CHECK-04 | P1: Checklist | - | Pending |
-| CHECK-05 | P1: Checklist | - | Pending |
-| CHECK-06 | P1: Checklist | - | Pending |
-| CHECK-07 | P1: Checklist | - | Pending |
+| CHECK-04 | P1: Checklist | Execute | Implementing |
+| CHECK-05 | P1: Checklist | Execute | Implementing |
+| CHECK-06 | P1: Checklist | Execute | Implementing |
+| CHECK-07 | P1: Checklist | Execute | Implementing |
 | CHECK-08 | P1: Checklist | - | Pending |
 | SAVE-01 | P1: Block persistence | Execute | Implementing |
 | SAVE-02 | P1: Block persistence | Execute | Implementing |

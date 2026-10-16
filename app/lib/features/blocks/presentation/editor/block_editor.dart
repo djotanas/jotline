@@ -49,8 +49,9 @@ class BlockEditor extends StatelessWidget {
       editor: editor,
       focusNode: focusNode,
       stylesheet: blockStylesheet(context),
-      componentBuilders: const [
-        _BulletedListItemBuilder(),
+      componentBuilders: [
+        const _BulletedListItemBuilder(),
+        TaskComponentBuilder(editor),
         ...defaultComponentBuilders,
       ],
       contentTapDelegateFactories: const [],
