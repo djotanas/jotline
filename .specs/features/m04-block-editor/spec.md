@@ -52,13 +52,16 @@ Every ambiguity is resolved or recorded here - nothing is left silently unclear.
 | Empty page | No block row exists until the user types the first character; the body shows no placeholder text; tapping the empty area below the title puts the cursor in an empty text block | Canvas has no empty-editor state; avoids inventing copy; no empty rows synced in phase 2 | y |
 | Title → body | Enter in the title moves the cursor to the start of the first block (an empty text block on an empty page) | Natural flow after "Nova página" focuses the title (M03 PGLIST-05) | y |
 | Block bar visibility | Shown while a block has the cursor, docked above the keyboard; hidden while the title has focus or nothing has focus | The bar acts on the block with the cursor; the canvas draws it with a block in edit | y |
-| Save timing | 500 ms after the last change of a block, and immediately when leaving the page or when the app goes to background | Same rule as the M03 page title; closing from the app switcher always passes through background | y |
+| Save timing | 500 ms after the last change in the page, and immediately when leaving the page or when the app goes to background | Same rule as the M03 page title; closing from the app switcher always passes through background | y |
 | Page excerpt | Plain text of the first block in `position` order, not deleted, of type text, list item or checklist item, with non-empty text after trimming; one line with ellipsis; no excerpt line when none exists | The canvas excerpt of "Roteiro — dia 2" skips the "Manhã" heading; "Páginas sem trecho" shows the row without the line | y |
 | Moving a block | Long press on the drag handle of the block with the cursor drags it; the drop saves one row through `Placement` | The canvas draws the handle on the block in edit; ADR 0029 | y |
 | Selection across blocks | Deleting or typing over a selection that spans blocks updates the first block with the joined text and soft-deletes every other block in the selection | User decision after the spike (2026-10-12): it is how `super_editor` merges; no physical delete (RNF-05) | y |
 | Paste | Pasted text keeps line breaks as separate text blocks and drops outside formatting | Plain paste only (Out of Scope) | y |
 | Drag handle size | As drawn in the canvas, inside the 12 px bleed of the block in edit, even though its touch target is below 44 × 44 | User decision after the spike (2026-10-12): the canvas layout wins over the touch-target minimum | y |
 | Drag handle label | "Mover bloco" | The canvas handle is decorative (`aria-hidden`); page rows use "Mover <title>", which a block has no equivalent for | y |
+| Empty new block of any type | No row until its first character, for list and checklist items too; an empty item left untyped is gone on reopen | User decision on design review (2026-10-12): one rule for every type | y |
+| Save debounce scope | One 500 ms timer per page; every edit restarts it; one flush writes every changed block in one transaction | User decision on design review (2026-10-12): a split or merge is saved atomically | y |
+| Checkbox drawing | 22 × 22 with existing tokens: unchecked 1.5 px `lineForte` border, radius `rEtiqueta`, on `bgFolha`; checked `accent` fill with the check glyph in `bgFolha` | User decision on design review (2026-10-12): the canvas draws a native checkbox with no tokens | y |
 | Text length | No limit per block or per page in phase 1 | RF-03 sets none; the 10,000-page load is tested in #27 | y |
 | Spike code | Prototypes live on a spike branch that is not merged; only the ADR, the `app/CLAUDE.md` editor line and the comparison go to `main` | The issue asks for a decision, not code; avoids shipping two editors | y |
 | Spike outcome when no candidate meets every mandatory criterion | The ADR records the gap and the user decides before #23 starts (another library or a custom editor) | CLAUDE.md: ask before inferring | y |
@@ -120,7 +123,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 2. WHILE a block has the cursor it SHALL be drawn with the canvas in-edit style: Realce background, radius `r.bloco` (10), bleeding 12 px past the text, and the drag handle at its left. (EDIT-02)
 3. Text blocks SHALL use the canvas paragraph style (Literata 17, line height 1.55) and headings the canvas heading style (Schibsted Grotesk 19, weight 600). (EDIT-03)
 4. WHEN the user taps the empty area below the last block, or below the title on an empty page, THEN the cursor SHALL be placed in an empty text block at the end of the page. (EDIT-04)
-5. WHILE an empty text block has not received any character no `blocks` row SHALL exist for it. (EDIT-05)
+5. WHILE a new block of any type has not received any character no `blocks` row SHALL exist for it. (EDIT-05)
 6. WHEN the user presses Enter in the title THEN the cursor SHALL move to the start of the first block, or to an empty text block on an empty page. (EDIT-06)
 7. WHEN the user presses Enter at the end of a text or heading block THEN a new text block SHALL be created below it with the cursor in it. (EDIT-07)
 8. WHEN the user presses Enter in the middle of a block THEN the block SHALL be split: the text before the cursor stays in the block and the text after it goes to a new block of the same type below. (EDIT-08)
@@ -187,7 +190,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 **Acceptance Criteria**:
 
 1. Each paragraph, heading, list item and checklist item SHALL be stored as exactly one `blocks` row of the page. (SAVE-01)
-2. WHEN 500 ms pass after the last change of a block THEN the system SHALL save that block's `type` and `content_json` through the block repository. (SAVE-02)
+2. WHEN 500 ms pass after the last change in the page THEN the system SHALL save the `type` and `content_json` of every block changed since the last save through the block repository, in one transaction. (SAVE-02)
 3. WHEN the user leaves the page or the app goes to background with unsaved changes THEN the system SHALL save them before the screen closes. (SAVE-03)
 4. WHEN a block is saved THEN its `updated_at` SHALL be `clock.now()` and its `updated_by` the local user, and its `version` SHALL keep its previous value (ADR 0013). (SAVE-04)
 5. WHEN the user edits one block THEN no other `blocks` row and no `pages` row SHALL change. (SAVE-05)
