@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jotline/core/clock/clock.dart';
 import 'package:jotline/core/database/app_database.dart';
+import 'package:jotline/core/design_system/block_bar.dart';
 import 'package:jotline/core/design_system/icons/jot_icon.dart';
 import 'package:jotline/core/design_system/jot_icon_button.dart';
 import 'package:jotline/core/design_system/jot_text_input_dialog.dart';
@@ -13,6 +14,7 @@ import 'package:jotline/core/text/relative_dates.dart';
 import 'package:jotline/core/text/title_rules.dart';
 import 'package:jotline/core/theme/jot_spacing.dart';
 import 'package:jotline/core/theme/theme_context.dart';
+import 'package:jotline/features/blocks/data/block_content.dart';
 import 'package:jotline/features/blocks/data/block_providers.dart';
 import 'package:jotline/features/blocks/presentation/editor/page_editor.dart';
 import 'package:jotline/features/notebooks/data/notebook_providers.dart';
@@ -170,7 +172,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
       final notebook = ref.watch(notebookProvider(page.notebookId)).value;
       final dates = RelativeDates(l10n, now: ref.watch(clockProvider).now());
       final blocks = _blocks;
-      body = CustomScrollView(
+      final scroll = CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
             child: Padding(
@@ -245,6 +247,13 @@ class _PageScreenState extends ConsumerState<PageScreen> {
           ),
         ],
       );
+      body = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(child: scroll),
+          if (blocks != null) _PageBlockBar(blocks: blocks),
+        ],
+      );
     }
     return PopScope(
       onPopInvokedWithResult: (didPop, _) {
@@ -254,6 +263,42 @@ class _PageScreenState extends ConsumerState<PageScreen> {
         backgroundColor: colors.bgPapel,
         body: SafeArea(child: body),
       ),
+    );
+  }
+}
+
+/// The block bar while a block has the caret, docked above the keyboard
+/// (BAR-01, BAR-02).
+class _PageBlockBar extends StatelessWidget {
+  const new({required this.blocks});
+
+  final PageEditor blocks;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: blocks.changes,
+      builder: (context, _) {
+        if (!blocks.hasCaret) return const SizedBox.shrink();
+        return BlockBar(
+          type: switch (blocks.caretType) {
+            BlockType.text => BlockBarType.text,
+            BlockType.heading => BlockBarType.heading,
+            BlockType.bulletedListItem => BlockBarType.bulletedListItem,
+            BlockType.checklistItem => BlockBarType.checklistItem,
+          },
+          bold: blocks.isMarkActive(MarkType.bold),
+          italic: blocks.isMarkActive(MarkType.italic),
+          onType: (type) => blocks.setType(switch (type) {
+            BlockBarType.text => BlockType.text,
+            BlockBarType.heading => BlockType.heading,
+            BlockBarType.bulletedListItem => BlockType.bulletedListItem,
+            BlockBarType.checklistItem => BlockType.checklistItem,
+          }),
+          onBold: () => blocks.toggleMark(MarkType.bold),
+          onItalic: () => blocks.toggleMark(MarkType.italic),
+        );
+      },
     );
   }
 }

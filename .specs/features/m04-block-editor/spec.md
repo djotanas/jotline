@@ -334,13 +334,13 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | EDIT-11 | P1: Write in a page | Execute | Implementing |
 | EDIT-12 | P1: Write in a page | Execute | Implementing |
 | BAR-01 | P1: Block bar and block types | Execute | Implementing |
-| BAR-02 | P1: Block bar and block types | - | Pending |
+| BAR-02 | P1: Block bar and block types | Execute | Implementing |
 | BAR-03 | P1: Block bar and block types | Execute | Implementing |
 | BAR-04 | P1: Block bar and block types | Execute | Implementing |
 | BAR-05 | P1: Block bar and block types | Execute | Implementing |
 | BAR-06 | P1: Block bar and block types | Execute | Implementing |
-| BAR-07 | P1: Block bar and block types | - | Pending |
-| BAR-08 | P1: Block bar and block types | - | Pending |
+| BAR-07 | P1: Block bar and block types | Execute | Implementing |
+| BAR-08 | P1: Block bar and block types | Execute | Implementing |
 | BAR-09 | P1: Block bar and block types | Execute | Implementing |
 | BAR-10 | P1: Block bar and block types | Execute | Implementing |
 | BAR-11 | P1: Block bar and block types | Execute | Implementing |

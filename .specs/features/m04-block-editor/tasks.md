@@ -749,18 +749,19 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `page_screen_test.dart` covers:
+- [x] `page_screen_test.dart` covers:
   - bar shown with the caret in a block; hidden with the title focused or no focus
   - type "Manhã", tap "Título" → same row id, `heading`, "Título" pressed
   - each type change keeps text, marks and id; checklist → text drops `checked`
   - select a word, "Negrito" → bold range in `content_json`, "Negrito" pressed
   - collapsed caret, "Itálico", type → new text italic
   - caret inside bold text → "Negrito" pressed
-- [ ] Quick gate passes (≥ 8 new tests)
+- [x] Quick gate passes (≥ 8 new tests)
 
 **Tests**: widget
 **Gate**: quick
 **Commit**: `feat(app): barra de blocos na página com tipos e marcas (BAR-05, BAR-07)`
+**Status**: ✅ Done
 
 ---
 

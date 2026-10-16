@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/core/database/local_user_repository.dart';
+import 'package:jotline/core/design_system/block_bar.dart';
 import 'package:jotline/core/design_system/jot_icon_button.dart';
 import 'package:jotline/core/design_system/jot_text_field.dart';
 import 'package:jotline/core/ordering/placement.dart';
@@ -187,6 +188,25 @@ Future<void> _save(WidgetTester tester) async {
   await tester.pump(const Duration(milliseconds: 500));
   await _settle(tester);
 }
+
+Finder _barButton(String label) =>
+    find.byWidgetPredicate((w) => w is JotBlockBarButton && w.label == label);
+
+bool _pressed(WidgetTester tester, String label) =>
+    tester.widget<JotBlockBarButton>(_barButton(label)).active;
+
+Future<void> _tapBar(WidgetTester tester, String label) async {
+  await tester.tap(_barButton(label));
+  await tester.pumpAndSettle();
+}
+
+Future<BlockContent> _storedContent(WidgetTester tester, String id) async =>
+    BlockContent.fromJson((await _block(tester, id)).contentJson);
+
+const (BlockType, BlockContent) _belemCedo = (
+  BlockType.text,
+  BlockContent('Belém cedo', marks: [Mark(0, 5, MarkType.bold)]),
+);
 
 const (BlockType, BlockContent) _belem = (
   BlockType.text,
@@ -805,6 +825,162 @@ void main() {
     await _tapBelow(tester);
     expect(_nodes, hasLength(1));
     expect(_selection, _caretAt(_nodes.single.id, 0));
+    await _close(tester);
+  });
+
+  testWidgets('BAR-01: the caret in a block shows the block bar with its six '
+      'buttons', (tester) async {
+    await _open(tester, blocks: [_belem]);
+    expect(find.byType(BlockBar), findsNothing);
+
+    await tester.placeCaretInParagraph(_blockIds[0], 2);
+
+    expect(find.byType(BlockBar), findsOneWidget);
+    expect(
+      tester
+          .widgetList<JotBlockBarButton>(find.byType(JotBlockBarButton))
+          .map((b) => b.label),
+      ['Texto', 'Título', 'Lista', 'Checklist', 'Negrito', 'Itálico'],
+    );
+    await _close(tester);
+  });
+
+  testWidgets('BAR-02: the block bar is hidden with nothing focused and with '
+      'the title focused', (tester) async {
+    await _open(tester, blocks: [_belem]);
+    expect(find.byType(BlockBar), findsNothing);
+
+    await tester.placeCaretInParagraph(_blockIds[0], 2);
+    expect(find.byType(BlockBar), findsOneWidget);
+
+    await tester.tap(_field);
+    await tester.pumpAndSettle();
+    expect(find.byType(BlockBar), findsNothing);
+    await _close(tester);
+  });
+
+  testWidgets('BAR-05, BAR-04: typing "Manhã" then tapping "Título" keeps the '
+      'row and makes it a heading, with "Título" pressed', (tester) async {
+    await _open(tester);
+    await _tapBelow(tester);
+    await tester.typeImeText('Manhã');
+    await _save(tester);
+    final id = (await _rows(tester)).single.id;
+    expect(_pressed(tester, 'Texto'), isTrue);
+
+    await _tapBar(tester, 'Título');
+    await _save(tester);
+
+    final rows = await _rows(tester);
+    expect(rows.single.id, id);
+    expect(rows.single.type, BlockType.heading.id);
+    expect(BlockContent.fromJson(rows.single.contentJson).text, 'Manhã');
+    expect(_pressed(tester, 'Título'), isTrue);
+    for (final other in ['Texto', 'Lista', 'Checklist']) {
+      expect(_pressed(tester, other), isFalse, reason: other);
+    }
+    await _close(tester);
+  });
+
+  testWidgets('BAR-05: every type change keeps the text, the marks and the '
+      'row id', (tester) async {
+    await _open(tester, blocks: [_belemCedo]);
+    await tester.placeCaretInParagraph(_blockIds[0], 2);
+
+    for (final (label, type) in [
+      ('Lista', BlockType.bulletedListItem),
+      ('Checklist', BlockType.checklistItem),
+      ('Título', BlockType.heading),
+      ('Lista', BlockType.bulletedListItem),
+      ('Título', BlockType.heading),
+      ('Checklist', BlockType.checklistItem),
+      ('Texto', BlockType.text),
+    ]) {
+      await _tapBar(tester, label);
+      await _save(tester);
+      final rows = await _rows(tester);
+      expect(rows.map((r) => r.id), _blockIds, reason: label);
+      expect(rows.single.type, type.id, reason: label);
+      expect(
+        BlockContent.fromJson(rows.single.contentJson),
+        _belemCedo.$2.forType(type),
+        reason: label,
+      );
+      expect(_pressed(tester, label), isTrue, reason: label);
+    }
+    await _close(tester);
+  });
+
+  testWidgets('BAR-06: a checked checklist item turned into text drops '
+      'checked', (tester) async {
+    await _open(
+      tester,
+      blocks: [
+        (BlockType.checklistItem, const BlockContent('Câmbio', checked: true)),
+      ],
+    );
+    await tester.placeCaretInParagraph(_blockIds[0], 2);
+
+    await _tapBar(tester, 'Texto');
+    await _save(tester);
+
+    final row = await _block(tester, _blockIds[0]);
+    expect(row.type, BlockType.text.id);
+    expect(row.contentJson, '{"text":"Câmbio","marks":[]}');
+    await _close(tester);
+  });
+
+  testWidgets('BAR-07, BAR-09: "Negrito" toggles bold on the selected word '
+      'and shows pressed while the selection is all bold', (tester) async {
+    await _open(
+      tester,
+      blocks: [(BlockType.text, const BlockContent('Belém cedo'))],
+    );
+
+    await tester.doubleTapInParagraph(_blockIds[0], 8);
+    expect(_pressed(tester, 'Negrito'), isFalse);
+    await _tapBar(tester, 'Negrito');
+    await _save(tester);
+
+    expect((await _storedContent(tester, _blockIds[0])).marks, const [
+      Mark(6, 10, MarkType.bold),
+    ]);
+    expect(_pressed(tester, 'Negrito'), isTrue);
+    expect(_pressed(tester, 'Itálico'), isFalse);
+
+    await _tapBar(tester, 'Negrito');
+    await _save(tester);
+    expect((await _storedContent(tester, _blockIds[0])).marks, isEmpty);
+    expect(_pressed(tester, 'Negrito'), isFalse);
+    await _close(tester);
+  });
+
+  testWidgets('BAR-08: "Itálico" with a collapsed caret makes the text typed '
+      'next italic', (tester) async {
+    await _open(tester, blocks: [_belem]);
+    await tester.placeCaretInParagraph(_blockIds[0], 5);
+
+    await _tapBar(tester, 'Itálico');
+    expect(_pressed(tester, 'Itálico'), isTrue);
+    await tester.typeImeText(' cedo');
+    await _save(tester);
+
+    final content = await _storedContent(tester, _blockIds[0]);
+    expect(content.text, 'Belém cedo');
+    expect(content.marks, const [Mark(5, 10, MarkType.italic)]);
+    await _close(tester);
+  });
+
+  testWidgets('BAR-09: "Negrito" shows pressed with the caret inside bold '
+      'text and not outside it', (tester) async {
+    await _open(tester, blocks: [_belemCedo]);
+
+    await tester.placeCaretInParagraph(_blockIds[0], 2);
+    expect(_pressed(tester, 'Negrito'), isTrue);
+    expect(_pressed(tester, 'Itálico'), isFalse);
+
+    await tester.placeCaretInParagraph(_blockIds[0], 8);
+    expect(_pressed(tester, 'Negrito'), isFalse);
     await _close(tester);
   });
 }
