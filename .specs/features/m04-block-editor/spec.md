@@ -323,7 +323,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | SPIKE-11 | P1: Editor library spike | - | Pending |
 | EDIT-01 | P1: Write in a page | Execute | Implementing |
 | EDIT-02 | P1: Write in a page | - | Pending |
-| EDIT-03 | P1: Write in a page | - | Pending |
+| EDIT-03 | P1: Write in a page | Execute | Implementing |
 | EDIT-04 | P1: Write in a page | Execute | Implementing |
 | EDIT-05 | P1: Write in a page | Execute | Implementing |
 | EDIT-06 | P1: Write in a page | - | Pending |
@@ -342,8 +342,8 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | BAR-07 | P1: Block bar and block types | - | Pending |
 | BAR-08 | P1: Block bar and block types | - | Pending |
 | BAR-09 | P1: Block bar and block types | Execute | Implementing |
-| BAR-10 | P1: Block bar and block types | - | Pending |
-| BAR-11 | P1: Block bar and block types | - | Pending |
+| BAR-10 | P1: Block bar and block types | Execute | Implementing |
+| BAR-11 | P1: Block bar and block types | Execute | Implementing |
 | CHECK-01 | P1: Checklist | - | Pending |
 | CHECK-02 | P1: Checklist | - | Pending |
 | CHECK-03 | P1: Checklist | - | Pending |
@@ -380,7 +380,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | BMOVE-03 | P2: Move a block | Execute | Implementing |
 | BMOVE-04 | P2: Move a block | - | Pending |
 | E2E-01 | P2: Offline flows and launch time | - | Pending |
-| E2E-02 | P2: Offline flows and launch time | - | Pending |
+| E2E-02 | P2: Offline flows and launch time | Execute | Implementing |
 | PERF-01 | P2: Offline flows and launch time | - | Pending |
 | PERF-02 | P2: Offline flows and launch time | - | Pending |
 | ADR-01 | P3: Decision records and docs | Execute | Implementing |

@@ -571,18 +571,19 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `block_editor_test.dart` covers:
+- [x] `block_editor_test.dart` covers:
   - paragraph in `blocoTexto`, heading in `blocoTitulo` (EDIT-03)
   - bold → w600, italic → italic style (BAR-10)
   - list item 24 px indent with a bullet; consecutive list items 4 px apart (BAR-11)
   - "# " and "- " typed stay text
   - pasted URL creates no image node and makes no HTTP call (throwing `HttpOverrides`)
-- [ ] No literal color or font (THEME-09 scan green)
-- [ ] Quick gate passes (≥ 6 new tests)
+- [x] No literal color or font (THEME-09 scan green)
+- [x] Quick gate passes (≥ 6 new tests)
 
 **Tests**: widget
 **Gate**: quick
 **Commit**: `feat(app): configuração e estilo do editor de blocos (EDIT-03, BAR-10)`
+**Status**: ✅ Done
 
 ---
 
