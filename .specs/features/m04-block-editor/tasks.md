@@ -187,12 +187,13 @@ T25 → T26
 
 **Done when**:
 
-- [ ] ADR has Context, Decision, Consequences and cites ADR 0005 and 0035; index line added
-- [ ] Build gate passes
+- [x] ADR has Context, Decision, Consequences and cites ADR 0005 and 0035; index line added
+- [x] Build gate passes
 
 **Tests**: none
 **Gate**: build
 **Commit**: `docs: ADR 0036, modelo de blocos (#23)`
+**Status**: ✅ Done
 
 ---
 

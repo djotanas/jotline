@@ -39,5 +39,6 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0033](0033-secao-paginas-da-lixeira.md) | Seção "Páginas" da lixeira | Aceita |
 | [0034](0034-ordenacao-dos-cadernos.md) | Ordenação dos cadernos | Aceita |
 | [0035](0035-editor-de-blocos.md) | Editor de blocos: super_editor | Aceita |
+| [0036](0036-modelo-de-blocos.md) | Modelo de blocos | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.

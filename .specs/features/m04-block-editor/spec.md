@@ -383,7 +383,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | E2E-02 | P2: Offline flows and launch time | - | Pending |
 | PERF-01 | P2: Offline flows and launch time | - | Pending |
 | PERF-02 | P2: Offline flows and launch time | - | Pending |
-| ADR-01 | P3: Decision records and docs | - | Pending |
+| ADR-01 | P3: Decision records and docs | Execute | Implementing |
 | DOC-01 | P3: Decision records and docs | - | Pending |
 | DOC-02 | P3: Decision records and docs | - | Pending |
 | DOC-03 | P3: Decision records and docs | - | Pending |
