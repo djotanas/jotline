@@ -321,7 +321,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | SPIKE-09 | P1: Editor library spike | Execute | Implementing |
 | SPIKE-10 | P1: Editor library spike | - | Pending |
 | SPIKE-11 | P1: Editor library spike | - | Pending |
-| EDIT-01 | P1: Write in a page | - | Pending |
+| EDIT-01 | P1: Write in a page | Execute | Implementing |
 | EDIT-02 | P1: Write in a page | - | Pending |
 | EDIT-03 | P1: Write in a page | - | Pending |
 | EDIT-04 | P1: Write in a page | - | Pending |
@@ -337,7 +337,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | BAR-02 | P1: Block bar and block types | - | Pending |
 | BAR-03 | P1: Block bar and block types | - | Pending |
 | BAR-04 | P1: Block bar and block types | - | Pending |
-| BAR-05 | P1: Block bar and block types | - | Pending |
+| BAR-05 | P1: Block bar and block types | Execute | Implementing |
 | BAR-06 | P1: Block bar and block types | Execute | Implementing |
 | BAR-07 | P1: Block bar and block types | - | Pending |
 | BAR-08 | P1: Block bar and block types | - | Pending |
@@ -352,15 +352,15 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | CHECK-06 | P1: Checklist | - | Pending |
 | CHECK-07 | P1: Checklist | - | Pending |
 | CHECK-08 | P1: Checklist | - | Pending |
-| SAVE-01 | P1: Block persistence | - | Pending |
-| SAVE-02 | P1: Block persistence | - | Pending |
+| SAVE-01 | P1: Block persistence | Execute | Implementing |
+| SAVE-02 | P1: Block persistence | Execute | Implementing |
 | SAVE-03 | P1: Block persistence | - | Pending |
-| SAVE-04 | P1: Block persistence | - | Pending |
-| SAVE-05 | P1: Block persistence | - | Pending |
-| SAVE-06 | P1: Block persistence | - | Pending |
-| SAVE-07 | P1: Block persistence | - | Pending |
+| SAVE-04 | P1: Block persistence | Execute | Implementing |
+| SAVE-05 | P1: Block persistence | Execute | Implementing |
+| SAVE-06 | P1: Block persistence | Execute | Implementing |
+| SAVE-07 | P1: Block persistence | Execute | Implementing |
 | SAVE-08 | P1: Block persistence | - | Pending |
-| SAVE-09 | P1: Block persistence | - | Pending |
+| SAVE-09 | P1: Block persistence | Execute | Implementing |
 | SAVE-10 | P1: Block persistence | Execute | Implementing |
 | SAVE-11 | P1: Block persistence | - | Pending |
 | SAVE-12 | P1: Block persistence | - | Pending |

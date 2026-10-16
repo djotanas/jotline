@@ -212,7 +212,7 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `test/features/blocks/data/block_repository_test.dart` covers:
+- [x] `test/features/blocks/data/block_repository_test.dart` covers:
   - `loadPage` order (`position`, `id`) and deleted filter, same as `watchByPage`
   - a failing change rolls back the whole batch
   - an `After` pointing to an `Insert` of the same batch lands right after it, before the next sibling
@@ -221,12 +221,13 @@ T25 → T26
   - `Trash` writes only `deleted_at`
   - the `pages` row is byte-identical after any batch (SAVE-05, REPO-17)
   - no physical `DELETE` (SAVE-09)
-- [ ] Removed `updateContent` tests replaced 1:1, listed in the commit body
-- [ ] Quick gate passes (≥ 9 new tests)
+- [x] Removed `updateContent` tests replaced 1:1, listed in the commit body
+- [x] Quick gate passes (≥ 9 new tests)
 
 **Tests**: Drift
 **Gate**: quick
 **Commit**: `feat(app): gravação em lote de blocos numa transação (SAVE-02, SAVE-06)`
+**Status**: ✅ Done
 
 ---
 
