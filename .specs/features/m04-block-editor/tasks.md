@@ -417,12 +417,13 @@ T25 → T26
 
 **Done when**:
 
-- [ ] Icon test renders both glyphs at the bar size in the given color
-- [ ] Quick gate passes (≥ 2 new tests)
+- [x] Icon test renders both glyphs at the bar size in the given color
+- [x] Quick gate passes (≥ 2 new tests)
 
 **Tests**: widget
 **Gate**: quick
 **Commit**: `feat(app): ícones texto e lista`
+**Status**: ✅ Done
 
 ---
 

@@ -209,7 +209,7 @@ void main() {
     });
 
     test('NBOPT-01: the seven M03 glyphs follow the original ten', () {
-      expect(JotIconGlyph.values.skip(10), [
+      expect(JotIconGlyph.values.skip(10).take(7), [
         JotIconGlyph.edit,
         JotIconGlyph.cover,
         JotIconGlyph.archive,
@@ -220,7 +220,57 @@ void main() {
       ]);
     });
 
-    for (final glyph in JotIconGlyph.values.skip(10)) {
+    test('BAR-01: the text and list glyphs follow the M03 glyphs', () {
+      expect(JotIconGlyph.values.skip(17), [
+        JotIconGlyph.text,
+        JotIconGlyph.list,
+      ]);
+    });
+
+    test('BAR-01: text is the canvas "T": one path of two strokes', () {
+      final draws = _paint(JotIconGlyph.text).draws;
+
+      expect(draws.map((d) => d.kind), ['path']);
+      expect(draws.single.style, PaintingStyle.stroke);
+    });
+
+    test('BAR-01: list is three stroked bullets of radius 1 and a path of '
+        'three lines', () {
+      final draws = _paint(JotIconGlyph.list).draws;
+
+      expect(draws.map((d) => d.kind), ['circle', 'circle', 'circle', 'path']);
+      expect(draws.take(3).map((d) => d.center), const [
+        Offset(5, 7),
+        Offset(5, 12),
+        Offset(5, 17),
+      ]);
+      expect(draws.take(3).every((d) => d.radius == 1), isTrue);
+      expect(draws.every((d) => d.style == PaintingStyle.stroke), isTrue);
+    });
+
+    for (final glyph in [JotIconGlyph.text, JotIconGlyph.list]) {
+      testWidgets(
+        'BAR-01: ${glyph.name} renders at the 22 px bar size in the given '
+        'color',
+        (tester) async {
+          await tester.pumpJot(
+            Center(
+              child: IconTheme(
+                data: IconThemeData(color: JotColors.light.accentPress),
+                child: JotIcon(glyph),
+              ),
+            ),
+          );
+
+          expect(tester.takeException(), isNull);
+          expect(tester.getSize(find.byType(JotIcon)), const Size(22, 22));
+          expect(_painterOf(tester).color, JotColors.light.accentPress);
+          expect(_painterOf(tester).glyph, glyph);
+        },
+      );
+    }
+
+    for (final glyph in JotIconGlyph.values.skip(10).take(7)) {
       testWidgets(
         'NBOPT-01: ${glyph.name} renders at 22 px with the text color',
         (tester) async {
