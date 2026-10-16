@@ -324,8 +324,8 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | EDIT-01 | P1: Write in a page | Execute | Implementing |
 | EDIT-02 | P1: Write in a page | - | Pending |
 | EDIT-03 | P1: Write in a page | - | Pending |
-| EDIT-04 | P1: Write in a page | - | Pending |
-| EDIT-05 | P1: Write in a page | - | Pending |
+| EDIT-04 | P1: Write in a page | Execute | Implementing |
+| EDIT-05 | P1: Write in a page | Execute | Implementing |
 | EDIT-06 | P1: Write in a page | - | Pending |
 | EDIT-07 | P1: Write in a page | - | Pending |
 | EDIT-08 | P1: Write in a page | - | Pending |
@@ -362,7 +362,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | SAVE-08 | P1: Block persistence | - | Pending |
 | SAVE-09 | P1: Block persistence | Execute | Implementing |
 | SAVE-10 | P1: Block persistence | Execute | Implementing |
-| SAVE-11 | P1: Block persistence | - | Pending |
+| SAVE-11 | P1: Block persistence | Execute | Implementing |
 | SAVE-12 | P1: Block persistence | - | Pending |
 | SAVE-13 | P1: Block persistence | - | Pending |
 | EDITED-01 | P1: Page "last edited" from blocks | Execute | Implementing |

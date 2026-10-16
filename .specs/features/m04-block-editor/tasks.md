@@ -476,17 +476,18 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `block_mapper_test.dart` covers:
+- [x] `block_mapper_test.dart` covers:
   - each of the four types round-trips with text, bold, italic and `checked`; loaded node id = block id
   - empty row list → one empty paragraph whose id is not a block id
   - inclusive span ↔ exclusive end at text edges
   - flag emoji with marks around it
   - list / task indent dropped; link attribution dropped; unknown node → text
-- [ ] Quick gate passes (≥ 9 new tests)
+- [x] Quick gate passes (≥ 9 new tests)
 
 **Tests**: unit
 **Gate**: quick
 **Commit**: `feat(app): mapeamento entre linhas de bloco e nós do editor (SAVE-10)`
+**Status**: ✅ Done
 
 ---
 
