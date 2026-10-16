@@ -359,11 +359,11 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | SAVE-05 | P1: Block persistence | Execute | Implementing |
 | SAVE-06 | P1: Block persistence | Execute | Implementing |
 | SAVE-07 | P1: Block persistence | Execute | Implementing |
-| SAVE-08 | P1: Block persistence | - | Pending |
+| SAVE-08 | P1: Block persistence | Execute | Implementing |
 | SAVE-09 | P1: Block persistence | Execute | Implementing |
 | SAVE-10 | P1: Block persistence | Execute | Implementing |
 | SAVE-11 | P1: Block persistence | Execute | Implementing |
-| SAVE-12 | P1: Block persistence | - | Pending |
+| SAVE-12 | P1: Block persistence | Execute | Implementing |
 | SAVE-13 | P1: Block persistence | - | Pending |
 | EDITED-01 | P1: Page "last edited" from blocks | Execute | Implementing |
 | EDITED-02 | P1: Page "last edited" from blocks | Execute | Implementing |
@@ -376,8 +376,8 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | EXCERPT-04 | P2: Page excerpt in the list | Execute | Implementing |
 | EXCERPT-05 | P2: Page excerpt in the list | Execute | Implementing |
 | BMOVE-01 | P2: Move a block | - | Pending |
-| BMOVE-02 | P2: Move a block | - | Pending |
-| BMOVE-03 | P2: Move a block | - | Pending |
+| BMOVE-02 | P2: Move a block | Execute | Implementing |
+| BMOVE-03 | P2: Move a block | Execute | Implementing |
 | BMOVE-04 | P2: Move a block | - | Pending |
 | E2E-01 | P2: Offline flows and launch time | - | Pending |
 | E2E-02 | P2: Offline flows and launch time | - | Pending |
@@ -390,7 +390,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | EDGE-01 | Edge cases | - | Pending |
 | EDGE-02 | Edge cases | - | Pending |
 | EDGE-03 | Edge cases | Execute | Implementing |
-| EDGE-04 | Edge cases | - | Pending |
+| EDGE-04 | Edge cases | Execute | Implementing |
 | EDGE-05 | Edge cases | Execute | Implementing |
 | EDGE-06 | Edge cases | - | Pending |
 | EDGE-07 | Edge cases | Execute | Implementing |

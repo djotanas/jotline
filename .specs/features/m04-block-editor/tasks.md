@@ -506,7 +506,7 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `block_sync_test.dart` (real `Editor`, in-memory Drift, fake timer) covers:
+- [x] `block_sync_test.dart` (real `Editor`, in-memory Drift, fake timer) covers:
   - type in A, 499 ms → no write; 500 ms → only A updated (SAVE-02, SAVE-05)
   - every edit restarts the page timer; two blocks touched → one transaction
   - split → original id kept, new row after it before the next sibling (SAVE-06)
@@ -518,11 +518,12 @@ T25 → T26
   - flush during an in-flight flush → applied in order, new ids known
   - `applyChanges` failure → pending ids kept, next flush writes them
   - `flush()` with nothing pending writes nothing
-- [ ] Quick gate passes (≥ 12 new tests)
+- [x] Quick gate passes (≥ 12 new tests)
 
 **Tests**: Drift
 **Gate**: quick
 **Commit**: `feat(app): sincronização do editor com as linhas de bloco (SAVE-02, SAVE-08)`
+**Status**: ✅ Done
 
 ---
 
