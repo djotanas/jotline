@@ -130,13 +130,14 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `pubspec.lock` resolves `super_editor 0.3.0-dev.52`; debug APK builds
-- [ ] The scan fails on a scratch file that imports `package:super_editor` outside the editor folder (checked, then discarded) and passes on the tree
-- [ ] Build gate passes (≥ 1 new test, none removed)
+- [x] `pubspec.lock` resolves `super_editor 0.3.0-dev.52`; debug APK builds
+- [x] The scan fails on a scratch file that imports `package:super_editor` outside the editor folder (checked, then discarded) and passes on the tree
+- [x] Build gate passes (≥ 1 new test, none removed)
 
 **Tests**: unit
 **Gate**: build
 **Commit**: `build(app): adiciona super_editor 0.3.0-dev.52 e isola o import (ADR 0035)`
+**Status**: ✅ Done
 
 ---
 

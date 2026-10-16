@@ -318,7 +318,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | SPIKE-06 | P1: Editor library spike | - | Pending |
 | SPIKE-07 | P1: Editor library spike | - | Pending |
 | SPIKE-08 | P1: Editor library spike | - | Pending |
-| SPIKE-09 | P1: Editor library spike | - | Pending |
+| SPIKE-09 | P1: Editor library spike | Execute | Implementing |
 | SPIKE-10 | P1: Editor library spike | - | Pending |
 | SPIKE-11 | P1: Editor library spike | - | Pending |
 | EDIT-01 | P1: Write in a page | - | Pending |
