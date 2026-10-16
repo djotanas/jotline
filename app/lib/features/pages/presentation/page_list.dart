@@ -79,7 +79,8 @@ class _PageListState extends ConsumerState<PageList> {
         child: DraggingPageRow(title: label(pages[index].page)),
       ),
       itemBuilder: (context, index) {
-        final page = pages[index].page;
+        final summary = pages[index];
+        final page = summary.page;
         final title = label(page);
         return Padding(
           key: ValueKey(page.id),
@@ -87,7 +88,8 @@ class _PageListState extends ConsumerState<PageList> {
           child: PageRow(
             title: title,
             muted: page.title.isEmpty,
-            date: dates.day(page.updatedAt),
+            date: dates.day(summary.lastEditedAt),
+            excerpt: summary.excerpt,
             onTap: () => widget.onOpen(page),
             leading: widget.reordering
                 ? ReorderableDragStartListener(

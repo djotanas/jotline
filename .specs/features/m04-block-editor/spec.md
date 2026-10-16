@@ -371,7 +371,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | EDITED-04 | P1: Page "last edited" from blocks | Execute | Implementing |
 | EDITED-05 | P1: Page "last edited" from blocks | Execute | Implementing |
 | EXCERPT-01 | P2: Page excerpt in the list | Execute | Implementing |
-| EXCERPT-02 | P2: Page excerpt in the list | - | Pending |
+| EXCERPT-02 | P2: Page excerpt in the list | Execute | Implementing |
 | EXCERPT-03 | P2: Page excerpt in the list | Execute | Implementing |
 | EXCERPT-04 | P2: Page excerpt in the list | Execute | Implementing |
 | EXCERPT-05 | P2: Page excerpt in the list | Execute | Implementing |

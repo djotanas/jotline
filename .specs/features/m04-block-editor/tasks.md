@@ -336,18 +336,19 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `page_list_test.dart` covers:
+- [x] `page_list_test.dart` covers:
   - heading "Manhã" then text "Belém cedo" → excerpt "Belém cedo"
   - only a heading → no excerpt line
   - a block saved today on a page from yesterday → row shows "hoje" without leaving the list
   - editing the first qualifying block updates the excerpt in place
   - excerpt is one line with ellipsis in `itemTrecho`
   - reorder still moves one row
-- [ ] Quick gate passes (≥ 6 new tests)
+- [x] Quick gate passes (≥ 6 new tests)
 
 **Tests**: widget
 **Gate**: quick
 **Commit**: `feat(app): trecho e data de edição nas linhas de página (EXCERPT-01, EDITED-02)`
+**Status**: ✅ Done
 
 ---
 
