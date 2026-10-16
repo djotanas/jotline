@@ -326,7 +326,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | EDIT-03 | P1: Write in a page | Execute | Implementing |
 | EDIT-04 | P1: Write in a page | Execute | Implementing |
 | EDIT-05 | P1: Write in a page | Execute | Implementing |
-| EDIT-06 | P1: Write in a page | - | Pending |
+| EDIT-06 | P1: Write in a page | Execute | Implementing |
 | EDIT-07 | P1: Write in a page | Execute | Implementing |
 | EDIT-08 | P1: Write in a page | Execute | Implementing |
 | EDIT-09 | P1: Write in a page | Execute | Implementing |

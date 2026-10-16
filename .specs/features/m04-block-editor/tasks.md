@@ -719,17 +719,18 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `page_screen_test.dart` covers:
+- [x] `page_screen_test.dart` covers:
   - new page → no block rows, no placeholder; tap the body and type "Olá" → one text row
   - tap below the last block → caret in a new empty paragraph, no row until a character
   - tap below when the last block is already empty → no second empty block
   - Enter in the title → caret at the start of the first block; on an empty page, in the empty paragraph
   - every block deleted → empty state of EDIT-04 again (EDGE-05)
-- [ ] Quick gate passes (≥ 5 new tests)
+- [x] Quick gate passes (≥ 5 new tests)
 
 **Tests**: widget
 **Gate**: quick
 **Commit**: `feat(app): página vazia e foco do título para o corpo (EDIT-04, EDIT-06)`
+**Status**: ✅ Done
 
 ---
 

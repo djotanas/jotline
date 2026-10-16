@@ -156,6 +156,38 @@ String _textOf(String nodeId) =>
     (SuperEditorInspector.findDocument()!.getNodeById(nodeId)! as TextNode).text
         .toPlainText();
 
+Finder get _filler => find.descendant(
+  of: find.byType(SliverFillRemaining),
+  matching: find.byType(GestureDetector),
+);
+
+Future<List<Block>> _rows(WidgetTester tester) async =>
+    (await tester.runAsync(() => _app.blocks.loadPage(_pageId)))!;
+
+List<DocumentNode> get _nodes => SuperEditorInspector.findDocument()!.toList();
+
+DocumentSelection? get _selection =>
+    SuperEditorInspector.findDocumentSelection();
+
+DocumentSelection _caretAt(String nodeId, int offset) =>
+    DocumentSelection.collapsed(
+      position: DocumentPosition(
+        nodeId: nodeId,
+        nodePosition: TextNodePosition(offset: offset),
+      ),
+    );
+
+Future<void> _tapBelow(WidgetTester tester) async {
+  await tester.tap(_filler);
+  await tester.pump(kTapTimeout);
+  await tester.pumpAndSettle();
+}
+
+Future<void> _save(WidgetTester tester) async {
+  await tester.pump(const Duration(milliseconds: 500));
+  await _settle(tester);
+}
+
 const (BlockType, BlockContent) _belem = (
   BlockType.text,
   BlockContent('Belém'),
@@ -629,6 +661,150 @@ void main() {
     repository.gate.complete();
     await _settle(tester);
     expect(await _storedText(tester, _blockIds[0]), 'Belém cedo demais');
+    await _close(tester);
+  });
+
+  testWidgets('EDIT-04, EDIT-05: a new page has no block rows and no '
+      'placeholder; tapping the body and typing "Olá" saves one text row', (
+    tester,
+  ) async {
+    await _open(tester);
+
+    expect(await _rows(tester), isEmpty);
+    expect(
+      find.descendant(
+        of: find.byType(SuperEditor),
+        matching: find.byWidgetPredicate(
+          (w) => w is RichText && w.text.toPlainText().isNotEmpty,
+        ),
+      ),
+      findsNothing,
+    );
+
+    await _tapBelow(tester);
+    await _save(tester);
+    expect(await _rows(tester), isEmpty);
+
+    await tester.typeImeText('Olá');
+    await _save(tester);
+    final rows = await _rows(tester);
+    expect(rows, hasLength(1));
+    expect(rows.single.type, BlockType.text.id);
+    expect(BlockContent.fromJson(rows.single.contentJson).text, 'Olá');
+    await _close(tester);
+  });
+
+  testWidgets('EDIT-04, EDIT-05: tapping below the last block puts the caret '
+      'in a new empty text block, saved only after a character', (
+    tester,
+  ) async {
+    await _open(tester, blocks: [_belem]);
+
+    await _tapBelow(tester);
+
+    expect(_nodes, hasLength(2));
+    final added = _nodes.last;
+    expect(added, isA<ParagraphNode>());
+    expect(
+      (added as ParagraphNode).getMetadataValue(NodeMetadata.blockType),
+      isNot(header1Attribution),
+    );
+    expect(added.text.toPlainText(), isEmpty);
+    expect(_selection, _caretAt(added.id, 0));
+    await _save(tester);
+    expect(await _rows(tester), hasLength(1));
+
+    await tester.typeImeText('Pastéis');
+    await _save(tester);
+    final rows = await _rows(tester);
+    expect(rows.map((r) => BlockContent.fromJson(r.contentJson).text), [
+      'Belém',
+      'Pastéis',
+    ]);
+    await _close(tester);
+  });
+
+  testWidgets('EDIT-04: tapping below when the last block is an empty text '
+      'block reuses it', (tester) async {
+    await _open(
+      tester,
+      blocks: [_belem, (BlockType.text, const BlockContent(''))],
+    );
+
+    await _tapBelow(tester);
+    await _tapBelow(tester);
+
+    expect(_nodes.map((n) => n.id), _blockIds);
+    expect(_selection, _caretAt(_blockIds[1], 0));
+    await _close(tester);
+  });
+
+  testWidgets('EDIT-06: Enter in the title moves the caret to the start of '
+      'the first block', (tester) async {
+    await _open(
+      tester,
+      blocks: [_belem, (BlockType.text, const BlockContent('Pastéis'))],
+    );
+
+    await tester.tap(_field);
+    await tester.pump();
+    await tester.testTextInput.receiveAction(TextInputAction.next);
+    await tester.pumpAndSettle();
+
+    expect(_selection, _caretAt(_blockIds[0], 0));
+    expect(
+      tester.widget<EditableText>(find.byType(EditableText)).focusNode.hasFocus,
+      isFalse,
+    );
+    await tester.typeImeText('X');
+    expect(_textOf(_blockIds[0]), 'XBelém');
+    await _close(tester);
+  });
+
+  testWidgets('EDIT-06: Enter in the title of an empty page moves the caret '
+      'to an empty text block', (tester) async {
+    await _open(tester);
+
+    await tester.tap(_field);
+    await tester.pump();
+    await tester.testTextInput.receiveAction(TextInputAction.next);
+    await tester.pumpAndSettle();
+
+    expect(_nodes, hasLength(1));
+    expect(_selection, _caretAt(_nodes.single.id, 0));
+    await tester.typeImeText('Olá');
+    await _save(tester);
+    final rows = await _rows(tester);
+    expect(rows.map((r) => BlockContent.fromJson(r.contentJson).text), ['Olá']);
+    await _close(tester);
+  });
+
+  testWidgets('EDGE-05: deleting every block brings back the empty page of '
+      'EDIT-04, with no excerpt', (tester) async {
+    await _open(
+      tester,
+      blocks: [
+        (BlockType.text, const BlockContent('Olá')),
+        (BlockType.text, const BlockContent('Mar')),
+      ],
+    );
+
+    await tester.placeCaretInParagraph(_blockIds[1], 3);
+    for (var i = 0; i < 7; i++) {
+      await tester.imeBackspace();
+    }
+    await _save(tester);
+
+    expect(_nodes, hasLength(1));
+    expect((_nodes.single as TextNode).text.toPlainText(), isEmpty);
+    final summary = await tester.runAsync(
+      () => _app.pages.watchOne(_pageId).first,
+    );
+    expect(summary!.excerpt, isNull);
+
+    await _tapBelow(tester);
+    expect(_nodes, hasLength(1));
+    expect(_selection, _caretAt(_nodes.single.id, 0));
     await _close(tester);
   });
 }

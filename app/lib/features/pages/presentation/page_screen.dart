@@ -205,6 +205,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
                     controller: _controller,
                     autofocus: widget.autofocusTitle,
                     onChanged: _onChanged,
+                    onSubmitted: (_) => blocks?.focusStart(),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -234,9 +235,13 @@ class _PageScreenState extends ConsumerState<PageScreen> {
               padding: const EdgeInsets.only(top: JotSpace.space4),
               sliver: PageEditorView(pageEditor: blocks),
             ),
-          const SliverFillRemaining(
+          SliverFillRemaining(
             hasScrollBody: false,
-            child: SizedBox(height: 2 * JotSpace.space11),
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: blocks?.focusEnd,
+              child: const SizedBox(height: 2 * JotSpace.space11),
+            ),
           ),
         ],
       );
@@ -291,11 +296,13 @@ class _PageTitleField extends StatefulWidget {
     required this.controller,
     required this.autofocus,
     required this.onChanged,
+    required this.onSubmitted,
   });
 
   final TextEditingController controller;
   final bool autofocus;
   final ValueChanged<String> onChanged;
+  final ValueChanged<String> onSubmitted;
 
   @override
   State<_PageTitleField> createState() => _PageTitleFieldState();
@@ -318,6 +325,8 @@ class _PageTitleFieldState extends State<_PageTitleField> {
           controller: widget.controller,
           autofocus: widget.autofocus,
           onChanged: widget.onChanged,
+          textInputAction: TextInputAction.next,
+          onSubmitted: widget.onSubmitted,
           maxLength: maxTitleLength,
           maxLengthEnforcement: MaxLengthEnforcement.enforced,
           buildCounter: (
