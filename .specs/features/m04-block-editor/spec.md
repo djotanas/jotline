@@ -366,8 +366,8 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | SAVE-12 | P1: Block persistence | - | Pending |
 | SAVE-13 | P1: Block persistence | - | Pending |
 | EDITED-01 | P1: Page "last edited" from blocks | Execute | Implementing |
-| EDITED-02 | P1: Page "last edited" from blocks | - | Pending |
-| EDITED-03 | P1: Page "last edited" from blocks | - | Pending |
+| EDITED-02 | P1: Page "last edited" from blocks | Execute | Implementing |
+| EDITED-03 | P1: Page "last edited" from blocks | Execute | Implementing |
 | EDITED-04 | P1: Page "last edited" from blocks | Execute | Implementing |
 | EDITED-05 | P1: Page "last edited" from blocks | Execute | Implementing |
 | EXCERPT-01 | P2: Page excerpt in the list | Execute | Implementing |

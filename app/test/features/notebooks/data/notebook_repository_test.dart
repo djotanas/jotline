@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/core/database/local_user_repository.dart';
 import 'package:jotline/core/theme/notebook_palette.dart';
+import 'package:jotline/features/blocks/data/block_content.dart';
+import 'package:jotline/features/blocks/data/block_repository.dart';
 import 'package:jotline/features/notebooks/data/notebook_repository.dart';
 import 'package:jotline/features/notebooks/data/notebook_summary.dart';
 import 'package:jotline/features/pages/data/page_repository.dart';
@@ -708,5 +710,125 @@ void main() {
     expect(recorder.errors, isEmpty);
     expect(recorder.isDone, isTrue);
     db = createTestDatabase();
+  });
+  group('last edited from blocks', () {
+    late BlockRepository blocks;
+
+    setUp(() => blocks = BlockRepository(db, clock, ids, localUser));
+
+    Future<String> block(String pageId, String text) => blocks.create(
+      pageId,
+      type: BlockType.text.id,
+      contentJson: BlockContent(text).toJson(),
+    );
+
+    test('EDITED-03: a notebook whose only change today is a block write '
+        'sorts first under lastEdited', () async {
+      clock.current = DateTime.utc(2026, 10, 9);
+      final older = await create('Older');
+      final page = await pageRepository.create(older, title: 'A');
+      clock.current = DateTime.utc(2026, 10, 10);
+      final newer = await create('Newer');
+      await pageRepository.create(newer, title: 'B');
+      expect(
+        [
+          for (final s in sortNotebooks(
+            await summaries(archived: false),
+            NotebookSort.lastEdited,
+          ))
+            s.notebook.id,
+        ],
+        [newer, older],
+      );
+      clock.current = DateTime.utc(2026, 10, 11, 15);
+
+      await block(page, 'Belém');
+
+      final sorted = sortNotebooks(
+        await summaries(archived: false),
+        NotebookSort.lastEdited,
+      );
+      expect([for (final s in sorted) s.notebook.id], [older, newer]);
+      expect(sorted.first.lastEditedAt, DateTime.utc(2026, 10, 11, 15));
+    });
+
+    test("EDITED-01: a block's deleted_at counts", () async {
+      final id = await create('Work');
+      final page = await pageRepository.create(id, title: 'A');
+      clock.current = DateTime.utc(2026, 10, 12);
+      final b = await block(page, 'Belém');
+      clock.current = DateTime.utc(2026, 10, 13, 6);
+
+      await blocks.moveToTrash(b);
+
+      expect(
+        (await summaries(archived: false)).single.lastEditedAt,
+        DateTime.utc(2026, 10, 13, 6),
+      );
+    });
+
+    test('EDITED-03: blocks of a trashed page do not count', () async {
+      final id = await create('Work');
+      clock.current = DateTime.utc(2026, 10, 12);
+      await pageRepository.create(id, title: 'A');
+      final trashed = await pageRepository.create(id, title: 'B');
+      clock.current = DateTime.utc(2026, 10, 14);
+      await block(trashed, 'Belém');
+
+      await pageRepository.moveToTrash(trashed);
+
+      expect(
+        (await summaries(archived: false)).single.lastEditedAt,
+        DateTime.utc(2026, 10, 12),
+      );
+    });
+
+    test(
+      'EDITED-03: pageCount is unchanged with many blocks per page',
+      () async {
+        final id = await create('Work');
+        final a = await pageRepository.create(id, title: 'A');
+        final b = await pageRepository.create(id, title: 'B');
+        for (final text in ['1', '2', '3']) {
+          await block(a, text);
+        }
+        await block(b, '4');
+        await blocks.moveToTrash(await block(b, '5'));
+
+        expect((await summaries(archived: false)).single.pageCount, 2);
+      },
+    );
+
+    test('EDITED-04: the summaries re-emit on a block write', () async {
+      final id = await create('Work');
+      final page = await pageRepository.create(id, title: 'A');
+      final recorder = StreamRecorder(
+        repository.watchSummaries(archived: false),
+      );
+      await recorder.settle();
+      expect(
+        recorder.emissions.last.single.lastEditedAt,
+        DateTime.utc(2026, 10, 11, 8),
+      );
+
+      clock.current = DateTime.utc(2026, 10, 12, 10);
+      final b = await block(page, 'Belém');
+      await recorder.settle();
+      expect(
+        recorder.emissions.last.single.lastEditedAt,
+        DateTime.utc(2026, 10, 12, 10),
+      );
+
+      clock.current = DateTime.utc(2026, 10, 12, 11);
+      await blocks.applyChanges(page, [
+        Update(b, BlockType.text, const BlockContent('Belém cedo')),
+      ]);
+      await recorder.settle();
+      expect(
+        recorder.emissions.last.single.lastEditedAt,
+        DateTime.utc(2026, 10, 12, 11),
+      );
+      await recorder.cancel();
+    });
   });
 }

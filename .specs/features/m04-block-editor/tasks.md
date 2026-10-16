@@ -279,17 +279,18 @@ T25 → T26
 
 **Done when**:
 
-- [ ] Drift tests cover:
+- [x] Drift tests cover:
   - a notebook whose only change is a block write today sorts first under `lastEdited`
   - a block's `deleted_at` counts
   - blocks of a trashed page do not count
   - `pageCount` unchanged with many blocks per page
   - the stream re-emits on a block write
-- [ ] Quick gate passes (≥ 5 new tests)
+- [x] Quick gate passes (≥ 5 new tests)
 
 **Tests**: Drift
 **Gate**: quick
 **Commit**: `feat(app): última edição do caderno inclui os blocos (EDITED-03)`
+**Status**: ✅ Done
 
 ---
 
