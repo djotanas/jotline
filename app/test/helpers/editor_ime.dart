@@ -25,3 +25,23 @@ extension EditorIme on WidgetTester {
     await pumpAndSettle();
   }
 }
+
+extension EditorImeInsert on WidgetTester {
+  /// Sends [text] as one insertion delta at the IME selection, then pumps a
+  /// single frame, so no time passes while typing.
+  Future<void> imeInsert(String text) async {
+    final client = imeClientGetter();
+    final value = client.currentTextEditingValue!;
+    final offset = value.selection.extentOffset;
+    client.updateEditingValueWithDeltas([
+      TextEditingDeltaInsertion(
+        oldText: value.text,
+        textInserted: text,
+        insertionOffset: offset,
+        selection: TextSelection.collapsed(offset: offset + text.length),
+        composing: TextRange.empty,
+      ),
+    ]);
+    await pump();
+  }
+}

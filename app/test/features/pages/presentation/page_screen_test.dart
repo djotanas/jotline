@@ -1,11 +1,22 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:jotline/core/database/app_database.dart';
+import 'package:jotline/core/database/local_user_repository.dart';
 import 'package:jotline/core/design_system/jot_icon_button.dart';
 import 'package:jotline/core/design_system/jot_text_field.dart';
+import 'package:jotline/core/ordering/placement.dart';
 import 'package:jotline/core/theme/notebook_palette.dart';
+import 'package:jotline/features/blocks/data/block_content.dart';
+import 'package:jotline/features/blocks/data/block_providers.dart';
+import 'package:jotline/features/blocks/data/block_repository.dart';
 import 'package:jotline/features/pages/presentation/page_outcome.dart';
 import 'package:jotline/features/pages/presentation/page_screen.dart';
+import 'package:super_editor/super_editor.dart';
+import 'package:super_editor/super_editor_test.dart';
 
+import '../../../helpers/editor_ime.dart';
 import '../../../helpers/pump_jot.dart';
 import '../../../helpers/test_app.dart';
 
@@ -14,15 +25,38 @@ class _Launch {
   Object? outcome;
 }
 
+class _GatedBlockRepository extends BlockRepository {
+  new(TestApp app)
+    : super(app.db, app.clock, app.ids, LocalUserRepository(app.db, app.ids));
+
+  final Completer<void> gate = Completer<void>();
+  int calls = 0;
+
+  @override
+  Future<Map<String, String>> applyChanges(
+    String pageId,
+    List<BlockChange> changes,
+  ) async {
+    calls++;
+    await gate.future;
+    return await super.applyChanges(pageId, changes);
+  }
+}
+
 late TestApp _app;
 late String _notebookId;
 late String _pageId;
+late List<String> _blockIds;
 late _Launch _launch;
 
 Future<void> _open(
   WidgetTester tester, {
   String title = 'Roteiro',
   bool autofocus = false,
+  List<(BlockType, BlockContent)> blocks = const [],
+  bool archived = false,
+  BlockRepository Function(TestApp app)? blockRepository,
+  Future<void> Function()? seed,
 }) async {
   _app = TestApp();
   _launch = _Launch();
@@ -32,8 +66,19 @@ Future<void> _open(
       cover: CoverPattern.lisa,
       color: NotebookColor.musgo,
     );
+    if (archived) await _app.notebooks.archive(_notebookId);
     _pageId = await _app.pages.create(_notebookId, title: title);
+    _blockIds = [
+      for (final (type, content) in blocks)
+        await _app.blocks.create(
+          _pageId,
+          type: type.id,
+          contentJson: content.forType(type).toJson(),
+        ),
+    ];
+    await seed?.call();
   });
+  final repository = blockRepository?.call(_app);
   await tester.pumpJot(
     Builder(
       builder: (context) => Scaffold(
@@ -53,8 +98,18 @@ Future<void> _open(
         ),
       ),
     ),
-    overrides: _app.overrides,
+    overrides: [
+      ..._app.overrides,
+      if (repository != null)
+        blockRepositoryProvider.overrideWithValue(repository),
+    ],
   );
+  await _launchPage(tester);
+}
+
+Future<void> _launchPage(WidgetTester tester) async {
+  _launch.popped = false;
+  _launch.outcome = null;
   await tester.tap(find.text('go'));
   await _settle(tester);
 }
@@ -76,6 +131,35 @@ Future<void> _close(WidgetTester tester) async {
 }
 
 Finder get _field => find.byType(TextField);
+
+Future<Block> _block(WidgetTester tester, String id) async =>
+    (await tester.runAsync(
+      () => (_app.db.select(
+        _app.db.blocks,
+      )..where((t) => t.id.equals(id))).getSingle(),
+    ))!;
+
+Future<String> _storedText(WidgetTester tester, String id) async =>
+    BlockContent.fromJson((await _block(tester, id)).contentJson).text;
+
+Future<void> _typeAt(
+  WidgetTester tester,
+  String nodeId,
+  int offset,
+  String text,
+) async {
+  await tester.placeCaretInParagraph(nodeId, offset);
+  await tester.typeImeText(text);
+}
+
+String _textOf(String nodeId) =>
+    (SuperEditorInspector.findDocument()!.getNodeById(nodeId)! as TextNode).text
+        .toPlainText();
+
+const (BlockType, BlockContent) _belem = (
+  BlockType.text,
+  BlockContent('Belém'),
+);
 
 void main() {
   testWidgets('PAGE-01: shows the notebook title as back label, the options '
@@ -299,6 +383,252 @@ void main() {
 
     expect(_launch.popped, isTrue);
     expect(_launch.outcome, isNull);
+    await _close(tester);
+  });
+
+  testWidgets('EDIT-01, SAVE-11: shows the stored blocks not deleted, in '
+      'position then id order, with types, text, marks and checked', (
+    tester,
+  ) async {
+    late String first;
+    late String trashed;
+    await _open(
+      tester,
+      blocks: [
+        (
+          BlockType.text,
+          const BlockContent(
+            'Belém cedo',
+            marks: [Mark(0, 5, MarkType.bold), Mark(6, 10, MarkType.italic)],
+          ),
+        ),
+        (BlockType.bulletedListItem, const BlockContent('Torre')),
+        (BlockType.checklistItem, const BlockContent('Pastéis', checked: true)),
+        (BlockType.checklistItem, const BlockContent('MAAT', checked: false)),
+      ],
+      seed: () async {
+        first = await _app.blocks.create(
+          _pageId,
+          type: BlockType.heading.id,
+          contentJson: const BlockContent('Manhã').toJson(),
+          at: const AtStart(),
+        );
+        trashed = await _app.blocks.create(
+          _pageId,
+          type: BlockType.text.id,
+          contentJson: const BlockContent('Apagado').toJson(),
+        );
+        await _app.blocks.moveToTrash(trashed);
+      },
+    );
+
+    final nodes = SuperEditorInspector.findDocument()!.toList();
+    expect(nodes.map((n) => n.id), [first, ..._blockIds]);
+    expect(nodes.map((n) => (n as TextNode).text.toPlainText()), [
+      'Manhã',
+      'Belém cedo',
+      'Torre',
+      'Pastéis',
+      'MAAT',
+    ]);
+    expect(
+      (nodes[0] as ParagraphNode).getMetadataValue(NodeMetadata.blockType),
+      header1Attribution,
+    );
+    expect(nodes[1], isA<ParagraphNode>());
+    expect(
+      (nodes[1] as ParagraphNode).getMetadataValue(NodeMetadata.blockType),
+      isNot(header1Attribution),
+    );
+    final text = (nodes[1] as TextNode).text;
+    expect(
+      text.getAttributionSpans({boldAttribution}).single,
+      const AttributionSpan(attribution: boldAttribution, start: 0, end: 4),
+    );
+    expect(
+      text.getAttributionSpans({italicsAttribution}).single,
+      const AttributionSpan(attribution: italicsAttribution, start: 6, end: 9),
+    );
+    expect(nodes[2], isA<ListItemNode>());
+    expect((nodes[2] as ListItemNode).type, ListItemType.unordered);
+    expect((nodes[3] as TaskNode).isComplete, isTrue);
+    expect((nodes[4] as TaskNode).isComplete, isFalse);
+    expect(SuperEditorInspector.findDocument()!.getNodeById(trashed), isNull);
+    await _close(tester);
+  });
+
+  testWidgets('SAVE-02, SAVE-05, EDITED-04: typing saves the block 500 ms '
+      'after the last change, leaves the page and other rows alone and '
+      'updates "Editada"', (tester) async {
+    await _open(
+      tester,
+      blocks: [_belem, (BlockType.text, const BlockContent('Pastéis'))],
+    );
+    final page = await tester.runAsync(() => _app.page(_pageId));
+    final other = await _block(tester, _blockIds[1]);
+    _app.clock.current = DateTime.utc(2026, 10, 12, 18, 30);
+    final local = _app.clock.current.toLocal();
+    final hours = local.hour.toString().padLeft(2, '0');
+    final minutes = local.minute.toString().padLeft(2, '0');
+
+    await tester.placeCaretInParagraph(_blockIds[0], 5);
+    await tester.imeInsert(' cedo');
+    await tester.pump(const Duration(milliseconds: 499));
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+    expect(await _storedText(tester, _blockIds[0]), 'Belém');
+
+    await tester.pump(const Duration(milliseconds: 1));
+    await _settle(tester);
+    final saved = await _block(tester, _blockIds[0]);
+    expect(BlockContent.fromJson(saved.contentJson).text, 'Belém cedo');
+    expect(saved.updatedAt, _app.clock.current);
+    expect(await tester.runAsync(() => _app.page(_pageId)), page);
+    expect(await _block(tester, _blockIds[1]), other);
+    expect(find.text('Editada hoje, $hours:$minutes'), findsOneWidget);
+    await _close(tester);
+  });
+
+  testWidgets('SAVE-03, SAVE-11: typing then leaving at once saves the block '
+      'before the screen closes, and reopening shows it', (tester) async {
+    await _open(tester, blocks: [_belem]);
+
+    await _typeAt(tester, _blockIds[0], 5, ' cedo');
+    await tester.binding.handlePopRoute();
+    await _settle(tester);
+
+    expect(_launch.popped, isTrue);
+    expect(await _storedText(tester, _blockIds[0]), 'Belém cedo');
+
+    await _launchPage(tester);
+    expect(_textOf(_blockIds[0]), 'Belém cedo');
+    await _close(tester);
+  });
+
+  testWidgets('SAVE-03: the screen removed without a pop still saves the '
+      'typed block', (tester) async {
+    await _open(tester, blocks: [_belem]);
+
+    await _typeAt(tester, _blockIds[0], 5, ' cedo');
+    await tester.pumpWidget(const SizedBox());
+    await _settle(tester);
+
+    expect(await _storedText(tester, _blockIds[0]), 'Belém cedo');
+    await tester.runAsync(_app.db.close);
+  });
+
+  testWidgets('SAVE-13: the app turning inactive saves the typed block at '
+      'once, without waiting 500 ms', (tester) async {
+    await _open(tester, blocks: [_belem]);
+
+    await _typeAt(tester, _blockIds[0], 5, ' cedo');
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+    await tester.pump();
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+
+    expect(await _storedText(tester, _blockIds[0]), 'Belém cedo');
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await _close(tester);
+  });
+
+  testWidgets('SAVE-03: opening the options saves the typed block first', (
+    tester,
+  ) async {
+    await _open(tester, blocks: [_belem]);
+
+    await _typeAt(tester, _blockIds[0], 5, ' cedo');
+    await tester.tap(find.byType(JotIconButton));
+    await tester.pump();
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+
+    expect(await _storedText(tester, _blockIds[0]), 'Belém cedo');
+    await _settle(tester);
+    await tester.pumpAndSettle();
+    expect(find.text('Excluir página'), findsOneWidget);
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    await _close(tester);
+  });
+
+  testWidgets('SAVE-03: deleting the page saves the typed block before the '
+      'page goes to the trash', (tester) async {
+    await _open(tester, blocks: [_belem]);
+
+    await _typeAt(tester, _blockIds[0], 5, ' cedo');
+    await tester.tap(find.byType(JotIconButton));
+    await _settle(tester);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Excluir página'));
+    await tester.pumpAndSettle();
+    await _settle(tester);
+
+    expect(_launch.outcome, isA<PageTrashed>());
+    expect(
+      (await tester.runAsync(() => _app.page(_pageId)))!.deletedAt,
+      isNotNull,
+    );
+    expect(await _storedText(tester, _blockIds[0]), 'Belém cedo');
+    await _close(tester);
+  });
+
+  testWidgets('EDGE-01, EDGE-06: the page trashed while open saves the '
+      'pending text and pops; restoring it shows the text', (tester) async {
+    await _open(tester, blocks: [_belem]);
+
+    await _typeAt(tester, _blockIds[0], 5, ' cedo');
+    await tester.runAsync(() => _app.pages.moveToTrash(_pageId));
+    await _settle(tester);
+
+    expect(_launch.popped, isTrue);
+    expect(await _storedText(tester, _blockIds[0]), 'Belém cedo');
+
+    await tester.runAsync(() => _app.pages.restore(_pageId));
+    await _launchPage(tester);
+    expect(_textOf(_blockIds[0]), 'Belém cedo');
+    await _close(tester);
+  });
+
+  testWidgets('EDGE-02: a page of an archived notebook is editable and '
+      'saved', (tester) async {
+    await _open(tester, blocks: [_belem], archived: true);
+
+    await _typeAt(tester, _blockIds[0], 5, ' cedo');
+    await tester.pump(const Duration(milliseconds: 500));
+    await _settle(tester);
+
+    expect(_textOf(_blockIds[0]), 'Belém cedo');
+    expect(await _storedText(tester, _blockIds[0]), 'Belém cedo');
+    await _close(tester);
+  });
+
+  testWidgets('SAVE-12: a write still in flight blocks neither typing nor '
+      'leaving', (tester) async {
+    late _GatedBlockRepository repository;
+    await _open(
+      tester,
+      blocks: [_belem],
+      blockRepository: (app) => repository = _GatedBlockRepository(app),
+    );
+
+    await _typeAt(tester, _blockIds[0], 5, ' cedo');
+    await tester.pump(const Duration(milliseconds: 500));
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+    expect(repository.calls, 1);
+    expect(repository.gate.isCompleted, isFalse);
+
+    await tester.typeImeText(' demais');
+    await tester.pump();
+    expect(_textOf(_blockIds[0]), 'Belém cedo demais');
+
+    await tester.binding.handlePopRoute();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(_launch.popped, isTrue);
+    expect(await _storedText(tester, _blockIds[0]), 'Belém');
+
+    repository.gate.complete();
+    await _settle(tester);
+    expect(await _storedText(tester, _blockIds[0]), 'Belém cedo demais');
     await _close(tester);
   });
 }

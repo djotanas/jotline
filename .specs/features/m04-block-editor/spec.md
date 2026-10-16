@@ -332,7 +332,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | EDIT-09 | P1: Write in a page | Execute | Implementing |
 | EDIT-10 | P1: Write in a page | Execute | Implementing |
 | EDIT-11 | P1: Write in a page | Execute | Implementing |
-| EDIT-12 | P1: Write in a page | - | Pending |
+| EDIT-12 | P1: Write in a page | Execute | Implementing |
 | BAR-01 | P1: Block bar and block types | Execute | Implementing |
 | BAR-02 | P1: Block bar and block types | - | Pending |
 | BAR-03 | P1: Block bar and block types | Execute | Implementing |
@@ -354,7 +354,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | CHECK-08 | P1: Checklist | Execute | Implementing |
 | SAVE-01 | P1: Block persistence | Execute | Implementing |
 | SAVE-02 | P1: Block persistence | Execute | Implementing |
-| SAVE-03 | P1: Block persistence | - | Pending |
+| SAVE-03 | P1: Block persistence | Execute | Implementing |
 | SAVE-04 | P1: Block persistence | Execute | Implementing |
 | SAVE-05 | P1: Block persistence | Execute | Implementing |
 | SAVE-06 | P1: Block persistence | Execute | Implementing |
@@ -364,7 +364,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | SAVE-10 | P1: Block persistence | Execute | Implementing |
 | SAVE-11 | P1: Block persistence | Execute | Implementing |
 | SAVE-12 | P1: Block persistence | Execute | Implementing |
-| SAVE-13 | P1: Block persistence | - | Pending |
+| SAVE-13 | P1: Block persistence | Execute | Implementing |
 | EDITED-01 | P1: Page "last edited" from blocks | Execute | Implementing |
 | EDITED-02 | P1: Page "last edited" from blocks | Execute | Implementing |
 | EDITED-03 | P1: Page "last edited" from blocks | Execute | Implementing |
@@ -387,12 +387,12 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | DOC-01 | P3: Decision records and docs | Execute | Implementing |
 | DOC-02 | P3: Decision records and docs | - | Pending |
 | DOC-03 | P3: Decision records and docs | - | Pending |
-| EDGE-01 | Edge cases | - | Pending |
-| EDGE-02 | Edge cases | - | Pending |
+| EDGE-01 | Edge cases | Execute | Implementing |
+| EDGE-02 | Edge cases | Execute | Implementing |
 | EDGE-03 | Edge cases | Execute | Implementing |
 | EDGE-04 | Edge cases | Execute | Implementing |
 | EDGE-05 | Edge cases | Execute | Implementing |
-| EDGE-06 | Edge cases | - | Pending |
+| EDGE-06 | Edge cases | Execute | Implementing |
 | EDGE-07 | Edge cases | Execute | Implementing |
 
 **Coverage:** 84 total, 0 mapped to tasks, 84 unmapped ⚠️ (tasks come after design, which waits for the editor ADR)

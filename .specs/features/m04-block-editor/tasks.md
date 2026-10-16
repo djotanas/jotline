@@ -687,7 +687,7 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `page_screen_test.dart` covers:
+- [x] `page_screen_test.dart` covers:
   - stored blocks shown in `position, id` order with types, text, marks and `checked` (EDIT-01, SAVE-11)
   - M03 tests for title, "Editada" and options still pass (EDIT-12)
   - typing then 500 ms → row updated, page row unchanged; "Editada" updates on screen
@@ -695,11 +695,12 @@ T25 → T26
   - page trashed while open → pending text saved, screen pops (EDGE-01); restore shows it (EDGE-06)
   - archived notebook page is editable (EDGE-02)
   - no frame awaits the write: a slow repository fake does not block pumping (SAVE-12)
-- [ ] Quick gate passes (≥ 9 new tests)
+- [x] Quick gate passes (≥ 9 new tests)
 
 **Tests**: widget
 **Gate**: quick
 **Commit**: `feat(app): editor de blocos na tela da página com salvamento (SAVE-02, SAVE-03)`
+**Status**: ✅ Done
 
 ---
 

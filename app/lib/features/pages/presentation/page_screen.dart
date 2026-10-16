@@ -13,6 +13,8 @@ import 'package:jotline/core/text/relative_dates.dart';
 import 'package:jotline/core/text/title_rules.dart';
 import 'package:jotline/core/theme/jot_spacing.dart';
 import 'package:jotline/core/theme/theme_context.dart';
+import 'package:jotline/features/blocks/data/block_providers.dart';
+import 'package:jotline/features/blocks/presentation/editor/page_editor.dart';
 import 'package:jotline/features/notebooks/data/notebook_providers.dart';
 import 'package:jotline/features/pages/data/page_providers.dart';
 import 'package:jotline/features/pages/data/page_summary.dart';
@@ -20,8 +22,8 @@ import 'package:jotline/features/pages/presentation/page_options_sheet.dart';
 import 'package:jotline/features/pages/presentation/page_outcome.dart';
 import 'package:jotline/l10n/app_localizations.dart';
 
-/// The page before the block editor: back to the notebook, options, an inline
-/// title and the "Editada" line. M04 fills the body.
+/// A page: back to the notebook, options, an inline title, the "Editada"
+/// line and the block editor, saved while the user types.
 class PageScreen extends ConsumerStatefulWidget {
   const new({required this.pageId, super.key, this.autofocusTitle = false});
 
@@ -43,17 +45,37 @@ class _PageScreenState extends ConsumerState<PageScreen> {
   Timer? _debounce;
   String? _lastSaved;
   bool _closing = false;
+  PageEditor? _blocks;
 
   @override
   void initState() {
     super.initState();
-    _lifecycle = AppLifecycleListener(onHide: _flush, onPause: _flush);
+    _lifecycle = AppLifecycleListener(
+      onInactive: _flushAllSoon,
+      onHide: _flushAllSoon,
+      onPause: _flushAllSoon,
+    );
+    unawaited(_loadBlocks());
+  }
+
+  Future<void> _loadBlocks() async {
+    final repository = ref.read(blockRepositoryProvider);
+    final rows = await repository.loadPage(widget.pageId);
+    if (!mounted) return;
+    setState(() {
+      _blocks = PageEditor(
+        rows: rows,
+        pageId: widget.pageId,
+        repository: repository,
+      );
+    });
   }
 
   @override
   void dispose() {
     _lifecycle.dispose();
     _debounce?.cancel();
+    _blocks?.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -80,10 +102,16 @@ class _PageScreenState extends ConsumerState<PageScreen> {
     await ref.read(pageRepositoryProvider).rename(widget.pageId, title);
   }
 
+  Future<void> _flushAll() async {
+    await Future.wait([_flush(), ?_blocks?.flush()]);
+  }
+
+  void _flushAllSoon() => unawaited(_flushAll());
+
   void _pop([PageOutcome? outcome]) => Navigator.of(context).pop(outcome);
 
   Future<void> _openOptions(PageSummary summary, Notebook notebook) async {
-    await _flush();
+    await _flushAll();
     if (!mounted) return;
     final action = await showPageOptionsSheet(context, summary, notebook);
     if (!mounted) return;
@@ -115,7 +143,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
   }
 
   Future<void> _delete() async {
-    await _flush();
+    await _flushAll();
     _closing = true;
     await ref.read(pageRepositoryProvider).moveToTrash(widget.pageId);
     if (mounted) _pop(PageTrashed(widget.pageId));
@@ -126,6 +154,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
     ref.listen(pageProvider(widget.pageId), (_, next) {
       if (next case AsyncData(value: null) when !_closing) {
         _closing = true;
+        _flushAllSoon();
         _pop();
       }
     });
@@ -140,65 +169,81 @@ class _PageScreenState extends ConsumerState<PageScreen> {
       _adopt(page);
       final notebook = ref.watch(notebookProvider(page.notebookId)).value;
       final dates = RelativeDates(l10n, now: ref.watch(clockProvider).now());
-      body = Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: JotSpace.space3),
-            child: JotTopBar.back(
-              previousLabel: notebook?.notebook.title ?? '',
-              onBack: _pop,
-              actions: [
-                if (notebook != null)
-                  JotIconButton(
-                    icon: JotIconGlyph.more,
-                    semanticLabel: l10n.pageOptionsLabel,
-                    onPressed: () => _openOptions(summary, notebook.notebook),
-                  ),
-              ],
+      final blocks = _blocks;
+      body = CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: JotSpace.space3),
+              child: JotTopBar.back(
+                previousLabel: notebook?.notebook.title ?? '',
+                onBack: _pop,
+                actions: [
+                  if (notebook != null)
+                    JotIconButton(
+                      icon: JotIconGlyph.more,
+                      semanticLabel: l10n.pageOptionsLabel,
+                      onPressed: () => _openOptions(summary, notebook.notebook),
+                    ),
+                ],
+              ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              JotSpace.space4,
-              JotSpace.space2,
-              JotSpace.space4,
-              0,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              spacing: JotSpace.space2,
-              children: [
-                _PageTitleField(
-                  controller: _controller,
-                  autofocus: widget.autofocusTitle,
-                  onChanged: _onChanged,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: JotSpace.space2,
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                JotSpace.space4,
+                JotSpace.space2,
+                JotSpace.space4,
+                0,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: JotSpace.space2,
+                children: [
+                  _PageTitleField(
+                    controller: _controller,
+                    autofocus: widget.autofocusTitle,
+                    onChanged: _onChanged,
                   ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          dates.withTime(l10n.pageEdited, page.updatedAt),
-                          style: context.textStyles.meta,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: JotSpace.space2,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            dates.withTime(
+                              l10n.pageEdited,
+                              summary.lastEditedAt,
+                            ),
+                            style: context.textStyles.meta,
+                          ),
                         ),
-                      ),
-                      _TitleCounter(controller: _controller),
-                    ],
+                        _TitleCounter(controller: _controller),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
+          ),
+          if (blocks != null)
+            SliverPadding(
+              padding: const EdgeInsets.only(top: JotSpace.space4),
+              sliver: PageEditorView(pageEditor: blocks),
+            ),
+          const SliverFillRemaining(
+            hasScrollBody: false,
+            child: SizedBox(height: 2 * JotSpace.space11),
           ),
         ],
       );
     }
     return PopScope(
       onPopInvokedWithResult: (didPop, _) {
-        if (didPop) unawaited(_flush());
+        if (didPop) _flushAllSoon();
       },
       child: Scaffold(
         backgroundColor: colors.bgPapel,
