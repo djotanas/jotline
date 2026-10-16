@@ -156,18 +156,19 @@ T25 → T26
 
 **Done when**:
 
-- [ ] `test/features/blocks/data/block_content_test.dart` covers:
+- [x] `test/features/blocks/data/block_content_test.dart` covers:
   - round trip with overlapping bold + italic, accents, a flag emoji and empty text
   - normalization: unsorted, overlapping, adjacent and empty ranges
   - `checked` written only when non-null; `forType` drops it off checklist and defaults it to `false` on checklist
   - unknown type id reads `text`; unknown mark type ignored
   - leading and trailing spaces kept (EDGE-07)
   - exact JSON shape from the design (no extra field, SAVE-10)
-- [ ] Quick gate passes (≥ 10 new tests)
+- [x] Quick gate passes (≥ 10 new tests)
 
 **Tests**: unit
 **Gate**: quick
 **Commit**: `feat(app): formato content_json e tipos de bloco (SAVE-10)`
+**Status**: ✅ Done
 
 ---
 

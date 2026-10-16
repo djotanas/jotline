@@ -338,7 +338,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | BAR-03 | P1: Block bar and block types | - | Pending |
 | BAR-04 | P1: Block bar and block types | - | Pending |
 | BAR-05 | P1: Block bar and block types | - | Pending |
-| BAR-06 | P1: Block bar and block types | - | Pending |
+| BAR-06 | P1: Block bar and block types | Execute | Implementing |
 | BAR-07 | P1: Block bar and block types | - | Pending |
 | BAR-08 | P1: Block bar and block types | - | Pending |
 | BAR-09 | P1: Block bar and block types | - | Pending |
@@ -361,7 +361,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | SAVE-07 | P1: Block persistence | - | Pending |
 | SAVE-08 | P1: Block persistence | - | Pending |
 | SAVE-09 | P1: Block persistence | - | Pending |
-| SAVE-10 | P1: Block persistence | - | Pending |
+| SAVE-10 | P1: Block persistence | Execute | Implementing |
 | SAVE-11 | P1: Block persistence | - | Pending |
 | SAVE-12 | P1: Block persistence | - | Pending |
 | SAVE-13 | P1: Block persistence | - | Pending |
@@ -389,11 +389,11 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | DOC-03 | P3: Decision records and docs | - | Pending |
 | EDGE-01 | Edge cases | - | Pending |
 | EDGE-02 | Edge cases | - | Pending |
-| EDGE-03 | Edge cases | - | Pending |
+| EDGE-03 | Edge cases | Execute | Implementing |
 | EDGE-04 | Edge cases | - | Pending |
 | EDGE-05 | Edge cases | - | Pending |
 | EDGE-06 | Edge cases | - | Pending |
-| EDGE-07 | Edge cases | - | Pending |
+| EDGE-07 | Edge cases | Execute | Implementing |
 
 **Coverage:** 84 total, 0 mapped to tasks, 84 unmapped ⚠️ (tasks come after design, which waits for the editor ADR)
 
