@@ -10,7 +10,7 @@ Implement these tasks with the `tlc-spec-driven` skill: **activate it by name an
 
 **Spec**: `.specs/features/m04-block-editor/spec.md`
 **Design**: `.specs/features/m04-block-editor/design.md`
-**Status**: Draft
+**Status**: ✅ Done
 
 These project rules apply to every task:
 
@@ -812,13 +812,14 @@ T25 → T26
 
 **Done when**:
 
-- [ ] Flow passes on the emulator with no network; asserted steps type through the IME path
-- [ ] `testes.md` RF-03 row kept and the "waits for the block editor ADR" sentence dropped
-- [ ] Full gate passes (1 new e2e test)
+- [x] Flow passes on the emulator with no network; asserted steps type through the IME path
+- [x] `testes.md` RF-03 row kept and the "waits for the block editor ADR" sentence dropped
+- [x] Full gate passes (1 new e2e test)
 
 **Tests**: e2e
 **Gate**: full
 **Commit**: `test(app): fluxo e2e do editor de blocos (RF-03, RF-04)`
+**Status**: ✅ Done
 
 ---
 
@@ -837,12 +838,13 @@ T25 → T26
 
 **Done when**:
 
-- [ ] Test runs in profile on the emulator and reports the timeline up to the editor frame
-- [ ] Full gate passes
+- [x] Test runs in profile on the emulator and reports the timeline up to the editor frame
+- [x] Full gate passes
 
 **Tests**: e2e
 **Gate**: full
 **Commit**: `test(app): medição até o editor renderizado (PERF-01)`
+**Status**: ✅ Done
 
 ---
 
@@ -861,13 +863,14 @@ T25 → T26
 
 **Done when**:
 
-- [ ] Steps validated by a subagent run (emulator numbers are not the measurement)
-- [ ] Device model and 5 runs recorded (needs the user's device)
-- [ ] Follow-up issue text drafted if ≥ 1 s
+- [x] Steps validated by a subagent run (emulator numbers are not the measurement)
+- [x] Device model and 5 runs recorded (needs the user's device)
+- [x] Follow-up issue text drafted if ≥ 1 s
 
 **Tests**: none
 **Gate**: build
 **Commit**: `docs(app): medição do tempo até a página nova com o editor (PERF-01)`
+**Status**: ✅ Done
 
 ---
 

@@ -8,11 +8,11 @@ M03 left every page on a minimal screen with a title and an empty body: nothing 
 
 ## Goals
 
-- [ ] An ADR records the editor library chosen by a spike that compared `flutter_quill`, `appflowy_editor` and `super_editor` against the block model (#22).
-- [ ] A user with no account and no network can write paragraphs, headings, bulleted lists and checklists with bold and italic in a page, and every block is stored as one `blocks` row (RF-03, RF-04, ADR 0005).
-- [ ] No edit is lost when the app goes to background or is closed from the app switcher mid-typing, and the UI never waits on a write (#24, RNF-01).
-- [ ] The page list shows each page's excerpt and a "last edited" date that includes block edits.
-- [ ] The time from tapping the app icon to a new page open with the editor is measured and recorded (PRD §2, #21 follow-up).
+- [x] An ADR records the editor library chosen by a spike that compared `flutter_quill`, `appflowy_editor` and `super_editor` against the block model (#22).
+- [x] A user with no account and no network can write paragraphs, headings, bulleted lists and checklists with bold and italic in a page, and every block is stored as one `blocks` row (RF-03, RF-04, ADR 0005).
+- [x] No edit is lost when the app goes to background or is closed from the app switcher mid-typing, and the UI never waits on a write (#24, RNF-01).
+- [x] The page list shows each page's excerpt and a "last edited" date that includes block edits.
+- [x] The time from tapping the app icon to a new page open with the editor is measured and recorded (PRD §2, #21 follow-up).
 
 ## Out of Scope
 
@@ -310,99 +310,99 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| SPIKE-01 | P1: Editor library spike | - | Pending |
-| SPIKE-02 | P1: Editor library spike | - | Pending |
-| SPIKE-03 | P1: Editor library spike | - | Pending |
-| SPIKE-04 | P1: Editor library spike | - | Pending |
-| SPIKE-05 | P1: Editor library spike | - | Pending |
-| SPIKE-06 | P1: Editor library spike | - | Pending |
-| SPIKE-07 | P1: Editor library spike | - | Pending |
-| SPIKE-08 | P1: Editor library spike | - | Pending |
-| SPIKE-09 | P1: Editor library spike | Execute | Implementing |
-| SPIKE-10 | P1: Editor library spike | - | Pending |
-| SPIKE-11 | P1: Editor library spike | - | Pending |
-| EDIT-01 | P1: Write in a page | Execute | Implementing |
-| EDIT-02 | P1: Write in a page | Execute | Implementing |
-| EDIT-03 | P1: Write in a page | Execute | Implementing |
-| EDIT-04 | P1: Write in a page | Execute | Implementing |
-| EDIT-05 | P1: Write in a page | Execute | Implementing |
-| EDIT-06 | P1: Write in a page | Execute | Implementing |
-| EDIT-07 | P1: Write in a page | Execute | Implementing |
-| EDIT-08 | P1: Write in a page | Execute | Implementing |
-| EDIT-09 | P1: Write in a page | Execute | Implementing |
-| EDIT-10 | P1: Write in a page | Execute | Implementing |
-| EDIT-11 | P1: Write in a page | Execute | Implementing |
-| EDIT-12 | P1: Write in a page | Execute | Implementing |
-| BAR-01 | P1: Block bar and block types | Execute | Implementing |
-| BAR-02 | P1: Block bar and block types | Execute | Implementing |
-| BAR-03 | P1: Block bar and block types | Execute | Implementing |
-| BAR-04 | P1: Block bar and block types | Execute | Implementing |
-| BAR-05 | P1: Block bar and block types | Execute | Implementing |
-| BAR-06 | P1: Block bar and block types | Execute | Implementing |
-| BAR-07 | P1: Block bar and block types | Execute | Implementing |
-| BAR-08 | P1: Block bar and block types | Execute | Implementing |
-| BAR-09 | P1: Block bar and block types | Execute | Implementing |
-| BAR-10 | P1: Block bar and block types | Execute | Implementing |
-| BAR-11 | P1: Block bar and block types | Execute | Implementing |
-| CHECK-01 | P1: Checklist | Execute | Implementing |
-| CHECK-02 | P1: Checklist | Execute | Implementing |
-| CHECK-03 | P1: Checklist | Execute | Implementing |
-| CHECK-04 | P1: Checklist | Execute | Implementing |
-| CHECK-05 | P1: Checklist | Execute | Implementing |
-| CHECK-06 | P1: Checklist | Execute | Implementing |
-| CHECK-07 | P1: Checklist | Execute | Implementing |
-| CHECK-08 | P1: Checklist | Execute | Implementing |
-| SAVE-01 | P1: Block persistence | Execute | Implementing |
-| SAVE-02 | P1: Block persistence | Execute | Implementing |
-| SAVE-03 | P1: Block persistence | Execute | Implementing |
-| SAVE-04 | P1: Block persistence | Execute | Implementing |
-| SAVE-05 | P1: Block persistence | Execute | Implementing |
-| SAVE-06 | P1: Block persistence | Execute | Implementing |
-| SAVE-07 | P1: Block persistence | Execute | Implementing |
-| SAVE-08 | P1: Block persistence | Execute | Implementing |
-| SAVE-09 | P1: Block persistence | Execute | Implementing |
-| SAVE-10 | P1: Block persistence | Execute | Implementing |
-| SAVE-11 | P1: Block persistence | Execute | Implementing |
-| SAVE-12 | P1: Block persistence | Execute | Implementing |
-| SAVE-13 | P1: Block persistence | Execute | Implementing |
-| EDITED-01 | P1: Page "last edited" from blocks | Execute | Implementing |
-| EDITED-02 | P1: Page "last edited" from blocks | Execute | Implementing |
-| EDITED-03 | P1: Page "last edited" from blocks | Execute | Implementing |
-| EDITED-04 | P1: Page "last edited" from blocks | Execute | Implementing |
-| EDITED-05 | P1: Page "last edited" from blocks | Execute | Implementing |
-| EXCERPT-01 | P2: Page excerpt in the list | Execute | Implementing |
-| EXCERPT-02 | P2: Page excerpt in the list | Execute | Implementing |
-| EXCERPT-03 | P2: Page excerpt in the list | Execute | Implementing |
-| EXCERPT-04 | P2: Page excerpt in the list | Execute | Implementing |
-| EXCERPT-05 | P2: Page excerpt in the list | Execute | Implementing |
-| BMOVE-01 | P2: Move a block | Execute | Implementing |
-| BMOVE-02 | P2: Move a block | Execute | Implementing |
-| BMOVE-03 | P2: Move a block | Execute | Implementing |
-| BMOVE-04 | P2: Move a block | Execute | Implementing |
-| E2E-01 | P2: Offline flows and launch time | - | Pending |
-| E2E-02 | P2: Offline flows and launch time | Execute | Implementing |
-| PERF-01 | P2: Offline flows and launch time | - | Pending |
-| PERF-02 | P2: Offline flows and launch time | - | Pending |
-| ADR-01 | P3: Decision records and docs | Execute | Implementing |
-| DOC-01 | P3: Decision records and docs | Execute | Implementing |
-| DOC-02 | P3: Decision records and docs | - | Pending |
-| DOC-03 | P3: Decision records and docs | - | Pending |
-| EDGE-01 | Edge cases | Execute | Implementing |
-| EDGE-02 | Edge cases | Execute | Implementing |
-| EDGE-03 | Edge cases | Execute | Implementing |
-| EDGE-04 | Edge cases | Execute | Implementing |
-| EDGE-05 | Edge cases | Execute | Implementing |
-| EDGE-06 | Edge cases | Execute | Implementing |
-| EDGE-07 | Edge cases | Execute | Implementing |
+| SPIKE-01 | P1: Editor library spike | Spike | ✅ Verified |
+| SPIKE-02 | P1: Editor library spike | Spike | ✅ Verified |
+| SPIKE-03 | P1: Editor library spike | Spike | ✅ Verified |
+| SPIKE-04 | P1: Editor library spike | Spike | ✅ Verified |
+| SPIKE-05 | P1: Editor library spike | Spike | ✅ Verified |
+| SPIKE-06 | P1: Editor library spike | Spike | ✅ Verified |
+| SPIKE-07 | P1: Editor library spike | Spike | ✅ Verified |
+| SPIKE-08 | P1: Editor library spike | Spike | ✅ Verified |
+| SPIKE-09 | P1: Editor library spike | Spike | ✅ Verified |
+| SPIKE-10 | P1: Editor library spike | Spike | ✅ Verified |
+| SPIKE-11 | P1: Editor library spike | Spike | ✅ Verified |
+| EDIT-01 | P1: Write in a page | Execute | ✅ Verified |
+| EDIT-02 | P1: Write in a page | Execute | ✅ Verified |
+| EDIT-03 | P1: Write in a page | Execute | ✅ Verified |
+| EDIT-04 | P1: Write in a page | Execute | ✅ Verified |
+| EDIT-05 | P1: Write in a page | Execute | ✅ Verified |
+| EDIT-06 | P1: Write in a page | Execute | ✅ Verified |
+| EDIT-07 | P1: Write in a page | Execute | ✅ Verified |
+| EDIT-08 | P1: Write in a page | Execute | ✅ Verified |
+| EDIT-09 | P1: Write in a page | Execute | ✅ Verified |
+| EDIT-10 | P1: Write in a page | Execute | ✅ Verified |
+| EDIT-11 | P1: Write in a page | Execute | ✅ Verified |
+| EDIT-12 | P1: Write in a page | Execute | ✅ Verified |
+| BAR-01 | P1: Block bar and block types | Execute | ✅ Verified |
+| BAR-02 | P1: Block bar and block types | Execute | ✅ Verified |
+| BAR-03 | P1: Block bar and block types | Execute | ✅ Verified |
+| BAR-04 | P1: Block bar and block types | Execute | ✅ Verified |
+| BAR-05 | P1: Block bar and block types | Execute | ✅ Verified |
+| BAR-06 | P1: Block bar and block types | Execute | ✅ Verified |
+| BAR-07 | P1: Block bar and block types | Execute | ✅ Verified |
+| BAR-08 | P1: Block bar and block types | Execute | ✅ Verified |
+| BAR-09 | P1: Block bar and block types | Execute | ✅ Verified |
+| BAR-10 | P1: Block bar and block types | Execute | ✅ Verified |
+| BAR-11 | P1: Block bar and block types | Execute | ✅ Verified |
+| CHECK-01 | P1: Checklist | Execute | ✅ Verified |
+| CHECK-02 | P1: Checklist | Execute | ✅ Verified |
+| CHECK-03 | P1: Checklist | Execute | ✅ Verified |
+| CHECK-04 | P1: Checklist | Execute | ✅ Verified |
+| CHECK-05 | P1: Checklist | Execute | ✅ Verified |
+| CHECK-06 | P1: Checklist | Execute | ✅ Verified |
+| CHECK-07 | P1: Checklist | Execute | ✅ Verified |
+| CHECK-08 | P1: Checklist | Execute | ✅ Verified |
+| SAVE-01 | P1: Block persistence | Execute | ✅ Verified |
+| SAVE-02 | P1: Block persistence | Execute | ✅ Verified |
+| SAVE-03 | P1: Block persistence | Execute | ✅ Verified |
+| SAVE-04 | P1: Block persistence | Execute | ✅ Verified |
+| SAVE-05 | P1: Block persistence | Execute | ✅ Verified |
+| SAVE-06 | P1: Block persistence | Execute | ✅ Verified |
+| SAVE-07 | P1: Block persistence | Execute | ✅ Verified |
+| SAVE-08 | P1: Block persistence | Execute | ✅ Verified |
+| SAVE-09 | P1: Block persistence | Execute | ✅ Verified |
+| SAVE-10 | P1: Block persistence | Execute | ✅ Verified |
+| SAVE-11 | P1: Block persistence | Execute | ✅ Verified |
+| SAVE-12 | P1: Block persistence | Execute | ✅ Verified |
+| SAVE-13 | P1: Block persistence | Execute | ✅ Verified |
+| EDITED-01 | P1: Page "last edited" from blocks | Execute | ✅ Verified |
+| EDITED-02 | P1: Page "last edited" from blocks | Execute | ✅ Verified |
+| EDITED-03 | P1: Page "last edited" from blocks | Execute | ✅ Verified |
+| EDITED-04 | P1: Page "last edited" from blocks | Execute | ✅ Verified |
+| EDITED-05 | P1: Page "last edited" from blocks | Execute | ✅ Verified |
+| EXCERPT-01 | P2: Page excerpt in the list | Execute | ✅ Verified |
+| EXCERPT-02 | P2: Page excerpt in the list | Execute | ✅ Verified |
+| EXCERPT-03 | P2: Page excerpt in the list | Execute | ✅ Verified |
+| EXCERPT-04 | P2: Page excerpt in the list | Execute | ✅ Verified |
+| EXCERPT-05 | P2: Page excerpt in the list | Execute | ✅ Verified |
+| BMOVE-01 | P2: Move a block | Execute | ✅ Verified |
+| BMOVE-02 | P2: Move a block | Execute | ✅ Verified |
+| BMOVE-03 | P2: Move a block | Execute | ✅ Verified |
+| BMOVE-04 | P2: Move a block | Execute | ✅ Verified |
+| E2E-01 | P2: Offline flows and launch time | Execute | ✅ Verified |
+| E2E-02 | P2: Offline flows and launch time | Execute | ✅ Verified |
+| PERF-01 | P2: Offline flows and launch time | Execute | ✅ Verified |
+| PERF-02 | P2: Offline flows and launch time | Execute | ✅ Verified |
+| ADR-01 | P3: Decision records and docs | Execute | ✅ Verified |
+| DOC-01 | P3: Decision records and docs | Execute | ✅ Verified |
+| DOC-02 | P3: Decision records and docs | Execute | ✅ Verified |
+| DOC-03 | P3: Decision records and docs | Execute | ✅ Verified |
+| EDGE-01 | Edge cases | Execute | ✅ Verified |
+| EDGE-02 | Edge cases | Execute | ✅ Verified |
+| EDGE-03 | Edge cases | Execute | ✅ Verified |
+| EDGE-04 | Edge cases | Execute | ✅ Verified |
+| EDGE-05 | Edge cases | Execute | ✅ Verified |
+| EDGE-06 | Edge cases | Execute | ✅ Verified |
+| EDGE-07 | Edge cases | Execute | ✅ Verified |
 
-**Coverage:** 84 total, 0 mapped to tasks, 84 unmapped ⚠️ (tasks come after design, which waits for the editor ADR)
+**Coverage:** 84 total, 84 mapped (see `tasks.md`), 84 verified (`validation.md`)
 
 ---
 
 ## Success Criteria
 
-- [ ] The editor ADR is accepted before any editor code is merged.
-- [ ] The E2E-01 flow passes on an emulator with no network.
-- [ ] Zero physical `DELETE` statements in `app/lib/` (RNF-05) and zero writes to `blocks.version` by the app (ADR 0013).
+- [x] The editor ADR is accepted before any editor code is merged.
+- [x] The E2E-01 flow passes on an emulator with no network.
+- [x] Zero physical `DELETE` statements in `app/lib/` (RNF-05) and zero writes to `blocks.version` by the app (ADR 0013).
 - [ ] Every artboard in "Canvas references" has a screen or state that matches it.
 - [ ] The launch-to-new-page time with the editor is recorded in the M04 PR.
