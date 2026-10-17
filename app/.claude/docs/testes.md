@@ -81,7 +81,7 @@ await tester.pumpWidget(ProviderScope(
 ```
 
 - Drift streams use timers: close the database and `pump` before the test ends to avoid "A Timer is still pending".
-- No golden tests for now; the block editor is still undecided.
+- No golden tests for now.
 
 ## E2E (main flows)
 
