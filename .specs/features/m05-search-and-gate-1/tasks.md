@@ -874,12 +874,12 @@ Each value goes into `reportData`. `perf_driver.dart` takes the output file name
 
 **Done when**:
 
-- [ ] Tests with a temp directory:
+- [x] Tests with a temp directory:
   - the exact line format for pass and for fail with ids;
   - the file is created when missing;
   - lines are appended, not replaced;
   - a write error does not throw.
-- [ ] Quick gate passes (≥ 4 new tests)
+- [x] Quick gate passes (≥ 4 new tests)
 
 **Tests**: unit
 **Gate**: quick
