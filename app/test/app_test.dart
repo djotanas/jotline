@@ -264,6 +264,20 @@ void main() {
     expect(offenders, isEmpty);
   });
 
+  test('ADR-02: only the drawing layer imports perfect_freehand', () {
+    const drawingLayer = 'lib/features/blocks/presentation/drawing/';
+    final forbidden = RegExp('package:perfect_freehand/');
+
+    final offenders = [
+      for (final (file, source) in libSources())
+        if (!file.path.replaceAll(r'\', '/').startsWith(drawingLayer) &&
+            forbidden.hasMatch(source))
+          file.path,
+    ];
+
+    expect(offenders, isEmpty);
+  });
+
   test(
     'NET-02: pubspec.yaml lists neither http nor dio under dependencies',
     () {

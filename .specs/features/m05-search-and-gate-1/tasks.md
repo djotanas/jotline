@@ -1071,7 +1071,7 @@ Add its row to `docs/adr/README.md`.
 
 **Done when**:
 
-- [ ] Tests:
+- [x] Tests:
   - round trip;
   - coordinates rounded to 0.1 at the exact boundaries (x.05, x.04);
   - pressure rounded to 0.01;
@@ -1079,8 +1079,8 @@ Add its row to `docs/adr/README.md`.
   - invalid JSON;
   - a single-point stroke;
   - no field outside the ADR in `toJson`.
-- [ ] Import scan passes on the tree and fails on a scratch file (checked, then discarded)
-- [ ] Build gate passes (≥ 9 new tests)
+- [x] Import scan passes on the tree and fails on a scratch file (checked, then discarded)
+- [x] Build gate passes (≥ 9 new tests)
 
 **Tests**: unit
 **Gate**: build
