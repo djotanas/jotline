@@ -4,9 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/features/blocks/data/block_content.dart';
 import 'package:jotline/features/blocks/data/block_repository.dart';
+import 'package:jotline/features/blocks/data/drawing_content.dart';
+import 'package:jotline/features/blocks/presentation/drawing/drawing_sink.dart';
 import 'package:jotline/features/blocks/presentation/editor/block_editor.dart';
 import 'package:jotline/features/blocks/presentation/editor/block_mapper.dart';
 import 'package:jotline/features/blocks/presentation/editor/block_sync.dart';
+import 'package:jotline/features/blocks/presentation/editor/components/drawing_block.dart';
 import 'package:super_editor/super_editor.dart';
 
 const Map<MarkType, Attribution> _attributions = {
@@ -19,7 +22,7 @@ const Map<MarkType, Attribution> _attributions = {
 ///
 /// Notifies its listeners on every edit; [changes] also covers the focus,
 /// the selection and the styles for the next text.
-class PageEditor with ChangeNotifier {
+class PageEditor with ChangeNotifier implements DrawingSink {
   new({
     required List<Block> rows,
     required String pageId,
@@ -204,6 +207,90 @@ class PageEditor with ChangeNotifier {
     focusNode.requestFocus();
   }
 
+  /// Called with the node id when a drawing card is tapped (DRAW-13).
+  void Function(String nodeId)? onOpenDrawing;
+
+  /// The content of the drawing node [nodeId].
+  DrawingContent drawingOf(String nodeId) =>
+      (_editor.document.getNodeById(nodeId)! as DrawingNode).content;
+
+  /// Inserts a drawing after the block with the caret, or in place of that
+  /// block when it is empty and has no row, and writes it at once (DRAW-10).
+  /// Returns the new node id.
+  String insertDrawing(DrawingContent content) {
+    final document = _editor.document;
+    final anchorId =
+        _editor.composer.selection?.extent.nodeId ?? document.lastOrNull?.id;
+    final anchor = anchorId == null ? null : document.getNodeById(anchorId);
+    final node = DrawingNode(id: Editor.createNodeId(), content: content);
+    if (anchor == null) {
+      _editor.execute([
+        InsertNodeAtIndexRequest(nodeIndex: document.nodeCount, newNode: node),
+      ]);
+    } else if (_isUnsavedEmptyText(anchor)) {
+      _editor.execute([
+        const ChangeSelectionRequest(
+          null,
+          SelectionChangeType.clearSelection,
+          SelectionReason.contentChange,
+        ),
+        ReplaceNodeRequest(existingNodeId: anchor.id, newNode: node),
+      ]);
+    } else {
+      _editor.execute([
+        InsertNodeAfterNodeRequest(existingNodeId: anchor.id, newNode: node),
+      ]);
+    }
+    unawaited(_sync.flush());
+    return node.id;
+  }
+
+  bool _isUnsavedEmptyText(DocumentNode node) =>
+      node is TextNode &&
+      node.text.toPlainText().isEmpty &&
+      !_sync.hasRow(node.id);
+
+  /// Replaces the strokes of the drawing [nodeId], keeping its block, and
+  /// writes at once (DRAW-14).
+  void replaceDrawing(String nodeId, DrawingContent content) {
+    _editor.execute([
+      ReplaceNodeRequest(
+        existingNodeId: nodeId,
+        newNode: DrawingNode(id: nodeId, content: content),
+      ),
+    ]);
+    unawaited(_sync.flush());
+  }
+
+  /// Soft-deletes the drawing [nodeId] and writes at once (DRAW-15).
+  void removeDrawing(String nodeId) {
+    final document = _editor.document;
+    if (document.nodeCount == 1) {
+      _editor.execute([
+        ReplaceNodeRequest(
+          existingNodeId: nodeId,
+          newNode: ParagraphNode(
+            id: Editor.createNodeId(),
+            text: AttributedText(),
+          ),
+        ),
+      ]);
+    } else {
+      _editor.execute([DeleteNodeRequest(nodeId: nodeId)]);
+    }
+    unawaited(_sync.flush());
+  }
+
+  @override
+  String save(String? nodeId, DrawingContent content) {
+    if (nodeId == null) return insertDrawing(content);
+    replaceDrawing(nodeId, content);
+    return nodeId;
+  }
+
+  @override
+  void remove(String nodeId) => removeDrawing(nodeId);
+
   /// Writes the pending block changes now; never awaited on a frame path
   /// (SAVE-12).
   Future<void> flush() => _sync.flush();
@@ -227,6 +314,9 @@ class PageEditorView extends StatelessWidget {
   final PageEditor pageEditor;
 
   @override
-  Widget build(BuildContext context) =>
-      BlockEditor(editor: pageEditor._editor, focusNode: pageEditor.focusNode);
+  Widget build(BuildContext context) => BlockEditor(
+    editor: pageEditor._editor,
+    focusNode: pageEditor.focusNode,
+    onOpenDrawing: (nodeId) => pageEditor.onOpenDrawing?.call(nodeId),
+  );
 }

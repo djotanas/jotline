@@ -1248,13 +1248,13 @@ Add its row to `docs/adr/README.md`.
 
 **Done when**:
 
-- [ ] Drift + editor tests:
+- [x] Drift + editor tests:
   - an insert after a text block;
   - an insert in place of an empty no-row block, with no extra row;
   - `save(null, …)` returns a node id and writes at once, with no 500 ms wait;
   - `save(id, …)` updates the row;
   - `remove` soft-deletes.
-- [ ] Quick gate passes (≥ 5 new tests)
+- [x] Quick gate passes (≥ 5 new tests)
 
 **Tests**: Drift
 **Gate**: quick

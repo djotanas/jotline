@@ -41,6 +41,9 @@ class BlockSync {
   Timer? _timer;
   Future<void> _chain = Future.value();
 
+  /// Whether the node already has a `blocks` row.
+  bool hasRow(String nodeId) => _blockIds.containsKey(nodeId);
+
   /// Node ids changed since the last successful write.
   @visibleForTesting
   Set<String> get pendingNodeIds => Set.unmodifiable(_touched);
