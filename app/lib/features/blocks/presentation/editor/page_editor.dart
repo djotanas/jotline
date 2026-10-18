@@ -166,7 +166,7 @@ class PageEditor with ChangeNotifier {
     final last = document.lastOrNull;
     if (last != null) {
       final (type, content) = BlockMapper.fromNode(last);
-      if (type == BlockType.text && content.text.isEmpty) {
+      if (type == BlockType.text && (content as BlockContent).text.isEmpty) {
         return _focus(
           DocumentPosition(
             nodeId: last.id,

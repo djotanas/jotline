@@ -11,6 +11,7 @@ import 'package:jotline/core/database/database_provider.dart';
 import 'package:jotline/core/database/integrity_check.dart';
 import 'package:jotline/core/database/integrity_log.dart';
 import 'package:jotline/core/theme/notebook_palette.dart';
+import 'package:jotline/features/blocks/data/block_content.dart';
 import 'package:jotline/features/blocks/data/block_providers.dart';
 import 'package:jotline/features/blocks/presentation/editor/block_mapper.dart';
 import 'package:jotline/features/blocks/presentation/editor/page_editor.dart';
@@ -35,7 +36,7 @@ List<BlockSnapshot> snapshotOfDocument(Document document) => [
   for (final node in document)
     if (node is TextNode && node.text.toPlainText().isNotEmpty)
       () {
-        final (type, content) = BlockMapper.fromNode(node);
+        final (type, content as BlockContent) = BlockMapper.fromNode(node);
         return BlockSnapshot(type.id, content.forType(type).toJson());
       }(),
 ];

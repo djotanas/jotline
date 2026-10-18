@@ -1131,8 +1131,8 @@ Add its row to `docs/adr/README.md`.
 
 **Done when**:
 
-- [ ] Tests: row → node → (type, content) round trip for a drawing; the node is not deletable; text types unchanged
-- [ ] Quick gate passes (≥ 3 new tests)
+- [x] Tests: row → node → (type, content) round trip for a drawing; the node is not deletable; text types unchanged
+- [x] Quick gate passes (≥ 3 new tests)
 
 **Tests**: unit
 **Gate**: quick
