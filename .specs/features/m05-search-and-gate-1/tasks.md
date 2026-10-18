@@ -1013,8 +1013,8 @@ Add `app/tool/kill_test_test.sh` for the result parser, asserting the exit code 
 
 **Done when**:
 
-- [ ] The record shows `100/100 iterations, 0 divergences` with device or emulator details, plus the fault-injection result; any divergence becomes a `data-loss` issue and stops the phase
-- [ ] Build gate passes
+- [x] The record shows `100/100 iterations, 0 divergences` with device or emulator details, plus the fault-injection result; any divergence becomes a `data-loss` issue and stops the phase
+- [x] Build gate passes
 
 **Tests**: none
 **Gate**: build
