@@ -282,7 +282,7 @@ class _PageBlockBar extends StatelessWidget {
         if (!blocks.hasCaret) return const SizedBox.shrink();
         return BlockBar(
           type: switch (blocks.caretType) {
-            BlockType.text => BlockBarType.text,
+            BlockType.text || BlockType.drawing => BlockBarType.text,
             BlockType.heading => BlockBarType.heading,
             BlockType.bulletedListItem => BlockBarType.bulletedListItem,
             BlockType.checklistItem => BlockBarType.checklistItem,

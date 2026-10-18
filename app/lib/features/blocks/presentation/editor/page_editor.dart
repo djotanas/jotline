@@ -112,7 +112,7 @@ class PageEditor with ChangeNotifier {
       if (node is ListItemNode)
         ConvertListItemToParagraphRequest(nodeId: nodeId),
       switch (type) {
-        BlockType.text => ChangeParagraphBlockTypeRequest(
+        BlockType.text || BlockType.drawing => ChangeParagraphBlockTypeRequest(
           nodeId: nodeId,
           blockType: paragraphAttribution,
         ),

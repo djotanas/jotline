@@ -1103,12 +1103,12 @@ Add its row to `docs/adr/README.md`.
 
 **Done when**:
 
-- [ ] Drift tests:
+- [x] Drift tests:
   - an `Insert` of a drawing writes type `drawing` with the JSON as-is;
   - an `Update` keeps `version`;
   - the page excerpt ignores a drawing that comes first;
   - every existing `BlockRepository` test passes.
-- [ ] Quick gate passes (≥ 3 new tests)
+- [x] Quick gate passes (≥ 3 new tests)
 
 **Tests**: Drift
 **Gate**: quick

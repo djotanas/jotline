@@ -411,9 +411,9 @@ void main() {
       final insert = f.repository.batches[0].single as Insert;
       final update = f.repository.batches[1].single as Update;
       final rows = await f.repository.loadPage(f.pageId);
-      expect(insert.content.text, 'Jk');
+      expect((insert.content as BlockContent).text, 'Jk');
       expect(update.id, rows.last.id);
-      expect(update.content.text, 'Jkl');
+      expect((update.content as BlockContent).text, 'Jkl');
       expect(await f.allRows(), hasLength(4));
       expect(await f.visible(), [
         (BlockType.text, 'Abc'),

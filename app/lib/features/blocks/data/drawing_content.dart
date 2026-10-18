@@ -3,6 +3,7 @@ import 'dart:developer' as developer;
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
+import 'package:jotline/features/blocks/data/block_content.dart';
 
 /// The persisted drawing tool ids (ADR 0039).
 enum DrawingTool {
@@ -127,7 +128,7 @@ final class Stroke {
 ///
 /// Holds no field of the drawing library.
 @immutable
-final class DrawingContent {
+final class DrawingContent implements StoredContent {
   const new(this.strokes);
 
   /// Parses `content_json`; a value that does not parse reads as no strokes.
@@ -167,6 +168,7 @@ final class DrawingContent {
 
   bool get isEmpty => strokes.isEmpty;
 
+  @override
   String toJson() => jsonEncode({
     'strokes': [for (final stroke in strokes) stroke.toJson()],
   });

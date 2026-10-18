@@ -32,7 +32,7 @@ abstract final class BlockMapper {
   }) {
     final text = _toAttributedText(content);
     return switch (type) {
-      BlockType.text => ParagraphNode(id: id, text: text),
+      BlockType.text || BlockType.drawing => ParagraphNode(id: id, text: text),
       BlockType.heading => ParagraphNode(
         id: id,
         text: text,
