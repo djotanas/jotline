@@ -418,5 +418,63 @@
   "moveBlock": "Mover bloco",
   "@moveBlock": {
     "description": "Accessible label of the drag handle of the block in edit."
+  },
+  "searchLabel": "Buscar",
+  "@searchLabel": {
+    "description": "Accessibility label of the button that opens the search."
+  },
+  "searchPlaceholder": "Buscar em todos os cadernos",
+  "@searchPlaceholder": {
+    "description": "Placeholder of the search field."
+  },
+  "searchFieldLabel": "Buscar em títulos e conteúdo",
+  "@searchFieldLabel": {
+    "description": "Accessibility label of the search field."
+  },
+  "searchScopeLabel": "Onde buscar",
+  "@searchScopeLabel": {
+    "description": "Accessibility label of the Tudo, Títulos and Conteúdo filter."
+  },
+  "searchAll": "Tudo",
+  "@searchAll": {
+    "description": "Search filter that matches titles and content."
+  },
+  "searchTitles": "Títulos",
+  "@searchTitles": {
+    "description": "Search filter that matches only page titles."
+  },
+  "searchContent": "Conteúdo",
+  "@searchContent": {
+    "description": "Search filter that matches only page content."
+  },
+  "searchEmptyTitle": "Busque em todos os cadernos",
+  "@searchEmptyTitle": {
+    "description": "Title of the search screen before a term is typed."
+  },
+  "searchEmptyBody": "Procura nos títulos e no conteúdo das páginas, inclusive nos cadernos arquivados. Tudo neste aparelho, mesmo sem internet.",
+  "@searchEmptyBody": {
+    "description": "Support text of the search screen before a term is typed."
+  },
+  "searchNoResultTitle": "Nenhuma página encontrada",
+  "@searchNoResultTitle": {
+    "description": "Title of the search screen when no page matches."
+  },
+  "searchNoResultBody": "Nada com “{term}” em títulos ou conteúdo. Confira a grafia ou tente outro termo.",
+  "@searchNoResultBody": {
+    "description": "Support text of the search screen when no page matches.",
+    "placeholders": {
+      "term": {
+        "type": "String"
+      }
+    }
+  },
+  "searchCount": "{count, plural, =1{1 página} other{{count} páginas}}",
+  "@searchCount": {
+    "description": "Number of pages found by the search.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

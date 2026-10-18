@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:jotline/core/theme/jot_spacing.dart';
 import 'package:jotline/core/theme/theme_context.dart';
 
-/// One option of a [JotSegmentedControl], shown as "label · count".
+/// One option of a [JotSegmentedControl], shown as "label · count", or as
+/// "label" when [count] is `null`.
 class JotSegment<T> {
-  const new({required this.value, required this.label, required this.count});
+  const new({required this.value, required this.label, this.count});
 
   final T value;
   final String label;
-  final int count;
+  final int? count;
 }
 
 /// A segmented filter with exactly one selected option.
@@ -41,7 +42,9 @@ class JotSegmentedControl<T> extends StatelessWidget {
             for (final segment in segments)
               Expanded(
                 child: _Segment(
-                  text: '${segment.label} · ${segment.count}',
+                  text: segment.count == null
+                      ? segment.label
+                      : '${segment.label} · ${segment.count}',
                   isSelected: segment.value == selected,
                   onTap: () => onChanged(segment.value),
                   decoration: segment.value == selected

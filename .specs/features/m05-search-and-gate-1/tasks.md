@@ -674,7 +674,7 @@ Add the l10n keys from the design.
 
 **Done when**:
 
-- [ ] Widget tests with an in-memory database:
+- [x] Widget tests with an in-memory database:
   - the empty state on open;
   - nothing at 149 ms and results at 150 ms;
   - "3 páginas";
@@ -683,7 +683,7 @@ Add the l10n keys from the design.
   - tap → `PageScreen`, then back → same term, segment and scroll offset;
   - "Cancelar" pops;
   - popping mid-query throws nothing.
-- [ ] Quick gate passes (≥ 9 new tests)
+- [x] Quick gate passes (≥ 9 new tests)
 
 **Tests**: widget
 **Gate**: quick
