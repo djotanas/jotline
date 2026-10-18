@@ -763,8 +763,8 @@ Add the l10n keys from the design.
 
 **Done when**:
 
-- [ ] 5 plan tests pass, or a report with the failing plan has been delivered to the user and the task is marked blocked
-- [ ] Quick gate passes
+- [x] 5 plan tests pass, or a report with the failing plan has been delivered to the user and the task is marked blocked
+- [x] Quick gate passes
 
 **Tests**: Drift
 **Gate**: quick

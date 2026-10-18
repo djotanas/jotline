@@ -40,6 +40,8 @@ Future<void> _dispose(WidgetTester tester, TestApp app) async {
   await tester.runAsync(app.db.close);
 }
 
+const _withoutSource = ['drift', 'perf', 'core/database/query_plan_test.dart'];
+
 void main() {
   testWidgets('PREF-06: the home still renders with an unavailable '
       'preferences store', (tester) async {
@@ -146,7 +148,12 @@ void main() {
         .listSync(recursive: true)
         .whereType<File>()
         .where((f) => f.path.endsWith('_test.dart'))
-        .where((f) => !f.path.startsWith('test${Platform.pathSeparator}drift'));
+        .where((f) {
+          final path = f.path.replaceAll(r'\', '/');
+          return !_withoutSource.any(
+            (prefix) => path.startsWith('test/$prefix'),
+          );
+        });
 
     for (final file in testFiles) {
       final relative = file.path

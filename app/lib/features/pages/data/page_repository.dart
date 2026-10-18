@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
 import 'package:jotline/core/clock/clock.dart';
 import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/core/database/last_edited_sql.dart';
@@ -159,21 +160,25 @@ class PageRepository {
   Stream<List<PageSummary>> watchByNotebook(String notebookId) =>
       _summaries('p.notebook_id = ?', Variable<String>(notebookId));
 
+  @visibleForTesting
+  static String summariesSql(String filter) =>
+      'SELECT p.*, $lastEditedSql AS last_edited_at, '
+      r"(SELECT json_extract(b.content_json, '$.text') FROM blocks b "
+      'WHERE b.page_id = p.id AND b.deleted_at IS NULL '
+      "AND b.type IN ('text', 'bulleted_list_item', 'checklist_item') "
+      r"AND trim(json_extract(b.content_json, '$.text'), "
+      "' ' || char(9, 10, 13)) <> '' "
+      'ORDER BY b.position, b.id LIMIT 1) AS excerpt '
+      'FROM pages p '
+      'INNER JOIN notebooks n ON n.id = p.notebook_id '
+      'WHERE $filter AND p.deleted_at IS NULL AND n.deleted_at IS NULL '
+      'ORDER BY p.position, p.id';
+
   Stream<List<PageSummary>> _summaries(String filter, Variable<String> value) {
     final pages = _database.pages;
     return _database
         .customSelect(
-          'SELECT p.*, $lastEditedSql AS last_edited_at, '
-          r"(SELECT json_extract(b.content_json, '$.text') FROM blocks b "
-          'WHERE b.page_id = p.id AND b.deleted_at IS NULL '
-          "AND b.type IN ('text', 'bulleted_list_item', 'checklist_item') "
-          r"AND trim(json_extract(b.content_json, '$.text'), "
-          "' ' || char(9, 10, 13)) <> '' "
-          'ORDER BY b.position, b.id LIMIT 1) AS excerpt '
-          'FROM pages p '
-          'INNER JOIN notebooks n ON n.id = p.notebook_id '
-          'WHERE $filter AND p.deleted_at IS NULL AND n.deleted_at IS NULL '
-          'ORDER BY p.position, p.id',
+          summariesSql(filter),
           variables: [value],
           readsFrom: {pages, _database.blocks, _database.notebooks},
         )

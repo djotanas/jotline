@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
 import 'package:jotline/core/clock/clock.dart';
 import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/core/database/local_user_repository.dart';
@@ -212,12 +213,24 @@ class BlockRepository {
 
   Stream<List<Block>> watchByPage(String pageId) => _byPage(pageId).watch();
 
-  Selectable<Block> _byPage(String pageId) {
-    final blocks = _database.blocks;
-    final pages = _database.pages;
-    final notebooks = _database.notebooks;
+  Selectable<Block> _byPage(String pageId) => _byPageQuery(
+    _database,
+    pageId,
+  ).map((row) => row.readTable(_database.blocks));
+
+  @visibleForTesting
+  static GenerationContext byPageContext(AppDatabase database, String pageId) =>
+      _byPageQuery(database, pageId).constructQuery();
+
+  static JoinedSelectStatement<HasResultSet, dynamic> _byPageQuery(
+    AppDatabase database,
+    String pageId,
+  ) {
+    final blocks = database.blocks;
+    final pages = database.pages;
+    final notebooks = database.notebooks;
     final query =
-        _database.select(blocks).join([
+        database.select(blocks).join([
             innerJoin(pages, pages.id.equalsExp(blocks.pageId)),
             innerJoin(notebooks, notebooks.id.equalsExp(pages.notebookId)),
           ])
@@ -231,6 +244,6 @@ class BlockRepository {
             OrderingTerm.asc(blocks.position),
             OrderingTerm.asc(blocks.id),
           ]);
-    return query.map((row) => row.readTable(blocks));
+    return query;
   }
 }
