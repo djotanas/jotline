@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
+
 /// Which fields of a page the search looks at.
 enum SearchScope { all, titles, content }
 
 /// The typed term, turned into words that are safe to put in an FTS5 `MATCH`.
+@immutable
 final class MatchQuery {
   const new(this.words);
 
@@ -30,4 +33,14 @@ final class MatchQuery {
       SearchScope.content => '{body} : ($body)',
     };
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is MatchQuery && listEquals(other.words, words);
+
+  @override
+  int get hashCode => Object.hashAll(words);
+
+  @override
+  String toString() => 'MatchQuery($words)';
 }

@@ -308,6 +308,237 @@ T39 → T40
 
 ---
 
+### Phase 2: Search UI
+
+```
+T8
+T9
+T8 → T10
+T10 → T11
+T9 → T11
+T11 → T12
+T12 → T13
+```
+
+### Phase 3: Load (measure first)
+
+```
+T14
+T15 → T16
+T16 → T17
+```
+
+### Phase 4: Integrity and kill test
+
+```
+T18 → T19
+T19 → T20
+T19 → T21
+T21 → T22
+T22 → T23
+```
+
+### Phase 5: Drawing data and editor
+
+```
+T24
+T25 → T26
+T26 → T27
+T25 → T28
+T27 → T29
+T28 → T30
+T29 → T30
+T30 → T31
+```
+
+### Phase 6: Drawing mode
+
+```
+T32 → T33
+T33 → T34
+T34 → T35
+```
+
+### Phase 7: Encryption, docs and Gate 1
+
+```
+T36
+T37
+T38 → T39
+T39 → T40
+```
+
+---
+
+## Task Breakdown
+
+### Phase 1: Search index and query
+
+#### T1: ADR 0038 — busca local
+
+**What**: Write `docs/adr/0038-busca-local.md`, in Portuguese, with status Proposta. It covers one FTS5 row per page (`title`, `body`), `unicode61 remove_diacritics 2`, word-prefix `AND` matching, triggers on `pages`/`blocks`, deleted rows kept in the index, the rowid = `pages.rowid` rule (no `VACUUM` without a re-index), highlights loaded per visible row, the phase 2 caveat (PowerSync views and triggers) and the rejected alternatives (per block, `LIKE`). Add its row to `docs/adr/README.md`.
+**Where**: `docs/adr/0038-busca-local.md`
+**Depends on**: None
+**Reuses**: ADR 0036 format; design "Tech Decisions"
+**Requirement**: ADR-01
+
+**Tools**:
+
+- MCP: NONE
+- Skill: `create-adr`
+
+**Done when**:
+
+- [x] ADR has Contexto, Decisão, Alternativas descartadas and Consequências, and cites SRCH-04, SRCH-08, SRCH-18 and RNF-06
+- [x] `docs/adr/README.md` lists 0038
+- [x] Build gate passes
+
+**Tests**: none
+**Gate**: build
+**Commit**: `docs: ADR 0038 proposta, busca local com FTS5 (#26)`
+
+---
+
+#### T2: FTS5 index, triggers and schema v3
+
+**What**:
+- Add `sql: {dialect: sqlite, options: {modules: [json1, fts5]}}` to `build.yaml`.
+- Create `lib/core/database/search.drift` with `page_search` and the five triggers from the design, and include it in `@DriftDatabase`.
+- Bump `schemaVersion` to 3. Run `make-migrations`.
+- Write `from2To3`: create the table and the triggers, then backfill every page in one `INSERT … SELECT`.
+- Complete the generated migration test with v2 rows that become searchable in v3.
+- Add `test/core/database/search_index_test.dart`: insert, update, soft delete and type change of blocks; drawing excluded; page rename; page with no blocks.
+
+**Where**: `app/lib/core/database/search.drift`
+**Depends on**: T1
+**Reuses**: `from1To2` pattern; `app/.claude/docs/testes.md` "Migrations"
+**Requirement**: SRCH-18, SRCH-19, DOC-01, SRCH-09 (drawing excluded from the body)
+
+**Tools**:
+
+- MCP: `context7` (Drift `.drift` files, FTS5, `make-migrations`)
+- Skill: NONE
+
+**Done when**:
+
+- [x] `drift_schemas/app_database/drift_schema_v3.json` and `test/drift/…/schema_v3.dart` are generated and committed
+- [x] Migration test: a v2 database with 2 pages and 3 blocks opens as v3, and `page_search` matches both pages by title and by block text
+- [x] Trigger tests pass for every case listed
+- [x] Quick gate passes (≥ 8 new tests, none removed)
+
+**Tests**: Drift
+**Gate**: quick
+**Commit**: `feat(app): índice FTS5 das páginas e schema v3 (SRCH-18, SRCH-19)`
+
+---
+
+#### T3: Shared "last edited" SQL
+
+**What**: Move the "last edited" expression from `PageRepository._summaries` to `lib/core/database/last_edited_sql.dart` (a `const String` fragment on alias `p`). `PageRepository` uses it with no behavior change.
+**Where**: `app/lib/core/database/last_edited_sql.dart`
+**Depends on**: None
+**Reuses**: `app/lib/features/pages/data/page_repository.dart:166-175`
+**Requirement**: SRCH-10 (one ordering for both)
+
+**Tools**:
+
+- MCP: NONE
+- Skill: NONE
+
+**Done when**:
+
+- [x] Every existing EDITED-* test in `page_repository_test.dart` passes unchanged
+- [x] Quick gate passes (test count unchanged)
+
+**Tests**: Drift
+**Gate**: quick
+**Commit**: `refactor(app): extrai o SQL de última edição da página`
+
+---
+
+#### T4: MatchQuery
+
+**What**: Add `SearchScope` and `MatchQuery.parse` / `expression(scope)` per the design (word split on non-`\p{L}\p{N}`, `"word"*`, `"` doubled, ` AND `, `{title}`/`{body}` filters).
+**Where**: `app/lib/features/search/data/match_query.dart`
+**Depends on**: None
+**Reuses**: —
+**Requirement**: SRCH-04, SRCH-05, SRCH-06, SRCH-07, SRCH-08, EDGE-01, EDGE-02
+
+**Tools**:
+
+- MCP: NONE
+- Skill: NONE
+
+**Done when**:
+
+- [x] Tests cover accents, case, several words, punctuation only (empty query), spaces only, `"`, `*`, `-`, `OR`, `NEAR` as words, emoji and each scope's exact expression string
+- [x] Quick gate passes (≥ 12 new tests)
+
+**Tests**: unit
+**Gate**: quick
+**Commit**: `feat(app): monta a consulta FTS5 a partir do termo (SRCH-04, SRCH-05)`
+
+---
+
+#### T5: SearchExcerpt
+
+**What**: Parse ``/`` markers into plain and marked spans for the title. Pick the first U+2029 segment with a marker as the excerpt, and cut it from up to 40 characters before the first marker, at word boundaries, with "…" only on a cut side.
+**Where**: `app/lib/features/search/data/search_excerpt.dart`
+**Depends on**: None
+**Reuses**: —
+**Requirement**: SRCH-13, SRCH-14, EDGE-03, EDGE-04
+
+**Tools**:
+
+- MCP: NONE
+- Skill: NONE
+
+**Done when**:
+
+- [x] Tests cover:
+  - a match at the start, in the middle and at the end of a block;
+  - a match exactly 40 characters in, and 41 characters in (L-002);
+  - several marks;
+  - a match in the second block only;
+  - no marker, which gives a `null` excerpt;
+  - "…" only on the cut side.
+- [x] Quick gate passes (≥ 10 new tests)
+
+**Tests**: unit
+**Gate**: quick
+**Commit**: `feat(app): trecho e destaque dos resultados da busca (SRCH-13, SRCH-14)`
+
+---
+
+#### T6: SearchRepository
+
+**What**: Add `watchHits(query, scope)` and `snippet(pageId, query, scope)` per the design. Joins: pages, notebooks, the local user's member row (archived included); filters out deleted pages and notebooks; orders by the T3 fragment `DESC`, then `id`. `readsFrom: {pages, blocks, notebooks, notebookMembers}`. The SQL is exposed through a `@visibleForTesting` getter for T14. Add the `SearchHit` and `SearchSnippet` models.
+**Where**: `app/lib/features/search/data/search_repository.dart`
+**Depends on**: T2
+**Reuses**: `PageRepository` customSelect pattern; `LocalUserRepository`; `NotebookColor`
+**Requirement**: SRCH-04…SRCH-10, SRCH-18, SRCH-20, SRCH-21
+
+**Tools**:
+
+- MCP: `context7` (Drift `customSelect`, `readsFrom`)
+- Skill: NONE
+
+**Done when**:
+
+- [x] Tests with the spec's Independent Test data:
+  - "bele" returns 3 pages in "last edited" order, and "Títulos" returns 1;
+  - trashed pages, pages of trashed notebooks, deleted blocks and drawings are never returned;
+  - archived pages are returned;
+  - the stream re-emits after a block save and after a rename (SRCH-18, SRCH-20);
+  - `snippet` returns the marked title and the excerpt.
+- [x] Quick gate passes (≥ 10 new tests)
+
+**Tests**: Drift
+**Gate**: quick
+**Commit**: `feat(app): repositório da busca local (RF-05, SRCH-09, SRCH-10)`
+
+---
+
 #### T7: Search providers
 
 **What**: Add a `searchRepositoryProvider`, a `searchHitsProvider` (`StreamProvider.family.autoDispose` keyed by `(MatchQuery, SearchScope)`) and a `searchSnippetProvider` (`FutureProvider.family.autoDispose` keyed by `(pageId, MatchQuery, SearchScope)`). `MatchQuery` gets value equality.

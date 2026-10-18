@@ -118,4 +118,17 @@ void main() {
   test('SRCH-04: digits are word characters', () {
     expect(all('2026 q3'), '"2026"* AND "q3"*');
   });
+
+  test('SRCH-03: queries from the same words are equal and share a hash', () {
+    final first = MatchQuery.parse('Belém  cedo');
+    final second = MatchQuery.parse('Belém, cedo!');
+
+    expect(first, second);
+    expect(first.hashCode, second.hashCode);
+  });
+
+  test('SRCH-03: queries from different words are not equal', () {
+    expect(MatchQuery.parse('belém'), isNot(MatchQuery.parse('bele')));
+    expect(MatchQuery.parse('a b'), isNot(MatchQuery.parse('b a')));
+  });
 }
