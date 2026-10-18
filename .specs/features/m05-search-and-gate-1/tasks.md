@@ -240,8 +240,8 @@ T39 → T40
 
 **Done when**:
 
-- [ ] Tests cover accents, case, several words, punctuation only (empty query), spaces only, `"`, `*`, `-`, `OR`, `NEAR` as words, emoji and each scope's exact expression string
-- [ ] Quick gate passes (≥ 12 new tests)
+- [x] Tests cover accents, case, several words, punctuation only (empty query), spaces only, `"`, `*`, `-`, `OR`, `NEAR` as words, emoji and each scope's exact expression string
+- [x] Quick gate passes (≥ 12 new tests)
 
 **Tests**: unit
 **Gate**: quick
