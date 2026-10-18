@@ -608,8 +608,8 @@ T39 → T40
 
 **Done when**:
 
-- [ ] Tests: focused on first frame when `autofocus`; placeholder shown when empty; semantics label
-- [ ] Quick gate passes (≥ 3 new tests)
+- [x] Tests: focused on first frame when `autofocus`; placeholder shown when empty; semantics label
+- [x] Quick gate passes (≥ 3 new tests)
 
 **Tests**: widget
 **Gate**: quick
