@@ -902,14 +902,14 @@ Each value goes into `reportData`. `perf_driver.dart` takes the output file name
 
 **Done when**:
 
-- [ ] Tests:
+- [x] Tests:
   - a clean database gives one `pass`;
   - each invariant fails alone, with its ids;
   - two failures in one line;
   - a deleted duplicate is not a failure;
   - a thrown error gives `check_error`;
   - no table changed (row counts and `max(updated_at)` equal).
-- [ ] Quick gate passes (≥ 8 new tests)
+- [x] Quick gate passes (≥ 8 new tests)
 
 **Tests**: Drift
 **Gate**: quick
