@@ -787,12 +787,12 @@ Add the l10n keys from the design.
 
 **Done when**:
 
-- [ ] `fvm flutter test --tags perf --run-skipped` passes:
+- [x] `fvm flutter test --tags perf --run-skipped` passes:
   - exact counts of 21 notebooks, 12,000 pages and 240,000 blocks;
   - no duplicate positions;
   - `page_search` has 12,000 rows.
-- [ ] `fvm flutter test` (default) skips it
-- [ ] Quick gate passes
+- [x] `fvm flutter test` (default) skips it
+- [x] Quick gate passes
 
 **Tests**: e2e
 **Gate**: quick
