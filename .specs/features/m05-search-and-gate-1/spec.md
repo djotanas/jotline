@@ -299,7 +299,7 @@ Canvas "Jotline design", version `1792290140-31c0` (2026-10-17).
 | SRCH-06 | P1: Local search | Design | Pending |
 | SRCH-07 | P1: Local search | Design | Pending |
 | SRCH-08 | P1: Local search | Design | Pending |
-| SRCH-09 | P1: Local search | Design | Pending |
+| SRCH-09 | P1: Local search | Execute | Implementing |
 | SRCH-10 | P1: Local search | Design | Pending |
 | SRCH-11 | P1: Local search | Design | Pending |
 | SRCH-12 | P1: Local search | Design | Pending |
@@ -308,8 +308,8 @@ Canvas "Jotline design", version `1792290140-31c0` (2026-10-17).
 | SRCH-15 | P1: Local search | Design | Pending |
 | SRCH-16 | P1: Local search | Design | Pending |
 | SRCH-17 | P1: Local search | Design | Pending |
-| SRCH-18 | P1: Local search | Design | Pending |
-| SRCH-19 | P1: Local search | Design | Pending |
+| SRCH-18 | P1: Local search | Execute | Implementing |
+| SRCH-19 | P1: Local search | Execute | Implementing |
 | SRCH-20 | P1: Local search | Design | Pending |
 | SRCH-21 | P1: Local search | Design | Pending |
 | LOAD-01 | P1: Performance with 10,000 pages | Design | Pending |
@@ -368,7 +368,7 @@ Canvas "Jotline design", version `1792290140-31c0` (2026-10-17).
 | DRAW-20 | P3: Freehand drawing block | Design | Pending |
 | ADR-01 | P3: Decision records and docs | - | Pending |
 | ADR-02 | P3: Decision records and docs | - | Pending |
-| DOC-01 | P3: Decision records and docs | - | Pending |
+| DOC-01 | P3: Decision records and docs | Execute | Implementing |
 | DOC-02 | P3: Decision records and docs | - | Pending |
 | DOC-03 | P3: Decision records and docs | - | Pending |
 | EDGE-01 | Edge cases | Design | Pending |

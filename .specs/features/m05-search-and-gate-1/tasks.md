@@ -190,10 +190,10 @@ T39 → T40
 
 **Done when**:
 
-- [ ] `drift_schemas/app_database/drift_schema_v3.json` and `test/drift/…/schema_v3.dart` are generated and committed
-- [ ] Migration test: a v2 database with 2 pages and 3 blocks opens as v3, and `page_search` matches both pages by title and by block text
-- [ ] Trigger tests pass for every case listed
-- [ ] Quick gate passes (≥ 8 new tests, none removed)
+- [x] `drift_schemas/app_database/drift_schema_v3.json` and `test/drift/…/schema_v3.dart` are generated and committed
+- [x] Migration test: a v2 database with 2 pages and 3 blocks opens as v3, and `page_search` matches both pages by title and by block text
+- [x] Trigger tests pass for every case listed
+- [x] Quick gate passes (≥ 8 new tests, none removed)
 
 **Tests**: Drift
 **Gate**: quick

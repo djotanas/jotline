@@ -62,8 +62,8 @@ void main() {
     };
   }
 
-  test('DB-01: schemaVersion is 2', () {
-    expect(database.schemaVersion, 2);
+  test('DB-01: schemaVersion is 3', () {
+    expect(database.schemaVersion, 3);
   });
 
   test('DB-06: foreign keys are enforced when the database opens', () async {
