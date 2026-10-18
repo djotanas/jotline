@@ -39,6 +39,9 @@ class PageEditor with ChangeNotifier {
   );
 
   final Editor _editor;
+
+  @visibleForTesting
+  Editor get editor => _editor;
   late final BlockSync _sync;
   final FocusNode focusNode = FocusNode();
 

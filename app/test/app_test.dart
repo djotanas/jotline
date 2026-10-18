@@ -56,7 +56,12 @@ class _RecordingCheck implements IntegrityCheck {
   }
 }
 
-const _withoutSource = ['drift', 'perf', 'core/database/query_plan_test.dart'];
+const _withoutSource = [
+  'drift',
+  'kill',
+  'perf',
+  'core/database/query_plan_test.dart',
+];
 
 void main() {
   var frames = 0;

@@ -956,9 +956,9 @@ Each value goes into `reportData`. `perf_driver.dart` takes the output file name
 
 **Done when**:
 
-- [ ] Host tests for `kill_verify.dart`: DB equal to the last ack passes; equal to the pending passes; missing a saved block fails with expected and actual; integrity fail fails
-- [ ] `fvm flutter build apk --profile -t integration_test/kill/kill_app.dart` builds
-- [ ] Quick gate passes (≥ 4 new tests)
+- [x] Host tests for `kill_verify.dart`: DB equal to the last ack passes; equal to the pending passes; missing a saved block fails with expected and actual; integrity fail fails
+- [x] `fvm flutter build apk --profile -t integration_test/kill/kill_app.dart` builds
+- [x] Quick gate passes (≥ 4 new tests)
 
 **Tests**: e2e
 **Gate**: quick
