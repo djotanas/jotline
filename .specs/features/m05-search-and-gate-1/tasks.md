@@ -294,13 +294,13 @@ T39 → T40
 
 **Done when**:
 
-- [ ] Tests with the spec's Independent Test data:
+- [x] Tests with the spec's Independent Test data:
   - "bele" returns 3 pages in "last edited" order, and "Títulos" returns 1;
   - trashed pages, pages of trashed notebooks, deleted blocks and drawings are never returned;
   - archived pages are returned;
   - the stream re-emits after a block save and after a rename (SRCH-18, SRCH-20);
   - `snippet` returns the marked title and the excerpt.
-- [ ] Quick gate passes (≥ 10 new tests)
+- [x] Quick gate passes (≥ 10 new tests)
 
 **Tests**: Drift
 **Gate**: quick
