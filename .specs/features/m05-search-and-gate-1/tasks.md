@@ -216,8 +216,8 @@ T39 → T40
 
 **Done when**:
 
-- [ ] Every existing EDITED-* test in `page_repository_test.dart` passes unchanged
-- [ ] Quick gate passes (test count unchanged)
+- [x] Every existing EDITED-* test in `page_repository_test.dart` passes unchanged
+- [x] Quick gate passes (test count unchanged)
 
 **Tests**: Drift
 **Gate**: quick

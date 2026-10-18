@@ -300,7 +300,7 @@ Canvas "Jotline design", version `1792290140-31c0` (2026-10-17).
 | SRCH-07 | P1: Local search | Design | Pending |
 | SRCH-08 | P1: Local search | Design | Pending |
 | SRCH-09 | P1: Local search | Execute | Implementing |
-| SRCH-10 | P1: Local search | Design | Pending |
+| SRCH-10 | P1: Local search | Execute | Implementing |
 | SRCH-11 | P1: Local search | Design | Pending |
 | SRCH-12 | P1: Local search | Design | Pending |
 | SRCH-13 | P1: Local search | Design | Pending |

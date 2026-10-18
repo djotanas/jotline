@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:jotline/core/clock/clock.dart';
 import 'package:jotline/core/database/app_database.dart';
+import 'package:jotline/core/database/last_edited_sql.dart';
 import 'package:jotline/core/database/local_user_repository.dart';
 import 'package:jotline/core/database/position_allocator.dart';
 import 'package:jotline/core/ids/id_generator.dart';
@@ -162,12 +163,7 @@ class PageRepository {
     final pages = _database.pages;
     return _database
         .customSelect(
-          'SELECT p.*, '
-          'max(p.updated_at, '
-          'COALESCE((SELECT max(b.updated_at) FROM blocks b '
-          'WHERE b.page_id = p.id), p.updated_at), '
-          'COALESCE((SELECT max(b.deleted_at) FROM blocks b '
-          'WHERE b.page_id = p.id), p.updated_at)) AS last_edited_at, '
+          'SELECT p.*, $lastEditedSql AS last_edited_at, '
           r"(SELECT json_extract(b.content_json, '$.text') FROM blocks b "
           'WHERE b.page_id = p.id AND b.deleted_at IS NULL '
           "AND b.type IN ('text', 'bulleted_list_item', 'checklist_item') "
