@@ -1047,8 +1047,8 @@ Add its row to `docs/adr/README.md`.
 
 **Done when**:
 
-- [ ] ADR has the JSON example and the persisted ids; README lists 0039
-- [ ] Build gate passes
+- [x] ADR has the JSON example and the persisted ids; README lists 0039
+- [x] Build gate passes
 
 **Tests**: none
 **Gate**: build
