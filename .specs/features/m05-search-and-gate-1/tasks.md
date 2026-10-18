@@ -584,8 +584,8 @@ T39 → T40
 
 **Done when**:
 
-- [ ] The icon test renders every new glyph at 22 px
-- [ ] Quick gate passes (≥ 6 new tests)
+- [x] The icon test renders every new glyph at 22 px
+- [x] Quick gate passes (≥ 6 new tests)
 
 **Tests**: widget
 **Gate**: quick
