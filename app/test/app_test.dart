@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jotline/app.dart';
+import 'package:jotline/core/database/integrity_check.dart';
+import 'package:jotline/core/database/integrity_log.dart';
 import 'package:jotline/core/preferences/preferences_provider.dart';
 import 'package:jotline/core/preferences/unavailable_preferences_store.dart';
 import 'package:jotline/core/theme/jot_colors.dart';
@@ -40,9 +43,72 @@ Future<void> _dispose(WidgetTester tester, TestApp app) async {
   await tester.runAsync(app.db.close);
 }
 
+class _RecordingCheck implements IntegrityCheck {
+  new(this.frames);
+
+  final int Function() frames;
+  final framesAtRun = <int>[];
+
+  @override
+  Future<IntegrityReport> run() async {
+    framesAtRun.add(frames());
+    return const IntegrityReport([]);
+  }
+}
+
 const _withoutSource = ['drift', 'perf', 'core/database/query_plan_test.dart'];
 
 void main() {
+  var frames = 0;
+  setUpAll(() {
+    SchedulerBinding.instance.addPersistentFrameCallback((_) => frames++);
+  });
+
+  Future<_RecordingCheck> pumpWithCheck(WidgetTester tester) async {
+    final app = TestApp();
+    final check = _RecordingCheck(() => frames);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          ...app.overrides,
+          preferencesStoreProvider.overrideWithValue(
+            UnavailablePreferencesStore(),
+          ),
+          integrityCheckProvider.overrideWith((ref) => check),
+        ],
+        child: const JotlineApp(),
+      ),
+    );
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+    await tester.pump();
+    addTearDown(() => _dispose(tester, app));
+    return check;
+  }
+
+  testWidgets('INTEG-01: the check starts after the first frame was built', (
+    tester,
+  ) async {
+    final before = frames;
+
+    final check = await pumpWithCheck(tester);
+
+    expect(check.framesAtRun, hasLength(1));
+    expect(check.framesAtRun.single, greaterThan(before));
+  });
+
+  testWidgets('INTEG-01: the check runs once per app start, not per rebuild', (
+    tester,
+  ) async {
+    final check = await pumpWithCheck(tester);
+
+    tester.platformDispatcher.textScaleFactorTestValue = 1.5;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+
+    expect(check.framesAtRun, hasLength(1));
+  });
+
   testWidgets('PREF-06: the home still renders with an unavailable '
       'preferences store', (tester) async {
     final app = await _pumpApp(

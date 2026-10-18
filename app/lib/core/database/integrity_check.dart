@@ -1,6 +1,13 @@
+import 'dart:developer' as developer;
+import 'dart:io';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jotline/core/clock/clock.dart';
 import 'package:jotline/core/database/app_database.dart';
+import 'package:jotline/core/database/database_provider.dart';
 import 'package:jotline/core/database/integrity_log.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// The startup check of the local database (INTEG-01 to INTEG-08).
 class IntegrityCheck {
@@ -61,3 +68,30 @@ class IntegrityCheck {
     return report;
   }
 }
+
+final appVersionProvider = FutureProvider<String>((ref) async {
+  try {
+    final info = await PackageInfo.fromPlatform();
+    return '${info.version}+${info.buildNumber}';
+  } on Object catch (error) {
+    developer.log(
+      'app version unavailable',
+      name: 'jotline.integrity',
+      error: error,
+    );
+    return 'unknown';
+  }
+});
+
+final integrityCheckProvider = FutureProvider<IntegrityCheck>((ref) async {
+  final version = await ref.watch(appVersionProvider.future);
+  return IntegrityCheck(
+    ref.watch(databaseProvider),
+    ref.watch(clockProvider),
+    IntegrityLog(() async {
+      final directory = await getApplicationSupportDirectory();
+      return File('${directory.path}/integrity.log');
+    }),
+    version,
+  );
+});

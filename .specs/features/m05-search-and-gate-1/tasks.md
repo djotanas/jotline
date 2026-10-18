@@ -932,8 +932,8 @@ Each value goes into `reportData`. `perf_driver.dart` takes the output file name
 
 **Done when**:
 
-- [ ] Widget tests: the first frame is built before `run()` starts (a fake check records the frame count); the check runs once per app start, not per rebuild
-- [ ] Quick gate passes (≥ 2 new tests)
+- [x] Widget tests: the first frame is built before `run()` starts (a fake check records the frame count); the check runs once per app start, not per rebuild
+- [x] Quick gate passes (≥ 2 new tests)
 
 **Tests**: widget
 **Gate**: quick
