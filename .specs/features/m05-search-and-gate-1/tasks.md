@@ -1212,14 +1212,14 @@ Add its row to `docs/adr/README.md`.
 
 **Done when**:
 
-- [ ] Widget tests:
+- [x] Widget tests:
   - the card is at page width with a 390:560 ratio;
   - border, radius and colors come from the tokens;
   - the semantics label is "Desenho";
   - a tap calls `onOpen` with the node id;
   - no drag handle;
   - Backspace at the start of the block below, and Delete at the end of the block above, leave the drawing row untouched.
-- [ ] Quick gate passes (≥ 6 new tests)
+- [x] Quick gate passes (≥ 6 new tests)
 
 **Tests**: widget
 **Gate**: quick
