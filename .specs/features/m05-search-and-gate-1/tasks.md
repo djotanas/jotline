@@ -706,8 +706,8 @@ Add the l10n keys from the design.
 
 **Done when**:
 
-- [ ] Widget tests: the button is first, with label "Buscar", shown with zero notebooks, and tapping it opens the search screen with the field focused
-- [ ] Quick gate passes (≥ 2 new tests)
+- [x] Widget tests: the button is first, with label "Buscar", shown with zero notebooks, and tapping it opens the search screen with the field focused
+- [x] Quick gate passes (≥ 2 new tests)
 
 **Tests**: widget
 **Gate**: quick
