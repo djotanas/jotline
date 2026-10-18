@@ -1184,12 +1184,12 @@ Add its row to `docs/adr/README.md`.
 
 **Done when**:
 
-- [ ] Drift tests:
+- [x] Drift tests:
   - inserting a drawing node writes one `drawing` row after the given block;
   - a replace keeps the block id and updates `content_json` and `updated_at`, with `version` unchanged;
   - a delete soft-deletes;
   - every existing `BlockSync` test passes.
-- [ ] Quick gate passes (≥ 3 new tests)
+- [x] Quick gate passes (≥ 3 new tests)
 
 **Tests**: Drift
 **Gate**: quick
