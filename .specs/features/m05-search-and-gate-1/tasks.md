@@ -737,8 +737,8 @@ Add the l10n keys from the design.
 
 **Done when**:
 
-- [ ] The flow passes on an emulator; any HTTP attempt fails it
-- [ ] Full gate passes
+- [x] The flow passes on an emulator; any HTTP attempt fails it
+- [x] Full gate passes
 
 **Tests**: e2e
 **Gate**: full
