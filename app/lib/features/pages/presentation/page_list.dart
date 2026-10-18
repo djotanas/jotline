@@ -12,6 +12,7 @@ import 'package:jotline/core/text/relative_dates.dart';
 import 'package:jotline/core/theme/jot_spacing.dart';
 import 'package:jotline/core/theme/theme_context.dart';
 import 'package:jotline/features/pages/data/page_providers.dart';
+import 'package:jotline/features/pages/data/page_summary.dart';
 import 'package:jotline/l10n/app_localizations.dart';
 
 /// The pages of a notebook as rows. In reorder mode each row shows a drag
@@ -27,7 +28,7 @@ class PageList extends ConsumerStatefulWidget {
   /// Room left under the list for the floating button.
   static const double fabClearance = JotSpace.space14 * 2;
 
-  final List<NotebookPage> pages;
+  final List<PageSummary> pages;
   final bool reordering;
   final ValueChanged<NotebookPage> onOpen;
 
@@ -36,7 +37,7 @@ class PageList extends ConsumerStatefulWidget {
 }
 
 class _PageListState extends ConsumerState<PageList> {
-  List<NotebookPage>? _optimistic;
+  List<PageSummary>? _optimistic;
 
   @override
   void didUpdateWidget(PageList oldWidget) {
@@ -51,9 +52,9 @@ class _PageListState extends ConsumerState<PageList> {
     final rest = [...current]..removeAt(oldIndex);
     final placement = newIndex == 0
         ? const AtStart()
-        : After(rest[newIndex - 1].id);
+        : After(rest[newIndex - 1].page.id);
     setState(() => _optimistic = [...rest]..insert(newIndex, moved));
-    unawaited(ref.read(pageRepositoryProvider).move(moved.id, placement));
+    unawaited(ref.read(pageRepositoryProvider).move(moved.page.id, placement));
   }
 
   @override
@@ -75,10 +76,11 @@ class _PageListState extends ConsumerState<PageList> {
       onReorderItem: _onReorder,
       proxyDecorator: (child, index, animation) => Material(
         type: MaterialType.transparency,
-        child: DraggingPageRow(title: label(pages[index])),
+        child: DraggingPageRow(title: label(pages[index].page)),
       ),
       itemBuilder: (context, index) {
-        final page = pages[index];
+        final summary = pages[index];
+        final page = summary.page;
         final title = label(page);
         return Padding(
           key: ValueKey(page.id),
@@ -86,7 +88,8 @@ class _PageListState extends ConsumerState<PageList> {
           child: PageRow(
             title: title,
             muted: page.title.isEmpty,
-            date: dates.day(page.updatedAt),
+            date: dates.day(summary.lastEditedAt),
+            excerpt: summary.excerpt,
             onTap: () => widget.onOpen(page),
             leading: widget.reordering
                 ? ReorderableDragStartListener(

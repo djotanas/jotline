@@ -1,9 +1,10 @@
-import 'package:drift/drift.dart' show OrderingTerm;
+import 'package:drift/drift.dart' show OrderingTerm, Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/core/database/local_user_repository.dart';
 import 'package:jotline/core/ordering/placement.dart';
 import 'package:jotline/core/theme/notebook_palette.dart';
+import 'package:jotline/features/blocks/data/block_content.dart';
 import 'package:jotline/features/blocks/data/block_repository.dart';
 import 'package:jotline/features/notebooks/data/notebook_repository.dart';
 import 'package:jotline/features/pages/data/page_repository.dart';
@@ -64,6 +65,13 @@ void main() {
     return [for (final b in emissions.last) b.contentJson];
   }
 
+  Future<void> update(String id, String text) => repository.applyChanges(
+    pageId,
+    [Update(id, BlockType.text, BlockContent(text))],
+  );
+
+  String json(String text) => BlockContent(text).toJson();
+
   Future<List<String>> seed(List<String> contents) async => [
     for (final content in contents) await add(content),
   ];
@@ -112,17 +120,17 @@ void main() {
     expect(await contents(), ['Z', 'A']);
   });
 
-  test('REPO-14: updating content keeps a manually set version and sets '
+  test('REPO-14: an Update keeps a manually set version and sets '
       'updated_* ', () async {
     final id = await add('A');
     await db.customStatement("UPDATE blocks SET version = 7 WHERE id = '$id'");
     clock.current = DateTime.utc(2026, 10, 12);
 
-    await repository.updateContent(id, 'A2');
+    await update(id, 'A2');
 
     final row = await blockRow(id);
     expect(row.version, 7);
-    expect(row.contentJson, 'A2');
+    expect(row.contentJson, json('A2'));
     expect(row.updatedAt, DateTime.utc(2026, 10, 12));
     expect(row.updatedBy, await localUser.id());
   });
@@ -159,12 +167,12 @@ void main() {
     expect(await contents(other), ['B']);
   });
 
-  test('REPO-17: the page row stays identical through create, update, move '
+  test('REPO-17: the page row stays identical through create, Update, move '
       'and delete', () async {
     final pagesBefore = await db.select(db.pages).get();
 
     final [a, b] = await seed(['A', 'B']);
-    await repository.updateContent(a, 'A2');
+    await update(a, 'A2');
     await repository.move(a, After(b));
     await repository.moveToTrash(b);
 
@@ -277,7 +285,7 @@ void main() {
     expect((await blockRow(a)).updatedBy, userId);
 
     await db.customStatement("UPDATE blocks SET updated_by = 'x'");
-    await repository.updateContent(a, 'A2');
+    await update(a, 'A2');
     await repository.move(b, const AtStart());
 
     expect((await blockRow(a)).updatedBy, userId);
@@ -301,17 +309,243 @@ void main() {
     await recorder.settle();
     expect(now(), ['A', 'B']);
 
-    await repository.updateContent(a, 'A2');
+    await update(a, 'A2');
     await recorder.settle();
-    expect(now(), ['A2', 'B']);
+    expect(now(), [json('A2'), 'B']);
 
     await repository.move(b, const AtStart());
     await recorder.settle();
-    expect(now(), ['B', 'A2']);
+    expect(now(), ['B', json('A2')]);
 
     await repository.moveToTrash(a);
     await recorder.settle();
     expect(now(), ['B']);
     await recorder.cancel();
+  });
+  group('loadPage', () {
+    test('EDIT-01: returns the blocks not deleted, ordered by position then '
+        'id, like the stream', () async {
+      final [a, b, c, d] = await seed(['A', 'B', 'C', 'D']);
+      await db.customStatement(
+        "UPDATE blocks SET position = 'a0' WHERE id IN ('$b', '$a')",
+      );
+      await db.customStatement(
+        "UPDATE blocks SET position = 'Zz' WHERE id = '$d'",
+      );
+      await repository.moveToTrash(c);
+
+      final loaded = await repository.loadPage(pageId);
+
+      expect([for (final block in loaded) block.id], [d, a, b]);
+      expect([for (final block in loaded) block.contentJson], await contents());
+    });
+
+    test('EDIT-01: returns nothing for a page in the trash', () async {
+      await seed(['A']);
+      await pageRepository.moveToTrash(pageId);
+
+      expect(await repository.loadPage(pageId), isEmpty);
+    });
+  });
+
+  group('applyChanges', () {
+    test('SAVE-02: a failing change rolls back the whole batch', () async {
+      final [a, b] = await seed(['A', 'B']);
+      final before = await blockRows();
+
+      await expectLater(
+        repository.applyChanges(pageId, [
+          Update(a, BlockType.text, const BlockContent('A2')),
+          Insert('n1', BlockType.text, const BlockContent('N'), After(b)),
+          Trash(b),
+          const Insert('n2', BlockType.text, BlockContent('X'), After('x')),
+        ]),
+        throwsArgumentError,
+      );
+
+      expect(await blockRows(), before);
+    });
+
+    test('SAVE-06: an insert After an insert of the same batch lands right '
+        'after it, before the next sibling', () async {
+      final [a, _] = await seed(['A', 'B']);
+
+      final inserted = await repository.applyChanges(pageId, [
+        Insert('n1', BlockType.text, const BlockContent('A1'), After(a)),
+        const Insert('n2', BlockType.text, BlockContent('A2'), After('n1')),
+      ]);
+
+      expect(inserted.keys, ['n1', 'n2']);
+      expect(await contents(), ['A', json('A1'), json('A2'), 'B']);
+      final row = await blockRow(inserted['n2']!);
+      expect(row.version, 0);
+      expect(row.type, 'text');
+    });
+
+    test('SAVE-06: an insert AtStart sorts first and returns its id', () async {
+      await seed(['A']);
+
+      final inserted = await repository.applyChanges(pageId, [
+        const Insert('n1', BlockType.heading, BlockContent('H'), AtStart()),
+      ]);
+
+      final [first, _] = await repository.loadPage(pageId);
+      expect(first.id, inserted['n1']);
+      expect(first.type, 'heading');
+      expect(first.contentJson, json('H'));
+    });
+
+    test('BAR-05: an Update writes type and content_json', () async {
+      final [a] = await seed(['A']);
+      await repository.applyChanges(pageId, [
+        Update(
+          a,
+          BlockType.checklistItem,
+          const BlockContent('A', marks: [Mark(0, 1, MarkType.bold)]),
+        ),
+      ]);
+
+      final row = await blockRow(a);
+      expect(row.type, 'checklist_item');
+      expect(
+        row.contentJson,
+        '{"text":"A","marks":[{"start":0,"end":1,"type":"bold"}],'
+        '"checked":false}',
+      );
+
+      await repository.applyChanges(pageId, [
+        Update(a, BlockType.text, const BlockContent('A', checked: true)),
+      ]);
+
+      expect((await blockRow(a)).type, 'text');
+      expect((await blockRow(a)).contentJson, json('A'));
+    });
+
+    test('SAVE-05: an Update with the stored type and content writes '
+        'nothing', () async {
+      final [a] = await seed(['A']);
+      await update(a, 'A2');
+      clock.current = DateTime.utc(2026, 10, 12);
+      await db.customStatement("UPDATE blocks SET updated_by = 'x'");
+      final stored = await blockRow(a);
+
+      await update(a, 'A2');
+
+      expect(await blockRow(a), stored);
+    });
+
+    test('SAVE-04: every write sets updated_at and updated_by and keeps '
+        'version', () async {
+      final [a, b, c] = await seed(['A', 'B', 'C']);
+      await db.customStatement(
+        "UPDATE blocks SET version = 7, updated_by = 'x'",
+      );
+      clock.current = DateTime.utc(2026, 10, 12, 9);
+
+      final inserted = await repository.applyChanges(pageId, [
+        Update(a, BlockType.text, const BlockContent('A2')),
+        Move(b, const AtStart()),
+        Insert('n1', BlockType.text, const BlockContent('N'), After(c)),
+      ]);
+
+      final userId = await localUser.id();
+      for (final id in [a, b]) {
+        final row = await blockRow(id);
+        expect(row.updatedAt, DateTime.utc(2026, 10, 12, 9));
+        expect(row.updatedBy, userId);
+        expect(row.version, 7);
+      }
+      final row = await blockRow(inserted['n1']!);
+      expect(row.updatedAt, DateTime.utc(2026, 10, 12, 9));
+      expect(row.updatedBy, userId);
+      expect(row.version, 0);
+      expect(await contents(), ['B', json('A2'), 'C', json('N')]);
+    });
+
+    test('SAVE-07: a Trash writes only deleted_at', () async {
+      final [a] = await seed(['A']);
+      await db.customStatement('UPDATE blocks SET version = 7');
+      final before = await blockRow(a);
+      clock.current = DateTime.utc(2026, 10, 12);
+
+      await repository.applyChanges(pageId, [Trash(a)]);
+
+      expect(
+        await blockRow(a),
+        before.copyWith(deletedAt: Value(DateTime.utc(2026, 10, 12))),
+      );
+    });
+
+    test('SAVE-05: the pages row is identical after a batch of every '
+        'change', () async {
+      final [a, b, c] = await seed(['A', 'B', 'C']);
+      final pagesBefore = await db.select(db.pages).get();
+      clock.current = DateTime.utc(2026, 10, 12);
+
+      await repository.applyChanges(pageId, [
+        Update(a, BlockType.heading, const BlockContent('A2')),
+        Insert('n1', BlockType.text, const BlockContent('N'), After(a)),
+        Move(c, const AtStart()),
+        Trash(b),
+      ]);
+
+      expect(await db.select(db.pages).get(), pagesBefore);
+    });
+
+    test('SAVE-05: a batch touches only the rows it names', () async {
+      final [_, b, _] = await seed(['A', 'B', 'C']);
+      final before = await blockRows();
+      clock.current = DateTime.utc(2026, 10, 12);
+
+      await repository.applyChanges(pageId, [
+        Update(b, BlockType.text, const BlockContent('B2')),
+      ]);
+
+      final after = await blockRows();
+      final changed = [
+        for (var i = 0; i < before.length; i++)
+          if (before[i] != after[i]) after[i].id,
+      ];
+      expect(changed, [b]);
+    });
+
+    test('SAVE-09: a batch never issues a physical DELETE', () async {
+      final [a, b, c] = await seed(['A', 'B', 'C']);
+      await db.customStatement(
+        'CREATE TEMP TRIGGER no_block_delete BEFORE DELETE ON blocks '
+        "BEGIN SELECT RAISE(ABORT, 'physical delete'); END",
+      );
+
+      await repository.applyChanges(pageId, [
+        Update(a, BlockType.text, const BlockContent('A2')),
+        Insert('n1', BlockType.text, const BlockContent('N'), After(a)),
+        Move(c, const AtStart()),
+        Trash(b),
+        Trash(c),
+      ]);
+
+      expect(await blockRows(), hasLength(4));
+      expect((await blockRow(b)).deletedAt, isNotNull);
+    });
+
+    test('REPO-18: the stream emits once after a batch', () async {
+      final [a, b] = await seed(['A', 'B']);
+      final recorder = StreamRecorder(repository.watchByPage(pageId));
+      await recorder.settle();
+      final emitted = recorder.emissions.length;
+
+      await repository.applyChanges(pageId, [
+        Update(a, BlockType.text, const BlockContent('A2')),
+        Trash(b),
+      ]);
+      await recorder.settle();
+
+      expect(recorder.emissions.length, emitted + 1);
+      expect(
+        [for (final block in recorder.emissions.last) block.contentJson],
+        [json('A2')],
+      );
+      await recorder.cancel();
+    });
   });
 }

@@ -19,6 +19,8 @@ enum JotIconGlyph {
   check,
   page,
   notebook,
+  text,
+  list,
 }
 
 /// A canvas icon painted with the color of the surrounding [IconTheme].
@@ -165,6 +167,16 @@ class JotIconPainter extends CustomPainter {
         canvas
           ..drawRRect(_cover, stroke)
           ..drawPath(_lines([(9, 3, 9, 21), (12, 8, 16, 8)]), stroke);
+      case JotIconGlyph.text:
+        canvas.drawPath(_lines([(5, 6, 19, 6), (12, 6, 12, 19)]), stroke);
+      case JotIconGlyph.list:
+        for (final y in const [7.0, 12.0, 17.0]) {
+          canvas.drawCircle(Offset(5, y), 1, stroke);
+        }
+        canvas.drawPath(
+          _lines([(10, 7, 20, 7), (10, 12, 20, 12), (10, 17, 20, 17)]),
+          stroke,
+        );
     }
     canvas.restore();
   }

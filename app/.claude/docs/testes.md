@@ -81,7 +81,7 @@ await tester.pumpWidget(ProviderScope(
 ```
 
 - Drift streams use timers: close the database and `pump` before the test ends to avoid "A Timer is still pending".
-- No golden tests for now; the block editor is still undecided.
+- No golden tests for now.
 
 ## E2E (main flows)
 
@@ -97,7 +97,7 @@ One file per flow in `integration_test/`, starting with `IntegrationTestWidgetsF
 
 `integration_test/perf/` holds measurements, not flows: run them with `flutter drive --profile` (commands in `CLAUDE.md`), never judge them from debug.
 
-The RF-03 flow waits for the block editor ADR. A new main flow is added to this table in the same commit as its test.
+A new main flow is added to this table in the same commit as its test.
 
 ## Invariants with a fixed test
 

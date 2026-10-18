@@ -59,11 +59,15 @@ void main() {
     await repository.create(second, title: 'B');
     await pumpEventQueue();
 
-    expect(container.read(pagesProvider(first)).requireValue.map((p) => p.id), [
-      pageId,
-    ]);
     expect(
-      container.read(pagesProvider(second)).requireValue.map((p) => p.title),
+      container.read(pagesProvider(first)).requireValue.map((p) => p.page.id),
+      [pageId],
+    );
+    expect(
+      container
+          .read(pagesProvider(second))
+          .requireValue
+          .map((p) => p.page.title),
       ['B'],
     );
   });
@@ -93,7 +97,7 @@ void main() {
     container.listen(pageProvider(id), (_, _) {});
 
     await container.read(pageProvider(id).future);
-    expect(container.read(pageProvider(id)).value?.title, 'A');
+    expect(container.read(pageProvider(id)).value?.page.title, 'A');
 
     await repository.moveToTrash(id);
     await pumpEventQueue();

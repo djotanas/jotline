@@ -63,4 +63,25 @@ void main() {
     expect(s.blocoTexto.fontVariations, [const FontVariation.opticalSize(17)]);
     expect(s.itemTrecho.fontVariations, [const FontVariation.opticalSize(14)]);
   });
+
+  test('BAR-01: barNegrito is the bar "B" glyph, UI 18/700 upright', () {
+    final style = JotTextStyles.from(colors).barNegrito;
+
+    expect(style.fontFamily, ui);
+    expect(style.fontSize, 18);
+    expect(style.fontWeight, FontWeight.w700);
+    expect(style.fontStyle ?? FontStyle.normal, FontStyle.normal);
+    expect(style.color, colors.ink1);
+  });
+
+  test('BAR-01: barItalico is the bar "I" glyph, Literata 19 italic', () {
+    final style = JotTextStyles.from(colors).barItalico;
+
+    expect(style.fontFamily, texto);
+    expect(style.fontSize, 19);
+    expect(style.fontWeight, FontWeight.w400);
+    expect(style.fontStyle, FontStyle.italic);
+    expect(style.fontVariations, [const FontVariation.opticalSize(19)]);
+    expect(style.color, colors.ink1);
+  });
 }

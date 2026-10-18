@@ -235,7 +235,7 @@ void main() {
     final listed = await tester.runAsync(
       () => _app.pages.watchByNotebook(_n1).first,
     );
-    expect(listed!.map((p) => p.title), ['A', 'B', 'C']);
+    expect(listed!.map((p) => p.page.title), ['A', 'B', 'C']);
     await _close(tester);
   });
 

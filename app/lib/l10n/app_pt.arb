@@ -386,5 +386,37 @@
   "notebookTrashed": "Caderno movido para a lixeira",
   "@notebookTrashed": {
     "description": "Undo toast after a notebook is trashed."
+  },
+  "blockTypeText": "Texto",
+  "@blockTypeText": {
+    "description": "Block bar button that turns the block with the cursor into a text block."
+  },
+  "blockTypeHeading": "Título",
+  "@blockTypeHeading": {
+    "description": "Block bar button that turns the block with the cursor into a heading."
+  },
+  "blockTypeList": "Lista",
+  "@blockTypeList": {
+    "description": "Block bar button that turns the block with the cursor into a bulleted list item."
+  },
+  "blockTypeChecklist": "Checklist",
+  "@blockTypeChecklist": {
+    "description": "Block bar button that turns the block with the cursor into a checklist item."
+  },
+  "markBold": "Negrito",
+  "@markBold": {
+    "description": "Block bar button that toggles bold."
+  },
+  "markItalic": "Itálico",
+  "@markItalic": {
+    "description": "Block bar button that toggles italic."
+  },
+  "blockBarLabel": "Tipo de bloco e formatação",
+  "@blockBarLabel": {
+    "description": "Accessible label of the block bar above the keyboard."
+  },
+  "moveBlock": "Mover bloco",
+  "@moveBlock": {
+    "description": "Accessible label of the drag handle of the block in edit."
   }
 }

@@ -4,8 +4,11 @@ import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/core/database/local_user_repository.dart';
 import 'package:jotline/core/ordering/placement.dart';
 import 'package:jotline/core/theme/notebook_palette.dart';
+import 'package:jotline/features/blocks/data/block_content.dart';
+import 'package:jotline/features/blocks/data/block_repository.dart';
 import 'package:jotline/features/notebooks/data/notebook_repository.dart';
 import 'package:jotline/features/pages/data/page_repository.dart';
+import 'package:jotline/features/pages/data/page_summary.dart';
 
 import '../../../helpers/fakes.dart';
 import '../../../helpers/stream_recorder.dart';
@@ -49,7 +52,7 @@ void main() {
     );
     final emissions = await recorder.settle();
     await recorder.cancel();
-    return [for (final p in emissions.last) p.title];
+    return [for (final p in emissions.last) p.page.title];
   }
 
   Future<List<String>> seed(List<String> names) async {
@@ -318,11 +321,11 @@ void main() {
     final id = await repository.create(notebookId, title: 'A');
     final recorder = StreamRecorder(repository.watchOne(id));
     await recorder.settle();
-    expect(recorder.emissions.last?.title, 'A');
+    expect(recorder.emissions.last?.page.title, 'A');
 
     await repository.rename(id, 'B');
     await recorder.settle();
-    expect(recorder.emissions.last?.title, 'B');
+    expect(recorder.emissions.last?.page.title, 'B');
 
     await repository.moveToTrash(id);
     await recorder.settle();
@@ -467,7 +470,7 @@ void main() {
       'delete', () async {
     final recorder = StreamRecorder(repository.watchByNotebook(notebookId));
     List<String> titlesNow() => [
-      for (final p in recorder.emissions.last) p.title,
+      for (final p in recorder.emissions.last) p.page.title,
     ];
     await recorder.settle();
     expect(titlesNow(), isEmpty);
@@ -492,5 +495,184 @@ void main() {
     await recorder.settle();
     expect(titlesNow(), ['B']);
     await recorder.cancel();
+  });
+  group('PageSummary', () {
+    late BlockRepository blocks;
+
+    setUp(() => blocks = BlockRepository(db, clock, ids, localUser));
+
+    Future<String> block(
+      String pageId,
+      String text, {
+      BlockType type = BlockType.text,
+    }) => blocks.create(
+      pageId,
+      type: type.id,
+      contentJson: BlockContent(text).toJson(),
+    );
+
+    Future<List<PageSummary>> summaries() async {
+      final recorder = StreamRecorder(repository.watchByNotebook(notebookId));
+      final emissions = await recorder.settle();
+      await recorder.cancel();
+      return emissions.last;
+    }
+
+    Future<PageSummary> summary(String id) async =>
+        (await summaries()).singleWhere((s) => s.page.id == id);
+
+    test('EDITED-01: a block saved today on a page edited yesterday makes the '
+        'page edited today, with the pages row unchanged', () async {
+      clock.current = DateTime.utc(2026, 10, 10, 9);
+      final id = await repository.create(notebookId, title: 'A');
+      final before = await pageRow(id);
+      clock.current = DateTime.utc(2026, 10, 11, 14);
+
+      await block(id, 'Belém');
+
+      expect((await summary(id)).lastEditedAt, DateTime.utc(2026, 10, 11, 14));
+      expect(await pageRow(id), before);
+    });
+
+    test("EDITED-01: a deleted block's deleted_at counts", () async {
+      final id = await repository.create(notebookId, title: 'A');
+      clock.current = DateTime.utc(2026, 10, 12);
+      final b = await block(id, 'Belém');
+      clock.current = DateTime.utc(2026, 10, 13, 7);
+
+      await blocks.moveToTrash(b);
+
+      expect((await summary(id)).lastEditedAt, DateTime.utc(2026, 10, 13, 7));
+    });
+
+    test('EDITED-01: a page with no blocks uses pages.updated_at', () async {
+      clock.current = DateTime.utc(2026, 10, 9, 18);
+      final id = await repository.create(notebookId, title: 'A');
+
+      expect((await summary(id)).lastEditedAt, DateTime.utc(2026, 10, 9, 18));
+    });
+
+    test('EDITED-01: a page renamed after its last block write uses '
+        'pages.updated_at', () async {
+      final id = await repository.create(notebookId, title: 'A');
+      await block(id, 'Belém');
+      clock.current = DateTime.utc(2026, 10, 14);
+
+      await repository.rename(id, 'B');
+
+      expect((await summary(id)).lastEditedAt, DateTime.utc(2026, 10, 14));
+    });
+
+    test('EXCERPT-01: the excerpt skips a heading, an empty block, a '
+        'whitespace-only block and a deleted block, and is trimmed', () async {
+      final id = await repository.create(notebookId, title: 'A');
+      await block(id, 'Manhã', type: BlockType.heading);
+      await block(id, '');
+      await block(id, ' \t\n\r ');
+      await blocks.moveToTrash(await block(id, 'Apagado'));
+      await block(id, '  Belém cedo  ', type: BlockType.bulletedListItem);
+      await block(id, 'Depois');
+
+      expect((await summary(id)).excerpt, 'Belém cedo');
+    });
+
+    test('EXCERPT-01: a checklist item can be the excerpt', () async {
+      final id = await repository.create(notebookId, title: 'A');
+      await block(id, 'Comprar pão', type: BlockType.checklistItem);
+
+      expect((await summary(id)).excerpt, 'Comprar pão');
+    });
+
+    test('EXCERPT-04: a page with only a heading has no excerpt', () async {
+      final id = await repository.create(notebookId, title: 'A');
+      await block(id, 'Manhã', type: BlockType.heading);
+
+      expect((await summary(id)).excerpt, isNull);
+    });
+
+    test('EXCERPT-03: a page with no blocks has no excerpt', () async {
+      final id = await repository.create(notebookId, title: 'A');
+
+      expect((await summary(id)).excerpt, isNull);
+    });
+
+    test(
+      'EDGE-05: a page whose blocks are all deleted has no excerpt',
+      () async {
+        final id = await repository.create(notebookId, title: 'A');
+        await blocks.moveToTrash(await block(id, 'Belém'));
+        await blocks.moveToTrash(await block(id, 'cedo'));
+
+        expect((await summary(id)).excerpt, isNull);
+      },
+    );
+
+    test(
+      'EDITED-05: the order stays by position after a block write',
+      () async {
+        final [a, b] = await seed(['A', 'B']);
+        clock.current = DateTime.utc(2026, 10, 20);
+
+        await block(b, 'Belém');
+
+        expect([for (final s in await summaries()) s.page.id], [a, b]);
+      },
+    );
+
+    test('EDITED-04: watchByNotebook re-emits on a block insert, update, move '
+        'and trash', () async {
+      final id = await repository.create(notebookId, title: 'A');
+      final recorder = StreamRecorder(repository.watchByNotebook(notebookId));
+      PageSummary now() => recorder.emissions.last.single;
+      await recorder.settle();
+      expect(now().excerpt, isNull);
+
+      clock.current = DateTime.utc(2026, 10, 12);
+      final first = await block(id, 'Belém');
+      await recorder.settle();
+      expect(now().excerpt, 'Belém');
+      expect(now().lastEditedAt, DateTime.utc(2026, 10, 12));
+
+      clock.current = DateTime.utc(2026, 10, 13);
+      final second = await block(id, 'cedo');
+      await recorder.settle();
+      expect(now().lastEditedAt, DateTime.utc(2026, 10, 13));
+
+      clock.current = DateTime.utc(2026, 10, 14);
+      await blocks.applyChanges(id, [
+        Update(first, BlockType.text, const BlockContent('Belém!')),
+      ]);
+      await recorder.settle();
+      expect(now().excerpt, 'Belém!');
+      expect(now().lastEditedAt, DateTime.utc(2026, 10, 14));
+
+      clock.current = DateTime.utc(2026, 10, 15);
+      await blocks.move(second, const AtStart());
+      await recorder.settle();
+      expect(now().excerpt, 'cedo');
+      expect(now().lastEditedAt, DateTime.utc(2026, 10, 15));
+
+      clock.current = DateTime.utc(2026, 10, 16);
+      await blocks.moveToTrash(second);
+      await recorder.settle();
+      expect(now().excerpt, 'Belém!');
+      expect(now().lastEditedAt, DateTime.utc(2026, 10, 16));
+      await recorder.cancel();
+    });
+
+    test('EDITED-04: watchOne re-emits on a block write', () async {
+      final id = await repository.create(notebookId, title: 'A');
+      final recorder = StreamRecorder(repository.watchOne(id));
+      await recorder.settle();
+      expect(recorder.emissions.last?.excerpt, isNull);
+
+      clock.current = DateTime.utc(2026, 10, 12);
+      await block(id, 'Belém');
+      await recorder.settle();
+
+      expect(recorder.emissions.last?.excerpt, 'Belém');
+      expect(recorder.emissions.last?.lastEditedAt, DateTime.utc(2026, 10, 12));
+      await recorder.cancel();
+    });
   });
 }

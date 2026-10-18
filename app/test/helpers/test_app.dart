@@ -4,6 +4,7 @@ import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/core/database/database_provider.dart';
 import 'package:jotline/core/database/local_user_repository.dart';
 import 'package:jotline/core/ids/id_generator.dart';
+import 'package:jotline/features/blocks/data/block_repository.dart';
 import 'package:jotline/features/notebooks/data/notebook_repository.dart';
 import 'package:jotline/features/pages/data/page_repository.dart';
 
@@ -20,6 +21,7 @@ class TestApp {
     final localUser = LocalUserRepository(db, ids);
     notebooks = NotebookRepository(db, clock, ids, localUser);
     pages = PageRepository(db, clock, ids, localUser);
+    blocks = BlockRepository(db, clock, ids, localUser);
   }
 
   final FakeClock clock;
@@ -27,6 +29,7 @@ class TestApp {
   final AppDatabase db;
   late final NotebookRepository notebooks;
   late final PageRepository pages;
+  late final BlockRepository blocks;
 
   List<Override> get overrides => [
     databaseProvider.overrideWithValue(db),

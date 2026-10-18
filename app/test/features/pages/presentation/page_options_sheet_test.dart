@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:jotline/core/clock/clock.dart';
 import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/core/theme/notebook_palette.dart';
+import 'package:jotline/features/pages/data/page_summary.dart';
 import 'package:jotline/features/pages/presentation/page_options_sheet.dart';
 
 import '../../../helpers/fakes.dart';
@@ -19,13 +20,21 @@ Notebook _notebook() => Notebook(
   createdAt: DateTime.utc(2026, 10),
 );
 
-NotebookPage _page({String title = 'Roteiro — dia 2'}) => NotebookPage(
-  id: 'p1',
-  notebookId: 'n1',
-  title: title,
-  position: 'a0',
-  updatedAt: _now,
-  updatedBy: 'u1',
+PageSummary _summary({
+  String title = 'Roteiro — dia 2',
+  DateTime? updatedAt,
+  DateTime? lastEditedAt,
+}) => PageSummary(
+  page: NotebookPage(
+    id: 'p1',
+    notebookId: 'n1',
+    title: title,
+    position: 'a0',
+    updatedAt: updatedAt ?? _now,
+    updatedBy: 'u1',
+  ),
+  lastEditedAt: lastEditedAt ?? _now,
+  excerpt: null,
 );
 
 class _Result {
@@ -36,6 +45,8 @@ class _Result {
 Future<_Result> _open(
   WidgetTester tester, {
   String title = 'Roteiro — dia 2',
+  DateTime? updatedAt,
+  DateTime? lastEditedAt,
 }) async {
   final result = _Result();
   await tester.pumpJot(
@@ -47,7 +58,11 @@ Future<_Result> _open(
               result
                 ..action = await showPageOptionsSheet(
                   context,
-                  _page(title: title),
+                  _summary(
+                    title: title,
+                    updatedAt: updatedAt,
+                    lastEditedAt: lastEditedAt,
+                  ),
                   _notebook(),
                 )
                 ..resolved = true;
@@ -64,8 +79,8 @@ Future<_Result> _open(
   return result;
 }
 
-String _editedLine() {
-  final local = _now.toLocal();
+String _editedLine([DateTime? at]) {
+  final local = (at ?? _now).toLocal();
   final hours = local.hour.toString().padLeft(2, '0');
   final minutes = local.minute.toString().padLeft(2, '0');
   return 'editada hoje, $hours:$minutes';
@@ -83,6 +98,19 @@ void main() {
       find.byKey(PageOptionsHeader.chipKey),
     );
     expect((chip.decoration as BoxDecoration).color, NotebookColor.musgo.color);
+  });
+
+  testWidgets('EDITED-02: with a block saved after the page row, the edited '
+      'line shows the block date', (tester) async {
+    final blockSaved = DateTime.utc(2026, 10, 12, 14, 32);
+    await _open(
+      tester,
+      updatedAt: DateTime.utc(2026, 10, 11, 9, 5),
+      lastEditedAt: blockSaved,
+    );
+
+    expect(find.text(_editedLine(blockSaved)), findsOneWidget);
+    expect(find.textContaining('ontem'), findsNothing);
   });
 
   testWidgets('PGOPT-01: an empty title reads "Sem título"', (tester) async {

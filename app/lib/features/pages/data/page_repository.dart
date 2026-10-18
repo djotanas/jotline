@@ -7,6 +7,7 @@ import 'package:jotline/core/ids/id_generator.dart';
 import 'package:jotline/core/ordering/placement.dart';
 import 'package:jotline/core/text/title_rules.dart';
 import 'package:jotline/core/theme/notebook_palette.dart';
+import 'package:jotline/features/pages/data/page_summary.dart';
 
 /// A page deleted on its own, with the notebook it belongs to.
 final class TrashedPage {
@@ -122,21 +123,10 @@ class PageRepository {
   }
 
   /// Emits `null` when the page, or its notebook, is in the trash.
-  Stream<NotebookPage?> watchOne(String id) {
-    final pages = _database.pages;
-    final notebooks = _database.notebooks;
-    final query =
-        _database.select(pages).join([
-          innerJoin(notebooks, notebooks.id.equalsExp(pages.notebookId)),
-        ])..where(
-          pages.id.equals(id) &
-              pages.deletedAt.isNull() &
-              notebooks.deletedAt.isNull(),
-        );
-    return query.watch().map(
-      (rows) => rows.isEmpty ? null : rows.first.readTable(pages),
-    );
-  }
+  Stream<PageSummary?> watchOne(String id) => _summaries(
+    'p.id = ?',
+    Variable<String>(id),
+  ).map((pages) => pages.isEmpty ? null : pages.first);
 
   /// Pages deleted on their own whose notebook is not in the trash, newest
   /// `deleted_at` first, then `id` descending.
@@ -164,24 +154,48 @@ class PageRepository {
     );
   }
 
-  Stream<List<NotebookPage>> watchByNotebook(String notebookId) {
+  /// The notebook's pages in `position`, then `id`, order.
+  Stream<List<PageSummary>> watchByNotebook(String notebookId) =>
+      _summaries('p.notebook_id = ?', Variable<String>(notebookId));
+
+  Stream<List<PageSummary>> _summaries(String filter, Variable<String> value) {
     final pages = _database.pages;
-    final notebooks = _database.notebooks;
-    final query =
-        _database.select(pages).join([
-            innerJoin(notebooks, notebooks.id.equalsExp(pages.notebookId)),
-          ])
-          ..where(
-            pages.notebookId.equals(notebookId) &
-                pages.deletedAt.isNull() &
-                notebooks.deletedAt.isNull(),
-          )
-          ..orderBy([
-            OrderingTerm.asc(pages.position),
-            OrderingTerm.asc(pages.id),
-          ]);
-    return query.watch().map(
-      (rows) => [for (final row in rows) row.readTable(pages)],
-    );
+    return _database
+        .customSelect(
+          'SELECT p.*, '
+          'max(p.updated_at, '
+          'COALESCE((SELECT max(b.updated_at) FROM blocks b '
+          'WHERE b.page_id = p.id), p.updated_at), '
+          'COALESCE((SELECT max(b.deleted_at) FROM blocks b '
+          'WHERE b.page_id = p.id), p.updated_at)) AS last_edited_at, '
+          r"(SELECT json_extract(b.content_json, '$.text') FROM blocks b "
+          'WHERE b.page_id = p.id AND b.deleted_at IS NULL '
+          "AND b.type IN ('text', 'bulleted_list_item', 'checklist_item') "
+          r"AND trim(json_extract(b.content_json, '$.text'), "
+          "' ' || char(9, 10, 13)) <> '' "
+          'ORDER BY b.position, b.id LIMIT 1) AS excerpt '
+          'FROM pages p '
+          'INNER JOIN notebooks n ON n.id = p.notebook_id '
+          'WHERE $filter AND p.deleted_at IS NULL AND n.deleted_at IS NULL '
+          'ORDER BY p.position, p.id',
+          variables: [value],
+          readsFrom: {pages, _database.blocks, _database.notebooks},
+        )
+        .watch()
+        .map(
+          (rows) => [
+            for (final row in rows)
+              PageSummary(
+                page: pages.map(row.data),
+                lastEditedAt: row.read<DateTime>('last_edited_at'),
+                excerpt: _excerpt(row.read<String?>('excerpt')),
+              ),
+          ],
+        );
+  }
+
+  static String? _excerpt(String? text) {
+    final trimmed = text?.trim();
+    return trimmed == null || trimmed.isEmpty ? null : trimmed;
   }
 }

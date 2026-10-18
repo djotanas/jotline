@@ -5,6 +5,48 @@ import 'package:jotline/core/database/local_user_repository.dart';
 import 'package:jotline/core/database/position_allocator.dart';
 import 'package:jotline/core/ids/id_generator.dart';
 import 'package:jotline/core/ordering/placement.dart';
+import 'package:jotline/features/blocks/data/block_content.dart';
+
+/// One write of a [BlockRepository.applyChanges] batch.
+sealed class BlockChange {
+  const new();
+}
+
+/// Creates a block; [key] names it in the batch result and in later
+/// [After] placements of the same batch.
+final class Insert extends BlockChange {
+  const new(this.key, this.type, this.content, this.at);
+
+  final String key;
+  final BlockType type;
+  final BlockContent content;
+  final Placement at;
+}
+
+/// Writes [type] and [content]; a block that already holds both is left
+/// untouched.
+final class Update extends BlockChange {
+  const new(this.id, this.type, this.content);
+
+  final String id;
+  final BlockType type;
+  final BlockContent content;
+}
+
+/// Sets `deleted_at` on the block.
+final class Trash extends BlockChange {
+  const new(this.id);
+
+  final String id;
+}
+
+/// Moves the block among its siblings.
+final class Move extends BlockChange {
+  const new(this.id, this.to);
+
+  final String id;
+  final Placement to;
+}
 
 /// Reads and writes the blocks of a page.
 ///
@@ -51,19 +93,6 @@ class BlockRepository {
     return id;
   }
 
-  Future<void> updateContent(String id, String contentJson) async {
-    final userId = await _localUser.id();
-    await (_database.update(
-      _database.blocks,
-    )..where((t) => t.id.equals(id))).write(
-      BlocksCompanion(
-        contentJson: Value(contentJson),
-        updatedAt: Value(_clock.now()),
-        updatedBy: Value(userId),
-      ),
-    );
-  }
-
   /// Moves the block among its siblings, changing only that row.
   Future<void> move(String id, Placement to) async {
     final userId = await _localUser.id();
@@ -98,7 +127,92 @@ class BlockRepository {
         .write(BlocksCompanion(deletedAt: Value(_clock.now())));
   }
 
-  Stream<List<Block>> watchByPage(String pageId) {
+  /// Runs [changes] in order in one transaction and returns the new block id
+  /// of each [Insert.key]. Any failure rolls back the whole batch.
+  Future<Map<String, String>> applyChanges(
+    String pageId,
+    List<BlockChange> changes,
+  ) async {
+    final userId = await _localUser.id();
+    final now = _clock.now();
+    final inserted = <String, String>{};
+    Placement resolve(Placement at) => switch (at) {
+      After(:final id) when inserted.containsKey(id) => After(inserted[id]!),
+      _ => at,
+    };
+    await _database.transaction(() async {
+      for (final change in changes) {
+        switch (change) {
+          case Insert(:final key, :final type, :final content, :final at):
+            final id = _ids.newId();
+            final position = await _allocator.keyFor(
+              OrderedTable.blocks,
+              parentId: pageId,
+              at: resolve(at),
+            );
+            await _database
+                .into(_database.blocks)
+                .insert(
+                  BlocksCompanion.insert(
+                    id: id,
+                    pageId: pageId,
+                    type: type.id,
+                    contentJson: content.forType(type).toJson(),
+                    position: position,
+                    updatedAt: now,
+                    updatedBy: userId,
+                  ),
+                );
+            inserted[key] = id;
+          case Update(:final id, :final type, :final content):
+            final contentJson = content.forType(type).toJson();
+            await (_database.update(_database.blocks)..where(
+                  (t) =>
+                      t.id.equals(id) &
+                      (t.type.equals(type.id).not() |
+                          t.contentJson.equals(contentJson).not()),
+                ))
+                .write(
+                  BlocksCompanion(
+                    type: Value(type.id),
+                    contentJson: Value(contentJson),
+                    updatedAt: Value(now),
+                    updatedBy: Value(userId),
+                  ),
+                );
+          case Trash(:final id):
+            await (_database.update(_database.blocks)
+                  ..where((t) => t.id.equals(id) & t.deletedAt.isNull()))
+                .write(BlocksCompanion(deletedAt: Value(now)));
+          case Move(:final id, :final to):
+            final position = await _allocator.keyFor(
+              OrderedTable.blocks,
+              parentId: pageId,
+              at: resolve(to),
+              movingId: id,
+            );
+            await (_database.update(
+              _database.blocks,
+            )..where((t) => t.id.equals(id))).write(
+              BlocksCompanion(
+                position: Value(position),
+                updatedAt: Value(now),
+                updatedBy: Value(userId),
+              ),
+            );
+        }
+      }
+    });
+    return inserted;
+  }
+
+  /// The page's blocks once, with the same filter and order as
+  /// [watchByPage].
+  Future<List<Block>> loadPage(String pageId) => _byPage(pageId).get();
+
+  Stream<List<Block>> watchByPage(String pageId) => _byPage(pageId).watch();
+
+  Selectable<Block> _byPage(String pageId) {
     final blocks = _database.blocks;
     final pages = _database.pages;
     final notebooks = _database.notebooks;
@@ -117,8 +231,6 @@ class BlockRepository {
             OrderingTerm.asc(blocks.position),
             OrderingTerm.asc(blocks.id),
           ]);
-    return query.watch().map(
-      (rows) => [for (final row in rows) row.readTable(blocks)],
-    );
+    return query.map((row) => row.readTable(blocks));
   }
 }

@@ -172,6 +172,20 @@ void main() {
     expect(offenders, isEmpty);
   });
 
+  test('SPIKE-09: only the editor layer imports super_editor', () {
+    const editorLayer = 'lib/features/blocks/presentation/editor/';
+    final forbidden = RegExp('package:super_[a-z_]+/');
+
+    final offenders = [
+      for (final (file, source) in libSources())
+        if (!file.path.replaceAll(r'\', '/').startsWith(editorLayer) &&
+            forbidden.hasMatch(source))
+          file.path,
+    ];
+
+    expect(offenders, isEmpty);
+  });
+
   test(
     'NET-02: pubspec.yaml lists neither http nor dio under dependencies',
     () {

@@ -190,8 +190,11 @@ class NotebookRepository {
     final notebooks = _database.notebooks;
     final members = _database.notebookMembers;
     final pages = _database.pages;
-    final pageCount = pages.id.count();
+    final blocks = _database.blocks;
+    final pageCount = pages.id.count(distinct: true);
     final lastPageEdit = pages.updatedAt.max();
+    final lastBlockEdit = blocks.updatedAt.max();
+    final lastBlockDelete = blocks.deletedAt.max();
     return Stream.fromFuture(_localUser.id()).asyncExpand((userId) {
       final query =
           _database.select(notebooks).join([
@@ -206,8 +209,18 @@ class NotebookRepository {
                     pages.deletedAt.isNull(),
                 useColumns: false,
               ),
+              leftOuterJoin(
+                blocks,
+                blocks.pageId.equalsExp(pages.id),
+                useColumns: false,
+              ),
             ])
-            ..addColumns([pageCount, lastPageEdit])
+            ..addColumns([
+              pageCount,
+              lastPageEdit,
+              lastBlockEdit,
+              lastBlockDelete,
+            ])
             ..where(notebooks.deletedAt.isNull() & filter(notebooks, members))
             ..groupBy([notebooks.id]);
       return query.watch().map(
@@ -216,11 +229,28 @@ class NotebookRepository {
           return NotebookSummary(
             notebook: notebook,
             pageCount: row.read(pageCount) ?? 0,
-            lastEditedAt: row.read(lastPageEdit) ?? notebook.createdAt,
+            lastEditedAt: _latest([
+              row.read(lastPageEdit),
+              row.read(lastBlockEdit),
+              row.read(lastBlockDelete),
+            ], fallback: notebook.createdAt),
             archivedAt: row.readTable(members).archivedAt,
           );
         }),
       );
     });
+  }
+
+  static DateTime _latest(
+    Iterable<DateTime?> dates, {
+    required DateTime fallback,
+  }) {
+    DateTime? latest;
+    for (final date in dates) {
+      if (date != null && (latest == null || date.isAfter(latest))) {
+        latest = date;
+      }
+    }
+    return latest ?? fallback;
   }
 }
