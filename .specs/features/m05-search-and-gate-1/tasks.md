@@ -1155,13 +1155,13 @@ Add its row to `docs/adr/README.md`.
 
 **Done when**:
 
-- [ ] Tests:
+- [x] Tests:
   - the painted path bounds scale with size;
   - the highlighter uses 3× width and alpha 0.35;
   - the color comes from the theme;
   - a one-point stroke paints a non-empty dot;
   - `shouldRepaint` is true only when content or scale changes.
-- [ ] Quick gate passes (≥ 5 new tests)
+- [x] Quick gate passes (≥ 5 new tests)
 
 **Tests**: widget
 **Gate**: quick
