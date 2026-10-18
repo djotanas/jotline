@@ -264,14 +264,14 @@ T39 → T40
 
 **Done when**:
 
-- [ ] Tests cover:
+- [x] Tests cover:
   - a match at the start, in the middle and at the end of a block;
   - a match exactly 40 characters in, and 41 characters in (L-002);
   - several marks;
   - a match in the second block only;
   - no marker, which gives a `null` excerpt;
   - "…" only on the cut side.
-- [ ] Quick gate passes (≥ 10 new tests)
+- [x] Quick gate passes (≥ 10 new tests)
 
 **Tests**: unit
 **Gate**: quick
