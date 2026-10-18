@@ -65,8 +65,8 @@ Future<void> seedLibrary(
 
   await database.transaction(() async {
     final sizes = [
-      _bigNotebookPages,
       for (var i = 0; i < _smallNotebooks; i++) _smallNotebookPages,
+      _bigNotebookPages,
     ];
     for (final (index, pageCount) in sizes.indexed) {
       final notebookId = generator.newId();
@@ -75,7 +75,9 @@ Future<void> seedLibrary(
           .insert(
             NotebooksCompanion.insert(
               id: notebookId,
-              title: index == 0 ? 'Biblioteca grande' : 'Caderno $index',
+              title: pageCount == _bigNotebookPages
+                  ? 'Biblioteca grande'
+                  : 'Caderno ${index + 1}',
               cover: CoverPattern.lisa,
               color: NotebookColor.azulTinta,
               createdBy: userId,

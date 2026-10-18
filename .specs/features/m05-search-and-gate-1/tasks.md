@@ -822,9 +822,11 @@ Each value goes into `reportData`. `perf_driver.dart` takes the output file name
 
 **Done when**:
 
-- [ ] A subagent runs it on an emulator in profile mode and it reports 5 values plus the frame build average (the emulator values are not the record)
-- [ ] The PERF-01 drive command still produces `launch_to_new_page`
-- [ ] Full gate passes
+- [x] A subagent runs it on an emulator in profile mode and it reports 5 values plus the frame build average (the emulator values are not the record)
+- [x] The PERF-01 drive command still produces `launch_to_new_page`
+- [x] Full gate passes
+
+**SPEC_DEVIATION (LOAD-04 measurement):** the scroll is measured with `SchedulerBinding.addTimingsCallback` (`integration_test/perf/frame_stats.dart`) and `FrameTimingSummarizer`, not `binding.traceAction` and a timeline summary. Reason: `traceAction` and `watchPerformance` both open the VM service from the device, which wireless adb cannot reach (`Failed to connect to VM Service`). The key `average_frame_build_time_millis` is the same one the timeline summary uses and the 16 ms target is unchanged. Spec-precision gap: the spec names the metric through the timeline summary, and the two sources count frames differently. `perf_driver.dart` no longer needs `flutter_driver`.
 
 **Tests**: e2e
 **Gate**: full
