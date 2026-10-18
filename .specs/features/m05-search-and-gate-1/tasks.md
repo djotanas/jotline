@@ -637,14 +637,14 @@ It reads `searchSnippetProvider`, and shows the plain title while the snippet lo
 
 **Done when**:
 
-- [ ] Widget tests:
+- [x] Widget tests:
   - spine color and date text;
   - marked words carry the `accentBusca` background;
   - "Sem título" is muted;
   - no excerpt line when the snippet has none;
   - the excerpt is limited to 2 lines.
-- [ ] Any missing text style becomes a token first (L-004)
-- [ ] Quick gate passes (≥ 6 new tests)
+- [x] Any missing text style becomes a token first (L-004)
+- [x] Quick gate passes (≥ 6 new tests)
 
 **Tests**: widget
 **Gate**: quick

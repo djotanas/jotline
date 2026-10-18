@@ -25,6 +25,12 @@ abstract final class JotRadius {
   static const double rPilula = 22;
   static const double rSheet = 24;
 
+  /// Notebook color mark in a list row: 1 on the spine side, 3 on the other.
+  static const BorderRadius rLombada = BorderRadius.horizontal(
+    left: Radius.circular(1),
+    right: Radius.circular(3),
+  );
+
   /// Notebook cover: spine on the left, open side on the right.
   static const BorderRadius rCapa = BorderRadius.horizontal(
     left: Radius.circular(4),
