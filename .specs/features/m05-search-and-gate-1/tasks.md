@@ -988,9 +988,9 @@ Add `app/tool/kill_test_test.sh` for the result parser, asserting the exit code 
 
 **Done when**:
 
-- [ ] `bash app/tool/kill_test_test.sh` passes: a passing file prints `100/100 iterations, 0 divergences` and exits 0; a failing file prints the divergent block and exits 1
-- [ ] A subagent runs 5 iterations on an emulator successfully
-- [ ] Build gate passes
+- [x] `bash app/tool/kill_test_test.sh` passes: a passing file prints `100/100 iterations, 0 divergences` and exits 0; a failing file prints the divergent block and exits 1
+- [x] A subagent runs 5 iterations on an emulator successfully
+- [x] Build gate passes
 
 **Tests**: shell
 **Gate**: build
