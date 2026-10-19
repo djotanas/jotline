@@ -18,7 +18,7 @@ class AppDatabase extends _$AppDatabase {
   new(super.e);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -37,6 +37,9 @@ class AppDatabase extends _$AppDatabase {
         await m.create(schema.blocksSearchAu);
         await m.create(schema.blocksSearchAd);
         await m.database.customStatement(_backfillPageSearch);
+      },
+      from3To4: (m, schema) async {
+        await m.create(schema.blocksPageEdits);
       },
     ),
     beforeOpen: (_) => customStatement('PRAGMA foreign_keys = ON'),

@@ -538,9 +538,163 @@ i1.GeneratedColumn<String> _column_21(String aliasedName) =>
       type: i1.DriftSqlType.string,
       $customConstraints: '',
     );
+
+final class Schema4 extends i0.VersionedSchema {
+  Schema4({required super.database}) : super(version: 4);
+  @override
+  late final List<i1.DatabaseSchemaEntity> entities = [
+    pageSearch,
+    notebooks,
+    pages,
+    blocks,
+    pagesSearchAi,
+    pagesSearchAu,
+    blocksSearchAi,
+    blocksSearchAu,
+    blocksSearchAd,
+    pagesNotebookPosition,
+    blocksPagePosition,
+    blocksPageEdits,
+    notebookMembers,
+    localUser,
+  ];
+  late final Shape5 pageSearch = Shape5(
+    source: i0.VersionedVirtualTable(
+      entityName: 'page_search',
+      moduleAndArgs:
+          'fts5(title, body, tokenize = \'unicode61 remove_diacritics 2\')',
+      columns: [_column_20, _column_21],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape0 notebooks = Shape0(
+    source: i0.VersionedTable(
+      entityName: 'notebooks',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_4,
+        _column_5,
+        _column_6,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape2 pages = Shape2(
+    source: i0.VersionedTable(
+      entityName: 'pages',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_7,
+        _column_1,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_6,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape3 blocks = Shape3(
+    source: i0.VersionedTable(
+      entityName: 'blocks',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_15,
+        _column_16,
+        _column_17,
+        _column_12,
+        _column_18,
+        _column_13,
+        _column_14,
+        _column_6,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Trigger pagesSearchAi = i1.Trigger(
+    'CREATE TRIGGER pages_search_ai AFTER INSERT ON pages BEGIN INSERT OR REPLACE INTO page_search ("rowid", title, body) SELECT p."rowid", p.title, COALESCE((SELECT group_concat(t.text, char(8233)) FROM (SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, \'\$.text\') AS TEXT) END AS text FROM blocks AS b WHERE b.page_id = p.id AND b.deleted_at IS NULL AND b.type IN (\'text\', \'heading\', \'bulleted_list_item\', \'checklist_item\') ORDER BY b.position, b.id) AS t), \'\') FROM pages AS p WHERE p.id = new.id;END',
+    'pages_search_ai',
+  );
+  final i1.Trigger pagesSearchAu = i1.Trigger(
+    'CREATE TRIGGER pages_search_au AFTER UPDATE OF title ON pages BEGIN INSERT OR REPLACE INTO page_search ("rowid", title, body) SELECT p."rowid", p.title, COALESCE((SELECT group_concat(t.text, char(8233)) FROM (SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, \'\$.text\') AS TEXT) END AS text FROM blocks AS b WHERE b.page_id = p.id AND b.deleted_at IS NULL AND b.type IN (\'text\', \'heading\', \'bulleted_list_item\', \'checklist_item\') ORDER BY b.position, b.id) AS t), \'\') FROM pages AS p WHERE p.id = new.id;END',
+    'pages_search_au',
+  );
+  final i1.Trigger blocksSearchAi = i1.Trigger(
+    'CREATE TRIGGER blocks_search_ai AFTER INSERT ON blocks BEGIN INSERT OR REPLACE INTO page_search ("rowid", title, body) SELECT p."rowid", p.title, COALESCE((SELECT group_concat(t.text, char(8233)) FROM (SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, \'\$.text\') AS TEXT) END AS text FROM blocks AS b WHERE b.page_id = p.id AND b.deleted_at IS NULL AND b.type IN (\'text\', \'heading\', \'bulleted_list_item\', \'checklist_item\') ORDER BY b.position, b.id) AS t), \'\') FROM pages AS p WHERE p.id = new.page_id;END',
+    'blocks_search_ai',
+  );
+  final i1.Trigger blocksSearchAu = i1.Trigger(
+    'CREATE TRIGGER blocks_search_au AFTER UPDATE ON blocks BEGIN INSERT OR REPLACE INTO page_search ("rowid", title, body) SELECT p."rowid", p.title, COALESCE((SELECT group_concat(t.text, char(8233)) FROM (SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, \'\$.text\') AS TEXT) END AS text FROM blocks AS b WHERE b.page_id = p.id AND b.deleted_at IS NULL AND b.type IN (\'text\', \'heading\', \'bulleted_list_item\', \'checklist_item\') ORDER BY b.position, b.id) AS t), \'\') FROM pages AS p WHERE p.id IN (old.page_id, new.page_id);END',
+    'blocks_search_au',
+  );
+  final i1.Trigger blocksSearchAd = i1.Trigger(
+    'CREATE TRIGGER blocks_search_ad AFTER DELETE ON blocks BEGIN INSERT OR REPLACE INTO page_search ("rowid", title, body) SELECT p."rowid", p.title, COALESCE((SELECT group_concat(t.text, char(8233)) FROM (SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, \'\$.text\') AS TEXT) END AS text FROM blocks AS b WHERE b.page_id = p.id AND b.deleted_at IS NULL AND b.type IN (\'text\', \'heading\', \'bulleted_list_item\', \'checklist_item\') ORDER BY b.position, b.id) AS t), \'\') FROM pages AS p WHERE p.id = old.page_id;END',
+    'blocks_search_ad',
+  );
+  final i1.Index pagesNotebookPosition = i1.Index(
+    'pages_notebook_position',
+    'CREATE INDEX pages_notebook_position ON pages (notebook_id, position)',
+  );
+  final i1.Index blocksPagePosition = i1.Index(
+    'blocks_page_position',
+    'CREATE INDEX blocks_page_position ON blocks (page_id, position)',
+  );
+  final i1.Index blocksPageEdits = i1.Index(
+    'blocks_page_edits',
+    'CREATE INDEX blocks_page_edits ON blocks (page_id, updated_at, deleted_at)',
+  );
+  late final Shape1 notebookMembers = Shape1(
+    source: i0.VersionedTable(
+      entityName: 'notebook_members',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)', 'UNIQUE(notebook_id, user_id)'],
+      columns: [
+        _column_0,
+        _column_7,
+        _column_8,
+        _column_9,
+        _column_10,
+        _column_5,
+        _column_11,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape4 localUser = Shape4(
+    source: i0.VersionedTable(
+      entityName: 'local_user',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(slot)'],
+      columns: [_column_19, _column_0],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+}
+
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
   required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
+  required Future<void> Function(i1.Migrator m, Schema4 schema) from3To4,
 }) {
   return (currentVersion, database) async {
     switch (currentVersion) {
@@ -554,6 +708,11 @@ i0.MigrationStepWithVersion migrationSteps({
         final migrator = i1.Migrator(database, schema);
         await from2To3(migrator, schema);
         return 3;
+      case 3:
+        final schema = Schema4(database: database);
+        final migrator = i1.Migrator(database, schema);
+        await from3To4(migrator, schema);
+        return 4;
       default:
         throw ArgumentError.value('Unknown migration from $currentVersion');
     }
@@ -563,6 +722,11 @@ i0.MigrationStepWithVersion migrationSteps({
 i1.OnUpgrade stepByStep({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
   required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
+  required Future<void> Function(i1.Migrator m, Schema4 schema) from3To4,
 }) => i0.VersionedSchema.stepByStepHelper(
-  step: migrationSteps(from1To2: from1To2, from2To3: from2To3),
+  step: migrationSteps(
+    from1To2: from1To2,
+    from2To3: from2To3,
+    from3To4: from3To4,
+  ),
 );
