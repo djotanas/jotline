@@ -554,12 +554,12 @@ T39 → T40
 
 **Done when**:
 
-- [ ] Tests:
+- [x] Tests:
   - same key → same provider;
   - auto-dispose after the last listener goes away;
   - a repository error surfaces as `AsyncError`;
   - an empty query emits an empty list with no SQL run.
-- [ ] Quick gate passes (≥ 4 new tests)
+- [x] Quick gate passes (≥ 4 new tests)
 
 **Tests**: unit
 **Gate**: quick
@@ -849,9 +849,9 @@ Each value goes into `reportData`. `perf_driver.dart` takes the output file name
 
 **Done when**:
 
-- [ ] The record has every target with value, device model and Android version
-- [ ] Either every target is met, or the friction report has been delivered and the user's decision is recorded in the file
-- [ ] Build gate passes
+- [x] The record has every target with value, device model and Android version
+- [x] Either every target is met, or the friction report has been delivered and the user's decision is recorded in the file
+- [x] Build gate passes
 
 **Tests**: none
 **Gate**: build
