@@ -48,6 +48,7 @@ Read the doc before touching the topic (ADR 0014).
 | --- | --- |
 | Writing or changing any test, touching a Drift table or creating a screen flow | [`app/.claude/docs/testes.md`](.claude/docs/testes.md) |
 | Touching a screen, theme, color, font or icon | [`app/.claude/docs/design.md`](.claude/docs/design.md) |
+| Running an e2e test on a phone, or any test that cannot run | [`app/.claude/docs/blocked-tests.md`](.claude/docs/blocked-tests.md) |
 
 ## Rules
 
@@ -62,4 +63,5 @@ Read the doc before touching the topic (ADR 0014).
 - **The app never increments `blocks.version`:** it stores the version received from the server and sends it as the base on upload (ADR 0013).
 - **Phase 2:** the upload queue survives closing the app, restarting and switching networks (RNF-02); the status indicator is discreet — synced, pending, error (RF-09).
 - **Performance:** list and page opening with no noticeable loading with 10,000 local pages (RNF-06).
+- **A test that cannot run is a stop, not a detour:** e2e with no phone on adb → abort and ask the user to connect it; any other blocked test → stop and report, no alternative routes.
 - **Tests (ADR 0015):** all new code comes with a unit or widget test; anything touching Drift, with an in-memory database test; schema changes, with a tested migration; main flows, with e2e.
