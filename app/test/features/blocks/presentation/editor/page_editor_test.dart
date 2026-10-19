@@ -107,6 +107,28 @@ void main() {
     expect(await allRows(), hasLength(3));
   });
 
+  test('DRAW-10: with the selection cleared after the caret was in a block, '
+      'the drawing goes after that block', () async {
+    final [a, b, c] = await seedPage(['A', 'B', 'C']);
+    await open();
+    placeCaret(a);
+    editor.editor.execute([
+      const ChangeSelectionRequest(
+        null,
+        SelectionChangeType.clearSelection,
+        SelectionReason.userInteraction,
+      ),
+    ]);
+
+    editor.insertDrawing(_first);
+    final rows = await pageRows();
+
+    expect([for (final row in rows) row.id].indexOf(a), 0);
+    expect(rows[1].type, 'drawing');
+    expect(rows[2].id, b);
+    expect(rows[3].id, c);
+  });
+
   test('DRAW-10: an insert in place of an empty block with no row writes only '
       'the drawing row', () async {
     await seedPage([]);

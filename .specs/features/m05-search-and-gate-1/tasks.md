@@ -1380,9 +1380,9 @@ Add its row to `docs/adr/README.md`.
 
 **Done when**:
 
-- [ ] Widget test: bar → drawing mode → "Concluir" → one `drawing` row after the caret block
-- [ ] The e2e flow passes on an emulator, with no network
-- [ ] Full gate passes
+- [x] Widget test: bar → drawing mode → "Concluir" → one `drawing` row after the caret block
+- [x] The e2e flow passes on an emulator, with no network
+- [x] Full gate passes
 
 **Tests**: e2e
 **Gate**: full

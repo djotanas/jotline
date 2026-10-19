@@ -16,6 +16,8 @@ import 'package:jotline/core/theme/jot_spacing.dart';
 import 'package:jotline/core/theme/theme_context.dart';
 import 'package:jotline/features/blocks/data/block_content.dart';
 import 'package:jotline/features/blocks/data/block_providers.dart';
+import 'package:jotline/features/blocks/data/drawing_content.dart';
+import 'package:jotline/features/blocks/presentation/drawing/drawing_screen.dart';
 import 'package:jotline/features/blocks/presentation/editor/page_editor.dart';
 import 'package:jotline/features/notebooks/data/notebook_providers.dart';
 import 'package:jotline/features/pages/data/page_providers.dart';
@@ -65,11 +67,20 @@ class _PageScreenState extends ConsumerState<PageScreen> {
     final rows = await repository.loadPage(widget.pageId);
     if (!mounted) return;
     setState(() {
-      _blocks = PageEditor(
+      final blocks = PageEditor(
         rows: rows,
         pageId: widget.pageId,
         repository: repository,
       );
+      blocks.onOpenDrawing = (nodeId) => openDrawing(
+        context,
+        target: DrawingTarget(
+          nodeId: nodeId,
+          original: blocks.drawingOf(nodeId),
+          sink: blocks,
+        ),
+      );
+      _blocks = blocks;
     });
   }
 
@@ -297,7 +308,13 @@ class _PageBlockBar extends StatelessWidget {
           }),
           onBold: () => blocks.toggleMark(MarkType.bold),
           onItalic: () => blocks.toggleMark(MarkType.italic),
-          onDrawing: () {},
+          onDrawing: () => openDrawing(
+            context,
+            target: DrawingTarget(
+              original: const DrawingContent([]),
+              sink: blocks,
+            ),
+          ),
         );
       },
     );

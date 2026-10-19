@@ -35,6 +35,14 @@ class PageEditor with ChangeNotifier implements DrawingSink {
       loadedIds: rows.map((row) => row.id),
     );
     _editor.addListener(_editListener);
+    _editor.composer.selectionNotifier.addListener(_rememberCaret);
+  }
+
+  String? _lastCaretNodeId;
+
+  void _rememberCaret() {
+    final nodeId = _editor.composer.selection?.extent.nodeId;
+    if (nodeId != null) _lastCaretNodeId = nodeId;
   }
 
   late final EditListener _editListener = FunctionalEditListener(
@@ -216,12 +224,18 @@ class PageEditor with ChangeNotifier implements DrawingSink {
 
   /// Inserts a drawing after the block with the caret, or in place of that
   /// block when it is empty and has no row, and writes it at once (DRAW-10).
+  /// The caret block is the last one that had the caret, since opening the
+  /// drawing mode takes the editor's focus and selection.
   /// Returns the new node id.
   String insertDrawing(DrawingContent content) {
     final document = _editor.document;
     final anchorId =
-        _editor.composer.selection?.extent.nodeId ?? document.lastOrNull?.id;
-    final anchor = anchorId == null ? null : document.getNodeById(anchorId);
+        _editor.composer.selection?.extent.nodeId ??
+        _lastCaretNodeId ??
+        document.lastOrNull?.id;
+    final anchor = anchorId == null
+        ? document.lastOrNull
+        : document.getNodeById(anchorId) ?? document.lastOrNull;
     final node = DrawingNode(id: Editor.createNodeId(), content: content);
     if (anchor == null) {
       _editor.execute([
@@ -301,6 +315,7 @@ class PageEditor with ChangeNotifier implements DrawingSink {
     unawaited(_sync.flush());
     _sync.dispose();
     _editor.removeListener(_editListener);
+    _editor.composer.selectionNotifier.removeListener(_rememberCaret);
     focusNode.dispose();
     _editor.dispose();
     super.dispose();
