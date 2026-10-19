@@ -1281,14 +1281,14 @@ Add its row to `docs/adr/README.md`.
 
 **Done when**:
 
-- [ ] Unit tests:
+- [x] Unit tests:
   - the defaults (pen, thin, ink);
   - the highlighter stores the selected width;
   - the eraser removes a stroke whose segment passes at exactly `width / 2 + 10`, and keeps one at `+ 10.1` (L-002);
   - one eraser drag removes several strokes, and undo restores them together;
   - redo is cleared after a new stroke;
   - `canUndo` and `canRedo`.
-- [ ] Quick gate passes (≥ 10 new tests)
+- [x] Quick gate passes (≥ 10 new tests)
 
 **Tests**: unit
 **Gate**: quick
