@@ -297,6 +297,7 @@ class _PageBlockBar extends StatelessWidget {
           }),
           onBold: () => blocks.toggleMark(MarkType.bold),
           onItalic: () => blocks.toggleMark(MarkType.italic),
+          onDrawing: () {},
         );
       },
     );

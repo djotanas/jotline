@@ -828,8 +828,8 @@ void main() {
     await _close(tester);
   });
 
-  testWidgets('BAR-01: the caret in a block shows the block bar with its six '
-      'buttons', (tester) async {
+  testWidgets('BAR-01, DRAW-01: the caret in a block shows the block bar with '
+      'its seven buttons', (tester) async {
     await _open(tester, blocks: [_belem]);
     expect(find.byType(BlockBar), findsNothing);
 
@@ -840,7 +840,15 @@ void main() {
       tester
           .widgetList<JotBlockBarButton>(find.byType(JotBlockBarButton))
           .map((b) => b.label),
-      ['Texto', 'Título', 'Lista', 'Checklist', 'Negrito', 'Itálico'],
+      [
+        'Texto',
+        'Título',
+        'Lista',
+        'Checklist',
+        'Desenho',
+        'Negrito',
+        'Itálico',
+      ],
     );
     await _close(tester);
   });

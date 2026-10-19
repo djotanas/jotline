@@ -1352,8 +1352,8 @@ Add its row to `docs/adr/README.md`.
 
 **Done when**:
 
-- [ ] Widget tests: the button order, label "Desenho", never pressed state, and the tap calls `onDrawing`
-- [ ] Quick gate passes (≥ 2 new tests, BAR-03 updated, not removed)
+- [x] Widget tests: the button order, label "Desenho", never pressed state, and the tap calls `onDrawing`
+- [x] Quick gate passes (≥ 2 new tests, BAR-03 updated, not removed)
 
 **Tests**: widget
 **Gate**: quick

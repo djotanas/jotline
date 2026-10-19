@@ -403,6 +403,10 @@
   "@blockTypeChecklist": {
     "description": "Block bar button that turns the block with the cursor into a checklist item."
   },
+  "blockTypeDrawing": "Desenho",
+  "@blockTypeDrawing": {
+    "description": "Block bar button that opens the drawing mode."
+  },
   "markBold": "Negrito",
   "@markBold": {
     "description": "Block bar button that toggles bold."
