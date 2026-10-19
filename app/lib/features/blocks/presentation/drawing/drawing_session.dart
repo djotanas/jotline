@@ -34,9 +34,30 @@ class DrawingSession with ChangeNotifier {
   Stroke? _drawing;
   _Erased? _erasing;
 
-  DrawingModeTool tool = DrawingModeTool.pen;
-  StrokeWidth width = StrokeWidth.thin;
-  DrawingColor color = DrawingColor.ink;
+  DrawingModeTool _tool = DrawingModeTool.pen;
+  StrokeWidth _width = StrokeWidth.thin;
+  DrawingColor _color = DrawingColor.ink;
+
+  DrawingModeTool get tool => _tool;
+
+  set tool(DrawingModeTool value) {
+    _tool = value;
+    notifyListeners();
+  }
+
+  StrokeWidth get width => _width;
+
+  set width(StrokeWidth value) {
+    _width = value;
+    notifyListeners();
+  }
+
+  DrawingColor get color => _color;
+
+  set color(DrawingColor value) {
+    _color = value;
+    notifyListeners();
+  }
 
   /// The strokes, including the one being drawn.
   DrawingContent get content => DrawingContent([..._strokes, ?_drawing]);

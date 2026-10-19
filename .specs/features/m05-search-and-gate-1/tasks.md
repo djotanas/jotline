@@ -1321,7 +1321,7 @@ Add its row to `docs/adr/README.md`.
 
 **Done when**:
 
-- [ ] Widget tests with a fake `DrawingSink`:
+- [x] Widget tests with a fake `DrawingSink`:
   - controls and labels match the artboard;
   - redo is disabled at start;
   - a drag on a 2× screen stores logical points;
@@ -1329,7 +1329,7 @@ Add its row to `docs/adr/README.md`.
   - with every stroke erased on an existing drawing → `remove`;
   - "Cancelar" → no call;
   - background → `save`, then "Cancelar" → `save(original)` for an existing drawing, or `remove` for a new one.
-- [ ] Quick gate passes (≥ 9 new tests)
+- [x] Quick gate passes (≥ 9 new tests)
 
 **Tests**: widget
 **Gate**: quick

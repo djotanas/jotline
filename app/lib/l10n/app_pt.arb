@@ -419,6 +419,66 @@
   "@drawingCardLabel": {
     "description": "Accessible label of the drawing card on a page."
   },
+  "drawingCancel": "Cancelar",
+  "@drawingCancel": {
+    "description": "Drawing mode button that closes it, leaving the drawing as it was."
+  },
+  "drawingDone": "Concluir",
+  "@drawingDone": {
+    "description": "Drawing mode button that saves the drawing and closes it."
+  },
+  "drawingUndo": "Desfazer traço",
+  "@drawingUndo": {
+    "description": "Drawing mode button that undoes the last stroke drawn or erased."
+  },
+  "drawingRedo": "Refazer traço",
+  "@drawingRedo": {
+    "description": "Drawing mode button that redoes the last undone stroke."
+  },
+  "drawingTools": "Ferramentas de desenho",
+  "@drawingTools": {
+    "description": "Accessible label of the drawing mode tool bar."
+  },
+  "drawingPen": "Caneta",
+  "@drawingPen": {
+    "description": "Drawing tool that draws a stroke."
+  },
+  "drawingHighlighter": "Marca-texto",
+  "@drawingHighlighter": {
+    "description": "Drawing tool that draws a wide translucent stroke."
+  },
+  "drawingEraser": "Borracha",
+  "@drawingEraser": {
+    "description": "Drawing tool that removes the whole stroke it touches."
+  },
+  "drawingThin": "Traço fino",
+  "@drawingThin": {
+    "description": "Drawing stroke width 3."
+  },
+  "drawingMedium": "Traço médio",
+  "@drawingMedium": {
+    "description": "Drawing stroke width 6."
+  },
+  "drawingThick": "Traço grosso",
+  "@drawingThick": {
+    "description": "Drawing stroke width 12."
+  },
+  "drawingInk": "Tinta preta",
+  "@drawingInk": {
+    "description": "Drawing color ink."
+  },
+  "drawingBlue": "Azul",
+  "@drawingBlue": {
+    "description": "Drawing color accent."
+  },
+  "drawingTerracotta": "Terracota",
+  "@drawingTerracotta": {
+    "description": "Drawing color danger."
+  },
+  "drawingAreaLabel": "Área de desenho",
+  "@drawingAreaLabel": {
+    "description": "Accessible label of the drawing area."
+  },
   "moveBlock": "Mover bloco",
   "@moveBlock": {
     "description": "Accessible label of the drag handle of the block in edit."
