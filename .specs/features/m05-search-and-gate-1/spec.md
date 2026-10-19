@@ -239,7 +239,7 @@ Canvas "Jotline design", version `1792290140-31c0` (2026-10-17).
 6. WHEN the user drags with Marca-texto THEN the stroke SHALL be drawn at 3 times the selected width with 35 % opacity. (DRAW-06)
 7. WHEN the Borracha touches a stroke THEN the whole stroke SHALL be removed. (DRAW-07)
 8. WHEN the user taps "Desfazer traço" THEN the last stroke drawn or erased in the session SHALL be undone, and "Refazer traço" SHALL redo it. (DRAW-08)
-9. WHILE there is nothing to undo or redo the matching button SHALL be disabled, as drawn for "Refazer traço". (DRAW-09)
+9. WHILE there is nothing to undo or redo the matching button SHALL be disabled, as drawn for "Refazer traço". (DRAW-09) This supersedes COMP-03 (M01): `JotIconButton` renders the disabled state, in `inkDeco`, when `onPressed` is null.
 10. WHEN the user taps "Concluir" on a new drawing with at least one stroke THEN the system SHALL insert a `drawing` block after the block with the cursor, or in its place if that block is empty and has no row, in one write. (DRAW-10)
 11. WHEN the user taps "Concluir" on a new drawing with no stroke THEN no block SHALL be created. (DRAW-11)
 12. The page SHALL show a drawing block as a card at page width with the drawing area's aspect ratio, the whole drawing scaled with no crop, styled as the drawing card in "Editor de blocos", labeled "Desenho" for screen readers. (DRAW-12)
