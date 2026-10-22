@@ -71,7 +71,9 @@ class JotBottomSheet extends StatelessWidget {
         JotSpace.space5,
         JotSpace.space3,
         JotSpace.space5,
-        JotSpace.space6 + MediaQuery.viewInsetsOf(context).bottom,
+        JotSpace.space6 +
+            MediaQuery.paddingOf(context).bottom +
+            MediaQuery.viewInsetsOf(context).bottom,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
