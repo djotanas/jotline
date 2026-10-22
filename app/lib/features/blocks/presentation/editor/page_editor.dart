@@ -197,6 +197,7 @@ class PageEditor with ChangeNotifier {
         SelectionChangeType.placeCaret,
         SelectionReason.userInteraction,
       ),
+      const ClearComposingRegionRequest(),
     ]);
     focusNode.requestFocus();
   }
