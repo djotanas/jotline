@@ -315,7 +315,7 @@ Not drawn and covered by assumptions: empty page with the editor, block being dr
 | SPIKE-03 | P1: Editor library spike | Spike | ✅ Verified |
 | SPIKE-04 | P1: Editor library spike | Spike | ✅ Verified |
 | SPIKE-05 | P1: Editor library spike | Spike | ✅ Verified |
-| SPIKE-06 | P1: Editor library spike | Spike | ✅ Verified |
+| SPIKE-06 | P1: Editor library spike | Spike | ⚠️ Partial — Android emulator only; physical Android and iOS pending in #67 |
 | SPIKE-07 | P1: Editor library spike | Spike | ✅ Verified |
 | SPIKE-08 | P1: Editor library spike | Spike | ✅ Verified |
 | SPIKE-09 | P1: Editor library spike | Spike | ✅ Verified |

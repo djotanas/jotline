@@ -3,7 +3,7 @@
   "promote_threshold": 2,
   "window_days": 45,
   "quarantine_threshold": 2,
-  "next_id": 5,
+  "next_id": 8,
   "lessons": [
     {
       "id": "L-001",
@@ -76,6 +76,60 @@
       ],
       "created": "2026-10-11T23:17:12Z",
       "last_seen": "2026-10-11T23:17:12Z"
+    },
+    {
+      "id": "L-005",
+      "key": "spec_deviation::a requirement deferred to a manual check stays partial in the traceability table until that check runs never verified",
+      "text": "A requirement deferred to a manual check stays Partial in the traceability table until that check runs, never Verified",
+      "signal": "spec_deviation",
+      "scope": "traceability",
+      "status": "candidate",
+      "features": [
+        "m04-block-editor"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "spec.md SPIKE-06 / ADR 0035 / #67 (traceability)"
+      ],
+      "created": "2026-10-22T23:25:38Z",
+      "last_seen": "2026-10-22T23:25:38Z"
+    },
+    {
+      "id": "L-006",
+      "key": "ac_gap::test every programmatic caret move with an active ime composing region since simulated typing always sends an empty composing range",
+      "text": "Test every programmatic caret move with an active IME composing region, since simulated typing always sends an empty composing range",
+      "signal": "ac_gap",
+      "scope": "editor-ime",
+      "status": "candidate",
+      "features": [
+        "m04-block-editor"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "EDIT-04, EDIT-06 app/lib/features/blocks/presentation/editor/page_editor.dart:_focus (editor-ime)"
+      ],
+      "created": "2026-10-22T23:25:38Z",
+      "last_seen": "2026-10-22T23:25:38Z"
+    },
+    {
+      "id": "L-007",
+      "key": "spec_precision_gap::bottom anchored components need an acceptance criterion and a test for the system bottom inset since tests run with zero padding and usesafearea skips the bottom of a modal sheet",
+      "text": "Bottom-anchored components need an acceptance criterion and a test for the system bottom inset, since tests run with zero padding and useSafeArea skips the bottom of a modal sheet",
+      "signal": "spec_precision_gap",
+      "scope": "design-system",
+      "status": "candidate",
+      "features": [
+        "m01-foundation"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "COMP-10 app/lib/core/design_system/jot_bottom_sheet.dart (design-system)"
+      ],
+      "created": "2026-10-22T23:25:38Z",
+      "last_seen": "2026-10-22T23:25:38Z"
     }
   ]
 }
