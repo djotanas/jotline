@@ -199,6 +199,26 @@ void main() {
     expect(find.byKey(const ValueKey('jotBottomSheetHandle')), findsOneWidget);
   });
 
+  testWidgets('NBOPT-01: the sheet pads its end by the navigation bar', (
+    tester,
+  ) async {
+    tester.view.viewPadding = const FakeViewPadding(bottom: 144);
+    tester.view.padding = const FakeViewPadding(bottom: 144);
+    addTearDown(tester.view.reset);
+    await _open(tester);
+
+    final scroll = tester.widget<SingleChildScrollView>(
+      find.descendant(
+        of: find.byType(JotOptionsSheet<String>),
+        matching: find.byType(SingleChildScrollView),
+      ),
+    );
+    expect(
+      (scroll.padding! as EdgeInsets).bottom,
+      JotSpace.space6 + JotSpace.space3 + 48,
+    );
+  });
+
   testWidgets('text scale 2.0 renders without overflow', (tester) async {
     tester.view.physicalSize = const Size(780, 1688);
     tester.view.devicePixelRatio = 2;

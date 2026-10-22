@@ -204,6 +204,21 @@ void main() {
     expect(paragraph.didExceedMaxLines, isTrue);
   });
 
+  testWidgets('COMP-10: primary action stays above the navigation bar', (
+    tester,
+  ) async {
+    tester.view.viewPadding = const FakeViewPadding(bottom: 144);
+    tester.view.padding = const FakeViewPadding(bottom: 144);
+    addTearDown(tester.view.reset);
+    await _open(tester);
+
+    final screenBottom = tester.getBottomLeft(find.byType(Scaffold)).dy;
+    final buttonBottom = tester
+        .getBottomLeft(find.widgetWithText(JotButton, 'Salvar'))
+        .dy;
+    expect(buttonBottom, lessThanOrEqualTo(screenBottom - 48));
+  });
+
   testWidgets('text scale 2.0 renders without overflow', (tester) async {
     tester.platformDispatcher.textScaleFactorTestValue = 2;
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
