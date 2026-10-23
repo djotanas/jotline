@@ -1,6 +1,6 @@
 # 0038 — Busca local
 
-- **Status:** Proposta
+- **Status:** Aceita
 - **Data:** 2026-10-17
 - **Decisores:** @jon
 - **Relacionados:** PRD §4 (RF-05), RNF-06; ADR 0002, ADR 0036, ADR 0037; issue #26; spec da M05 (SRCH-04, SRCH-08, SRCH-18, SRCH-19, LOAD-06, LOAD-07)

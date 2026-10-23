@@ -1,6 +1,6 @@
 # 0039 — Bloco de desenho
 
-- **Status:** Proposta
+- **Status:** Aceita
 - **Data:** 2026-10-18
 - **Decisores:** @jon
 - **Relacionados:** PRD §4 (RF-06); ADR 0005, ADR 0013, ADR 0035, ADR 0036; issue #25; spec da M05 (DRAW-03, DRAW-05…DRAW-07, DRAW-19, DRAW-20)

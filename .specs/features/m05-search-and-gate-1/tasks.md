@@ -1442,8 +1442,8 @@ On the milestone branch: write `docs/adr/0040-criptografia-do-banco-local.md` (P
 
 **Done when**:
 
-- [ ] Every new command runs as written (checked by a subagent)
-- [ ] Build gate passes
+- [x] Every new command runs as written (checked by a subagent)
+- [x] Build gate passes
 
 **Tests**: none
 **Gate**: build

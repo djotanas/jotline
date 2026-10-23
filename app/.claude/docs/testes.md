@@ -94,6 +94,9 @@ One file per flow in `integration_test/`, starting with `IntegrationTestWidgetsF
 | Delete and restore pages and notebooks through the trash, with undo | RF-12 |
 | Write in a block, close and reopen the app with the text preserved | RF-03, RF-04 |
 | Search by title and content | RF-05 |
+| Draw two strokes, reopen the app, erase them all | RF-06 |
+
+`integration_test/kill/` holds the kill test (KILL-01…KILL-06): an instrumented app writes blocks, `tool/kill_test.sh` force-stops it at a random delay 100 times on an Android device and checks that the database equals the last acknowledged state. `bash tool/kill_test_test.sh` tests the script's report. The device run is recorded in `kill-results.md` of the milestone; it is never run on CI.
 
 `integration_test/perf/` holds measurements, not flows: run them with `flutter drive --profile` (commands in `CLAUDE.md`), never judge them from debug.
 

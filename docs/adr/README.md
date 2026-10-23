@@ -41,7 +41,7 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0035](0035-editor-de-blocos.md) | Editor de blocos: super_editor | Aceita |
 | [0036](0036-modelo-de-blocos.md) | Modelo de blocos | Aceita |
 | [0037](0037-ultima-edicao-derivada-dos-blocos.md) | Última edição da página derivada dos blocos | Aceita |
-| [0038](0038-busca-local.md) | Busca local | Proposta |
-| [0039](0039-bloco-de-desenho.md) | Bloco de desenho | Proposta |
+| [0038](0038-busca-local.md) | Busca local | Aceita |
+| [0039](0039-bloco-de-desenho.md) | Bloco de desenho | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.
