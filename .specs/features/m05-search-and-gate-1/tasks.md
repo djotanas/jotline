@@ -10,7 +10,7 @@ Implement these tasks with the `tlc-spec-driven` skill: **activate it by name an
 
 **Spec**: `.specs/features/m05-search-and-gate-1/spec.md`
 **Design**: `.specs/features/m05-search-and-gate-1/design.md`
-**Status**: Draft
+**Status**: Implementado (T1–T38); T39 e T40 pendentes
 
 These project rules apply to every task:
 
