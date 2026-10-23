@@ -2,8 +2,8 @@
 
 Critérios manuais do Gate 1 (#29): duas semanas de uso interno no Android físico e a lista de verificação do editor (#67) no iPhone e no Android físico. O resultado entra em `docs/gates/gate-1.md`.
 
-- **Início do período de uso interno:** _a preencher pelo usuário (AAAA-MM-DD)._
-- **Fim previsto:** início + 14 dias.
+- **Início do período de uso interno:** 2026-10-23.
+- **Fim previsto:** 2026-11-06 (início + 14 dias).
 - **Aparelho do uso interno:** Samsung SM-A356E, Android 16.
 
 ## 1. Instalar o build de perfil no Android
