@@ -13,7 +13,7 @@ As duas opções vêm do pacote `sqlite3`, escolhidas em `pubspec.yaml` com `hoo
 
 ## Resultados do spike
 
-Medido no computador (Linux, `flutter test`), semente de LOAD-01 (211 MB), mediana de 7 aberturas. **Não é medida de aparelho:** as metas de LOAD-03 e LOAD-06 valem no Android de gama média, e a execução no aparelho está pendente (ver Consequências). A variação entre execuções do mesmo arquivo sem cifra passou de 50% (LOAD-03 de 186 a 315 ms), então só diferenças grandes contam.
+Medido no computador (Linux, `flutter test`), semente de LOAD-01 (211 MB), mediana de 7 aberturas. A tabela traz os valores do computador; os do aparelho estão logo abaixo. A variação entre execuções do mesmo arquivo sem cifra passou de 50% (LOAD-03 de 186 a 315 ms), então só diferenças grandes contam.
 
 | Item | `sqlite3mc` | `sqlcipher` |
 | --- | --- | --- |
@@ -27,6 +27,17 @@ Medido no computador (Linux, `flutter test`), semente de LOAD-01 (211 MB), media
 | Arquivo sem a chave | `file is not a database`. | — (não repetido) |
 | Licença | Própria (`sqlite3mc`); ver o repositório antes de publicar. | SQLCipher Community Edition, BSD; liga OpenSSL no Android. |
 
+**No aparelho** (Samsung SM-A356E, Android 16, adb sem fio, build de **depuração** via `flutter test integration_test`, mesma semente, mediana de 7 aberturas): os valores absolutos são mais lentos que o build de perfil dos registros de LOAD, então só a diferença relativa serve.
+
+| Aparelho | Sem cifra | `sqlite3mc` cifrado | `sqlite3mc` após `rekey` |
+| --- | --- | --- | --- |
+| LOAD-03 | 352 ms (`sqlite3`: 490 ms) | 591 ms | 547 ms |
+| LOAD-06 | 180 ms (`sqlite3`: 223 ms) | 246 ms | 224 ms |
+| Semente | 53 s | 43 s | — |
+| `rekey` de 211 MB | — | — | 4,0 s |
+
+A cifra do `sqlite3mc` custa cerca de +55% em LOAD-03 e +35% em LOAD-06 sobre o mesmo binário sem cifra. O `sqlcipher` leu e buscou sem cifra normalmente (375 ms e 195 ms), mas o teste terminou sem concluir ao semear o banco cifrado no aparelho; a causa não foi investigada, e o resultado cifrado do `sqlcipher` no aparelho fica sem medida.
+
 **Guarda da chave (CRYPT-03):** não foi prototipada. A opção natural é gerar a chave aleatória no primeiro uso e guardá-la no Keystore (Android) e no Keychain (iOS) por um pacote como `flutter_secure_storage`; fica por verificar com Context7 e um protótipo antes de adotar.
 
 ## Decisão
@@ -35,7 +46,7 @@ Proposta, a confirmar pelo decisor (a pergunta do PRD §11 é aberta e não foi 
 
 1. **A criptografia entra na fase 2, junto com a adoção do PowerSync (ADR 0002),** e não antes. Nessa troca o arquivo do banco é reaberto de qualquer forma, e o SDK já traz `EncryptionOptions`. Fazer antes custaria uma migração e dois caminhos de abertura sem que nada saia do aparelho.
 2. **Opção preferida: `sqlite3mc`.** Custa 0,27 MB de APK contra 3,35 MB, migra no lugar com `PRAGMA rekey` e é a única que funciona na web, se um dia houver. O `sqlcipher` fica como alternativa se a medição no aparelho mostrar o `sqlite3mc` fora das metas de LOAD-03 e LOAD-06.
-3. **A decisão final depende de repetir a medição de LOAD-03 e LOAD-06 no aparelho,** cifrado e não cifrado. Se as metas (100 ms) forem perdidas só por causa da cifra, o relato vai ao decisor, sem laço de otimização.
+3. **As metas de 100 ms de LOAD-03 e LOAD-06 já estavam perdidas sem cifra** (`load-results.md`); a cifra acrescenta cerca de +35% a +55% sobre isso. Quem decide aceita esse custo ou pede a medição em build de perfil; não há laço de otimização.
 4. **Fica fora desta ADR:** a escolha do pacote de guarda da chave, o que acontece com os dados locais ao sair da conta (PRD §11) e a rotação da chave.
 
 ## Alternativas descartadas
@@ -47,6 +58,6 @@ Proposta, a confirmar pelo decisor (a pergunta do PRD §11 é aberta e não foi 
 ## Consequências
 
 - O campo do PRD §11 passa a apontar para esta ADR; ele só é marcado como resolvido quando a ADR for aceita.
-- **Pendente:** a medição de LOAD-03 e LOAD-06 no Samsung SM-A356E (nenhum aparelho estava no adb quando o spike rodou). Os números acima são do computador.
+- **Pendente:** a medição em build de perfil e o `sqlcipher` cifrado no aparelho, que não concluiu. Os valores do aparelho acima são de depuração.
 - A branch `spike/28-local-encryption` existe só localmente e não é mesclada nem enviada sem aval (CRYPT-01).
 - `pubspec.yaml` da `main` não ganha dependência de criptografia na M05 (CRYPT-05).
