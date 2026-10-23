@@ -48,7 +48,7 @@ gh issue create --label data-loss --title "Perda de dados: <resumo>"
 
 ## 4. Lista de verificação do editor (#67)
 
-Telas: Cadernos → um caderno → uma página → tocar num bloco Texto. Rodar no Android físico (Gboard pt-BR, sem teclado físico). Sem iPhone, a ADR 0041 restringe o Gate 1 a este aparelho; os itens marcados "(iOS)" ficam pendentes para antes de qualquer build iOS, com o app da milestone (`fvm flutter run --profile -d <aparelho>`). A lista vem do relatório do spike (`spikes/m04-editor/REPORT.md`, seção "Manual checklist", na branch `spike/22-block-editor`), adaptada ao editor real:
+Telas: Cadernos → um caderno → uma página → tocar num bloco Texto. Rodar no Android físico (Gboard pt-BR, sem teclado físico). Sem iPhone, a ADR 0041 restringe o Gate 1 a este aparelho; os itens marcados "(iOS)" ficam pendentes para antes de qualquer build iOS. Use o app da milestone (`fvm flutter run --profile -d <aparelho>`). A lista vem do relatório do spike (`spikes/m04-editor/REPORT.md`, seção "Manual checklist", na branch `spike/22-block-editor`), adaptada ao editor real:
 
 1. Tocar no fim de um parágrafo e digitar `nao voce acao ` com autocorreção ligada: o texto salvo fica `Não você ação ` (ou outra correção do teclado), sem caracteres duplicados, faltando ou sobrando.
 2. Segurar `a` e escolher `ã` no painel de acentos. (iOS) Segurar `e` e deslizar até `é`: um único caractere acentuado salvo.
