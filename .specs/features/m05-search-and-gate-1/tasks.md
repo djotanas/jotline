@@ -1412,10 +1412,10 @@ On the milestone branch: write `docs/adr/0040-criptografia-do-banco-local.md` (P
 
 **Done when**:
 
-- [ ] The ADR table covers CRYPT-02 and CRYPT-03 per option
-- [ ] `git diff main -- app/pubspec.yaml` on the milestone branch has no encryption dependency (CRYPT-05)
-- [ ] The spike branch is pushed only with the user's go-ahead and is never merged
-- [ ] Build gate passes
+- [x] The ADR table covers CRYPT-02 and CRYPT-03 per option
+- [x] `git diff main -- app/pubspec.yaml` on the milestone branch has no encryption dependency (CRYPT-05)
+- [x] The spike branch is pushed only with the user's go-ahead and is never merged
+- [x] Build gate passes
 
 **Tests**: none
 **Gate**: build
