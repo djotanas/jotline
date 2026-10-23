@@ -1472,9 +1472,9 @@ A subagent runs the procedure on an emulator before it is handed to the user. Th
 **Done when**:
 
 - [x] The procedure is validated on a physical device by the agent (no emulator boots in WSL2): install, `run-as` read of `integrity.log`, 2 `pass` lines on 2026-10-23
-- [ ] The label exists
+- [x] The label exists
 - [x] The period start date is recorded (2026-10-23)
-- [ ] Build gate passes
+- [x] Build gate passes
 
 **Tests**: none
 **Gate**: build

@@ -1,6 +1,6 @@
 # 0040 — Criptografia do banco local
 
-- **Status:** Proposta
+- **Status:** Aceita
 - **Data:** 2026-10-22
 - **Decisores:** @jon
 - **Relacionados:** PRD §11, RNF-10; ADR 0001, ADR 0002; issue #28; spec da M05 (CRYPT-01…CRYPT-05)
@@ -42,7 +42,7 @@ A cifra do `sqlite3mc` custa cerca de +55% em LOAD-03 e +35% em LOAD-06 sobre o 
 
 ## Decisão
 
-Proposta, a confirmar pelo decisor (a pergunta do PRD §11 é aberta e não foi decidida sozinha):
+Aceita pelo decisor em 2026-10-23:
 
 1. **A criptografia entra na fase 2, junto com a adoção do PowerSync (ADR 0002),** e não antes. Nessa troca o arquivo do banco é reaberto de qualquer forma, e o SDK já traz `EncryptionOptions`. Fazer antes custaria uma migração e dois caminhos de abertura sem que nada saia do aparelho.
 2. **Opção preferida: `sqlite3mc`.** Custa 0,27 MB de APK contra 3,35 MB, migra no lugar com `PRAGMA rekey` e é a única que funciona na web, se um dia houver. O `sqlcipher` fica como alternativa se a medição no aparelho mostrar o `sqlite3mc` fora das metas de LOAD-03 e LOAD-06.
@@ -57,7 +57,7 @@ Proposta, a confirmar pelo decisor (a pergunta do PRD §11 é aberta e não foi 
 
 ## Consequências
 
-- O campo do PRD §11 passa a apontar para esta ADR; ele só é marcado como resolvido quando a ADR for aceita.
+- O campo do PRD §11 está marcado como resolvido por esta ADR.
 - **Pendente:** a medição em build de perfil e o `sqlcipher` cifrado no aparelho, que não concluiu. Os valores do aparelho acima são de depuração.
 - A branch `spike/28-local-encryption` existe só localmente e não é mesclada nem enviada sem aval (CRYPT-01).
 - `pubspec.yaml` da `main` não ganha dependência de criptografia na M05 (CRYPT-05).
