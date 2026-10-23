@@ -83,6 +83,18 @@ void main() {
     expect(report.failures.single.ids, [notebookId]);
   });
 
+  test(
+    'INTEG-02: a notebook whose only member is not an owner fails',
+    () async {
+      await raw("UPDATE notebook_members SET role = 'editor'");
+
+      final report = await check.run();
+
+      expect(report.failures.single.invariant, 'notebook_without_owner');
+      expect(report.failures.single.ids, [notebookId]);
+    },
+  );
+
   test('INTEG-03: a page of a missing notebook fails with its id', () async {
     await raw("UPDATE pages SET notebook_id = 'ghost'");
 
