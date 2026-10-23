@@ -44,5 +44,6 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0038](0038-busca-local.md) | Busca local | Aceita |
 | [0039](0039-bloco-de-desenho.md) | Bloco de desenho | Aceita |
 | [0040](0040-criptografia-do-banco-local.md) | Criptografia do banco local | Proposta |
+| [0041](0041-verificacao-do-editor-so-no-android.md) | Verificação do editor só no Android físico no Gate 1 | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.

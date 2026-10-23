@@ -1,6 +1,6 @@
 # Roteiro do uso interno e da verificação do editor (Gate 1)
 
-Critérios manuais do Gate 1 (#29): duas semanas de uso interno no Android físico e a lista de verificação do editor (#67) no iPhone e no Android físico. O resultado entra em `docs/gates/gate-1.md`.
+Critérios manuais do Gate 1 (#29): duas semanas de uso interno no Android físico e a lista de verificação do editor (#67) no Android físico (iPhone dispensado pela ADR 0041). O resultado entra em `docs/gates/gate-1.md`.
 
 - **Início do período de uso interno:** 2026-10-23.
 - **Fim previsto:** 2026-11-06 (início + 14 dias).
@@ -48,17 +48,17 @@ gh issue create --label data-loss --title "Perda de dados: <resumo>"
 
 ## 4. Lista de verificação do editor (#67)
 
-Telas: Cadernos → um caderno → uma página → tocar num bloco Texto. Rodar em um iPhone (teclado iOS pt-BR) e no Android físico (Gboard pt-BR, sem teclado físico), com o app da milestone (`fvm flutter run --profile -d <aparelho>`). A lista vem do relatório do spike (`spikes/m04-editor/REPORT.md`, seção "Manual checklist", na branch `spike/22-block-editor`), adaptada ao editor real:
+Telas: Cadernos → um caderno → uma página → tocar num bloco Texto. Rodar no Android físico (Gboard pt-BR, sem teclado físico). Sem iPhone, a ADR 0041 restringe o Gate 1 a este aparelho; os itens marcados "(iOS)" ficam pendentes para antes de qualquer build iOS, com o app da milestone (`fvm flutter run --profile -d <aparelho>`). A lista vem do relatório do spike (`spikes/m04-editor/REPORT.md`, seção "Manual checklist", na branch `spike/22-block-editor`), adaptada ao editor real:
 
 1. Tocar no fim de um parágrafo e digitar `nao voce acao ` com autocorreção ligada: o texto salvo fica `Não você ação ` (ou outra correção do teclado), sem caracteres duplicados, faltando ou sobrando.
-2. Segurar `a` e escolher `ã` no painel de acentos. No iOS, segurar `e` e deslizar até `é`: um único caractere acentuado salvo.
+2. Segurar `a` e escolher `ã` no painel de acentos. (iOS) Segurar `e` e deslizar até `é`: um único caractere acentuado salvo.
 3. Digitar `naçã` e escolher uma sugestão: a palavra é trocada, não duplicada.
-4. iOS: segurar a barra de espaço (cursor flutuante) para mover dentro do parágrafo e digitar: o texto entra no cursor.
+4. (iOS) Segurar a barra de espaço (cursor flutuante) para mover dentro do parágrafo e digitar: o texto entra no cursor.
 5. Enter no meio de um parágrafo: dois blocos. Backspace no início do de baixo: um bloco.
 6. Enter no fim de um item marcado de um bloco Checklist: novo item desmarcado. Enter de novo no item vazio: bloco Texto.
 7. Tocar em um checkbox: só aquele item muda e o teclado não abre.
 8. Com o teclado aberto, a barra de blocos fica logo acima dele e o fundo do bloco em edição continua alinhado ao rolar.
-9. iOS: ditado em um parágrafo: texto salvo.
+9. (iOS) Ditado em um parágrafo: texto salvo.
 10. Colocar o app em segundo plano logo após digitar, encerrar e reabrir: o texto digitado está lá.
 
 Registre na issue #67, por aparelho: modelo, versão do sistema, teclado e o resultado de cada passo (passou, falhou com descrição). **Se qualquer item falhar,** pare: a ADR 0035 (`super_editor`) precisa ser substituída por uma nova ADR antes de o Gate 1 ser marcado como passado (GATE-06).
