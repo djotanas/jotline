@@ -41,5 +41,6 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0035](0035-editor-de-blocos.md) | Editor de blocos: super_editor | Aceita |
 | [0036](0036-modelo-de-blocos.md) | Modelo de blocos | Aceita |
 | [0037](0037-ultima-edicao-derivada-dos-blocos.md) | Última edição da página derivada dos blocos | Aceita |
+| [0038](0038-skills-acionadas-pelo-indice.md) | Skills acionadas pelo índice de Referências | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.

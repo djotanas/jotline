@@ -29,7 +29,7 @@ void main() {
 
   testWidgets('RF-02: create, rename inline and reorder pages, then reopen '
       'the notebook with the order kept, with no network', (tester) async {
-    final db = await pumpJotlineWithoutNetwork(tester);
+    final app = await pumpJotlineWithoutNetwork(tester);
     await createNotebook(tester, 'Diário');
 
     for (final title in ['A', 'B', 'C']) {
@@ -49,7 +49,9 @@ void main() {
     await tester.pump(const Duration(milliseconds: 600));
     await backFromPage(tester, 'Diário');
     expect(find.text('B renomeada'), findsOneWidget);
-    final titles = (await db.select(db.pages).get()).map((p) => p.title);
+    final titles = (await app.db.select(app.db.pages).get()).map(
+      (p) => p.title,
+    );
     expect(titles, containsAll(['A', 'B renomeada', 'C']));
 
     await tapAndSettle(tester, find.text('Reordenar'));
