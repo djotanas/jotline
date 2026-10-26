@@ -44,6 +44,7 @@ The sync contract (`POST /sync/upload`, per-block `version`, rejected operations
 - Code examples, implementation rules for a topic and extra explanations go in `.claude/docs/<topic>.md` in the same folder (root, `app/` or `server/`), one topic per file, without repeating the invariants.
 - Every doc is listed in the "References" section of the folder's `CLAUDE.md` ("When | File" table), in the same commit in which it is created, renamed or removed.
 - Before touching a topic listed in "References", read the doc it points to.
+- A repeatable work procedure (steps, skeleton, checklist) is a skill in `.claude/skills/<name>/` of the same folder, and its "References" row says to **invoke** it before the task, instead of pointing to a doc (ADR 0038). Rules and reference material stay in docs.
 
 ## Library documentation
 

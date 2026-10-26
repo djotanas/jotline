@@ -46,7 +46,8 @@ Read the doc before touching the topic (ADR 0014).
 
 | When | File |
 | --- | --- |
-| Writing or changing any test, touching a Drift table or creating a screen flow | [`app/.claude/docs/testes.md`](.claude/docs/testes.md) |
+| Writing or changing a unit, widget, database or migration test, or touching a Drift table | [`app/.claude/docs/testes.md`](.claude/docs/testes.md) |
+| Writing or changing an e2e test (`integration_test/`) or creating a screen flow | **Invoke the `create-e2e-test` skill** (Skill tool) before writing; it is a procedure, not a doc (ADR 0038) |
 | Touching a screen, theme, color, font or icon | [`app/.claude/docs/design.md`](.claude/docs/design.md) |
 
 ## Rules
@@ -62,4 +63,4 @@ Read the doc before touching the topic (ADR 0014).
 - **The app never increments `blocks.version`:** it stores the version received from the server and sends it as the base on upload (ADR 0013).
 - **Phase 2:** the upload queue survives closing the app, restarting and switching networks (RNF-02); the status indicator is discreet — synced, pending, error (RF-09).
 - **Performance:** list and page opening with no noticeable loading with 10,000 local pages (RNF-06).
-- **Tests (ADR 0015):** all new code comes with a unit or widget test; anything touching Drift, with an in-memory database test; schema changes, with a tested migration; main flows, with e2e.
+- **Tests (ADR 0015):** all new code comes with a unit or widget test; anything touching Drift, with an in-memory database test; schema changes, with a tested migration; main flows, with e2e through the `create-e2e-test` skill.

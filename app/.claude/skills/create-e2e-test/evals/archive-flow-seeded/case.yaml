@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: archive-flow-seeded
+expected_outcome: |
+  A new integration_test file following the skeleton: forbidNetwork, pumpJotlineWithoutNetwork returning TestApp, cadernos semeados via repositórios, asserts na UI e no banco (archivedAt).
