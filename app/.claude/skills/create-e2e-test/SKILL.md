@@ -27,7 +27,7 @@ Each row is one file in `integration_test/`. A new main flow is added to this ta
 | Create, rename inline and reorder pages | `pages_flow_test.dart` | RF-02 |
 | Delete and restore pages and notebooks through the trash, with undo | `trash_flow_test.dart` | RF-12 |
 | Write in a block, close and reopen the app with the text preserved | `editor_flow_test.dart` | RF-03, RF-04 |
-| Search by title and content | not written yet | RF-05 |
+| Search by title and content | `search_flow_test.dart`, written on `milestone/m05-search-and-gate-1` (PR #70 was reverted, so it is not on `main` yet) | RF-05 |
 
 ## Skeleton
 
