@@ -41,9 +41,5 @@ Uma decisão por arquivo, no formato Contexto, Decisão, Alternativas, Consequê
 | [0035](0035-editor-de-blocos.md) | Editor de blocos: super_editor | Aceita |
 | [0036](0036-modelo-de-blocos.md) | Modelo de blocos | Aceita |
 | [0037](0037-ultima-edicao-derivada-dos-blocos.md) | Última edição da página derivada dos blocos | Aceita |
-| [0038](0038-busca-local.md) | Busca local | Aceita |
-| [0039](0039-bloco-de-desenho.md) | Bloco de desenho | Aceita |
-| [0040](0040-criptografia-do-banco-local.md) | Criptografia do banco local | Aceita |
-| [0041](0041-verificacao-do-editor-so-no-android.md) | Verificação do editor só no Android físico no Gate 1 | Aceita |
 
 Status possíveis: Proposta · Aceita · Rejeitada · Substituída por NNNN.

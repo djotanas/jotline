@@ -6,9 +6,3 @@ targets:
           databases:
             app_database: lib/core/database/app_database.dart
           store_date_time_values_as_text: true
-          sql:
-            dialect: sqlite
-            options:
-              modules:
-                - json1
-                - fts5

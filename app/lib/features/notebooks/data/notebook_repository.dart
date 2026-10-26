@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/foundation.dart';
 import 'package:jotline/core/clock/clock.dart';
 import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/core/database/local_user_repository.dart';
@@ -22,14 +21,6 @@ final class TrashedNotebook {
   /// The local user's `archived_at`, kept while the notebook is trashed.
   final DateTime? archivedAt;
 }
-
-typedef _SummariesQuery = ({
-  JoinedSelectStatement<HasResultSet, dynamic> query,
-  Expression<int> pageCount,
-  Expression<DateTime> lastPageEdit,
-  Expression<DateTime> lastBlockEdit,
-  Expression<DateTime> lastBlockDelete,
-});
 
 /// Reads and writes notebooks and the local user's membership in them.
 class NotebookRepository {
@@ -189,14 +180,7 @@ class NotebookRepository {
     });
   }
 
-  @visibleForTesting
-  GenerationContext summariesContext(String userId) => _summariesQuery(
-    userId,
-    (notebooks, members) => const Constant(true),
-  ).query.constructQuery();
-
-  _SummariesQuery _summariesQuery(
-    String userId,
+  Stream<Iterable<NotebookSummary>> _watchSummaries(
     Expression<bool> Function(
       $NotebooksTable notebooks,
       $NotebookMembersTable members,
@@ -211,62 +195,34 @@ class NotebookRepository {
     final lastPageEdit = pages.updatedAt.max();
     final lastBlockEdit = blocks.updatedAt.max();
     final lastBlockDelete = blocks.deletedAt.max();
-    final query =
-        _database.select(notebooks).join([
-            innerJoin(
-              members,
-              members.notebookId.equalsExp(notebooks.id) &
-                  members.userId.equals(userId),
-            ),
-            leftOuterJoin(
-              pages,
-              pages.notebookId.equalsExp(notebooks.id) &
-                  pages.deletedAt.isNull(),
-              useColumns: false,
-            ),
-            leftOuterJoin(
-              blocks,
-              blocks.pageId.equalsExp(pages.id),
-              useColumns: false,
-            ),
-          ])
-          ..addColumns([
-            pageCount,
-            lastPageEdit,
-            lastBlockEdit,
-            lastBlockDelete,
-          ])
-          ..where(notebooks.deletedAt.isNull() & filter(notebooks, members))
-          ..groupBy([notebooks.id]);
-    return (
-      query: query,
-      pageCount: pageCount,
-      lastPageEdit: lastPageEdit,
-      lastBlockEdit: lastBlockEdit,
-      lastBlockDelete: lastBlockDelete,
-    );
-  }
-
-  Stream<Iterable<NotebookSummary>> _watchSummaries(
-    Expression<bool> Function(
-      $NotebooksTable notebooks,
-      $NotebookMembersTable members,
-    )
-    filter,
-  ) {
-    final notebooks = _database.notebooks;
-    final members = _database.notebookMembers;
     return Stream.fromFuture(_localUser.id()).asyncExpand((userId) {
-      final (
-        :query,
-        :pageCount,
-        :lastPageEdit,
-        :lastBlockEdit,
-        :lastBlockDelete,
-      ) = _summariesQuery(
-        userId,
-        filter,
-      );
+      final query =
+          _database.select(notebooks).join([
+              innerJoin(
+                members,
+                members.notebookId.equalsExp(notebooks.id) &
+                    members.userId.equals(userId),
+              ),
+              leftOuterJoin(
+                pages,
+                pages.notebookId.equalsExp(notebooks.id) &
+                    pages.deletedAt.isNull(),
+                useColumns: false,
+              ),
+              leftOuterJoin(
+                blocks,
+                blocks.pageId.equalsExp(pages.id),
+                useColumns: false,
+              ),
+            ])
+            ..addColumns([
+              pageCount,
+              lastPageEdit,
+              lastBlockEdit,
+              lastBlockDelete,
+            ])
+            ..where(notebooks.deletedAt.isNull() & filter(notebooks, members))
+            ..groupBy([notebooks.id]);
       return query.watch().map(
         (rows) => rows.map((row) {
           final notebook = row.readTable(notebooks);

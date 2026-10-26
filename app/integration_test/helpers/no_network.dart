@@ -28,30 +28,19 @@ void forbidNetwork() {
 /// Pumps [JotlineApp] on an in-memory database and the unavailable
 /// preferences store, and returns the database for assertions. It registers
 /// the test text input, which is not registered in profile mode, so
-/// `enterText` works there. Passing the [reopen] database of an earlier
-/// call starts the app again on the same data.
-Future<AppDatabase> pumpJotlineWithoutNetwork(
-  WidgetTester tester, {
-  AppDatabase? reopen,
-}) async {
+/// `enterText` works there.
+Future<AppDatabase> pumpJotlineWithoutNetwork(WidgetTester tester) async {
   tester.testTextInput.register();
-  final db =
-      reopen ??
-      AppDatabase(
-        DatabaseConnection(
-          NativeDatabase.memory(),
-          closeStreamsSynchronously: true,
-        ),
-      );
-  if (reopen == null) {
-    addTearDown(() async {
-      await tester.pumpWidget(const SizedBox());
-      await db.close();
-    });
-  } else {
+  final db = AppDatabase(
+    DatabaseConnection(
+      NativeDatabase.memory(),
+      closeStreamsSynchronously: true,
+    ),
+  );
+  addTearDown(() async {
     await tester.pumpWidget(const SizedBox());
-    await tester.pump();
-  }
+    await db.close();
+  });
   await tester.pumpWidget(
     ProviderScope(
       overrides: [

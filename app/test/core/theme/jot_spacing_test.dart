@@ -38,16 +38,4 @@ void main() {
       ),
     );
   });
-
-  test('SRCH-11: rLombada is 1 on the spine side and 3 on the other', () {
-    expect(
-      JotRadius.rLombada,
-      const BorderRadius.only(
-        topLeft: Radius.circular(1),
-        bottomLeft: Radius.circular(1),
-        topRight: Radius.circular(3),
-        bottomRight: Radius.circular(3),
-      ),
-    );
-  });
 }

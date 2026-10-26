@@ -6,7 +6,7 @@ import 'package:jotline/core/theme/jot_colors.dart';
 
 import '../../helpers/pump_jot.dart';
 
-Future<void> _pump(WidgetTester tester, VoidCallback? onPressed) {
+Future<void> _pump(WidgetTester tester, VoidCallback onPressed) {
   return tester.pumpJot(
     Center(
       child: JotIconButton(
@@ -43,8 +43,8 @@ void main() {
     expect(painter.color, JotColors.light.ink1);
   });
 
-  testWidgets('COMP-03, DRAW-09: icon button with a callback is enabled and '
-      'tapping calls back', (tester) async {
+  testWidgets('COMP-03: icon button is always enabled and tapping calls '
+      'back', (tester) async {
     final handle = tester.ensureSemantics();
     var taps = 0;
     await _pump(tester, () => taps++);
@@ -61,29 +61,6 @@ void main() {
     );
     await tester.tap(find.byType(JotIconButton));
     expect(taps, 1);
-    handle.dispose();
-  });
-
-  testWidgets('DRAW-09: icon button with no callback is disabled and drawn '
-      'in inkDeco', (tester) async {
-    final handle = tester.ensureSemantics();
-    await _pump(tester, null);
-
-    expect(
-      tester.getSemantics(find.byType(JotIconButton)),
-      matchesSemantics(label: 'Buscar', isButton: true, hasEnabledState: true),
-    );
-    final painter =
-        tester
-                .widget<CustomPaint>(
-                  find.descendant(
-                    of: find.byType(JotIcon),
-                    matching: find.byType(CustomPaint),
-                  ),
-                )
-                .painter!
-            as JotIconPainter;
-    expect(painter.color, JotColors.light.inkDeco);
     handle.dispose();
   });
 

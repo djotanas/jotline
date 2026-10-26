@@ -10,15 +10,11 @@ class JotSearchField extends StatelessWidget {
     super.key,
     this.controller,
     this.onChanged,
-    this.autofocus = false,
-    this.semanticLabel,
   });
 
   final String placeholder;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
-  final bool autofocus;
-  final String? semanticLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -42,19 +38,15 @@ class JotSearchField extends StatelessWidget {
               child: const JotIcon(JotIconGlyph.search, size: JotSpace.space5),
             ),
             Expanded(
-              child: Semantics(
-                label: semanticLabel,
-                child: TextField(
-                  controller: controller,
-                  onChanged: onChanged,
-                  autofocus: autofocus,
-                  style: input,
-                  cursorColor: colors.accent,
-                  textInputAction: TextInputAction.search,
-                  decoration: InputDecoration.collapsed(
-                    hintText: placeholder,
-                    hintStyle: input.copyWith(color: colors.ink2),
-                  ),
+              child: TextField(
+                controller: controller,
+                onChanged: onChanged,
+                style: input,
+                cursorColor: colors.accent,
+                textInputAction: TextInputAction.search,
+                decoration: InputDecoration.collapsed(
+                  hintText: placeholder,
+                  hintStyle: input.copyWith(color: colors.ink2),
                 ),
               ),
             ),

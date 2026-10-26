@@ -19,8 +19,6 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
     required this.selo,
     required this.barNegrito,
     required this.barItalico,
-    required this.buscaCaderno,
-    required this.buscaTrecho,
   });
 
   /// Builds the canvas text styles with the given color tokens.
@@ -138,22 +136,6 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
         color: colors.ink1,
         fontVariations: const [FontVariation.opticalSize(19)],
       ),
-      buscaCaderno: TextStyle(
-        fontFamily: fontUi,
-        fontSize: 12,
-        fontWeight: FontWeight.w400,
-        letterSpacing: 0,
-        color: colors.ink2,
-      ),
-      buscaTrecho: TextStyle(
-        fontFamily: fontTexto,
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-        letterSpacing: 0,
-        height: 1.5,
-        color: colors.ink2,
-        fontVariations: const [FontVariation.opticalSize(14)],
-      ),
     );
   }
 
@@ -181,12 +163,6 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
   /// The "I" glyph of the block bar's "Itálico" button.
   final TextStyle barItalico;
 
-  /// The notebook title in a search result's first line.
-  final TextStyle buscaCaderno;
-
-  /// The excerpt of a search result.
-  final TextStyle buscaTrecho;
-
   @override
   JotTextStyles copyWith({
     TextStyle? tituloTela,
@@ -204,8 +180,6 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
     TextStyle? selo,
     TextStyle? barNegrito,
     TextStyle? barItalico,
-    TextStyle? buscaCaderno,
-    TextStyle? buscaTrecho,
   }) {
     return JotTextStyles(
       tituloTela: tituloTela ?? this.tituloTela,
@@ -223,8 +197,6 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
       selo: selo ?? this.selo,
       barNegrito: barNegrito ?? this.barNegrito,
       barItalico: barItalico ?? this.barItalico,
-      buscaCaderno: buscaCaderno ?? this.buscaCaderno,
-      buscaTrecho: buscaTrecho ?? this.buscaTrecho,
     );
   }
 
@@ -247,8 +219,6 @@ class JotTextStyles extends ThemeExtension<JotTextStyles> {
       selo: TextStyle.lerp(selo, other.selo, t)!,
       barNegrito: TextStyle.lerp(barNegrito, other.barNegrito, t)!,
       barItalico: TextStyle.lerp(barItalico, other.barItalico, t)!,
-      buscaCaderno: TextStyle.lerp(buscaCaderno, other.buscaCaderno, t)!,
-      buscaTrecho: TextStyle.lerp(buscaTrecho, other.buscaTrecho, t)!,
     );
   }
 }

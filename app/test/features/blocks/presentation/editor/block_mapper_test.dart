@@ -1,13 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/features/blocks/data/block_content.dart';
-import 'package:jotline/features/blocks/data/drawing_content.dart';
 import 'package:jotline/features/blocks/presentation/editor/block_mapper.dart';
-import 'package:jotline/features/blocks/presentation/editor/components/drawing_block.dart';
 import 'package:super_editor/super_editor.dart';
 
 void main() {
-  Block row(String id, BlockType type, StoredContent content) => Block(
+  Block row(String id, BlockType type, BlockContent content) => Block(
     id: id,
     pageId: 'page',
     type: type.id,
@@ -62,8 +60,8 @@ void main() {
         for (final r in rows)
           (BlockType.fromId(r.type), BlockContent.fromJson(r.contentJson)),
       ]);
-      expect((back[3].$2 as BlockContent).checked, isTrue);
-      expect((back[1].$2 as BlockContent).checked, isNull);
+      expect(back[3].$2.checked, isTrue);
+      expect(back[1].$2.checked, isNull);
     });
 
     test('SAVE-11: each type maps to its editor node', () {
@@ -138,7 +136,7 @@ void main() {
 
       final whole = AttributedText('abc')
         ..addAttribution(boldAttribution, const SpanRange(0, 2));
-      final (_, read as BlockContent) = BlockMapper.fromNode(
+      final (_, read) = BlockMapper.fromNode(
         ParagraphNode(id: 'w', text: whole),
       );
       expect(read.marks, const [Mark(0, 3, MarkType.bold)]);
@@ -152,7 +150,7 @@ void main() {
       );
 
       final node = BlockMapper.toNode(BlockType.text, content, id: 'n');
-      final (type, back as BlockContent) = BlockMapper.fromNode(node);
+      final (type, back) = BlockMapper.fromNode(node);
 
       expect(type, BlockType.text);
       expect(back.text, 'Oi 🇧🇷 já');
@@ -196,7 +194,7 @@ void main() {
         )
         ..addAttribution(boldAttribution, const SpanRange(0, 2));
 
-      final (type, content as BlockContent) = BlockMapper.fromNode(
+      final (type, content) = BlockMapper.fromNode(
         ParagraphNode(id: 'p', text: text),
       );
 
@@ -221,7 +219,7 @@ void main() {
         metadata: const {NodeMetadata.blockType: blockquoteAttribution},
       );
 
-      final (type, content as BlockContent) = BlockMapper.fromNode(node);
+      final (type, content) = BlockMapper.fromNode(node);
 
       expect(type, BlockType.text);
       expect(content.text, 'Citação');
@@ -233,46 +231,6 @@ void main() {
       );
 
       expect(type, BlockType.bulletedListItem);
-    });
-
-    group('drawing', () {
-      const drawing = DrawingContent([
-        Stroke(
-          tool: DrawingTool.highlighter,
-          color: DrawingColor.accent,
-          width: 6,
-          points: [StrokePoint(60, 470, 0.5), StrokePoint(100.4, 440, 0.62)],
-        ),
-      ]);
-
-      test('DRAW-19: a drawing row maps to a DrawingNode and back to its '
-          'type and content', () {
-        final document = BlockMapper.toDocument([
-          row('d', BlockType.drawing, drawing),
-        ]);
-
-        final node = document.getNodeById('d');
-        expect(node, isA<DrawingNode>());
-        expect(BlockMapper.fromNode(node!), (BlockType.drawing, drawing));
-      });
-
-      test('DRAW-10: a drawing node keeps its place among the text nodes', () {
-        final document = BlockMapper.toDocument([
-          rows[0],
-          row('d', BlockType.drawing, drawing),
-          rows[1],
-        ]);
-
-        expect([for (final node in document) node.id], ['h', 'd', 't']);
-        expect(document.getNodeById('h'), isA<ParagraphNode>());
-        expect(document.getNodeById('t'), isA<ParagraphNode>());
-      });
-
-      test('DRAW-13: the drawing node is not deletable', () {
-        final node = BlockMapper.toNode(BlockType.drawing, drawing, id: 'd');
-
-        expect(node.isDeletable, isFalse);
-      });
     });
   });
 }

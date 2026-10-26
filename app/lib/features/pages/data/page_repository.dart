@@ -1,8 +1,6 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/foundation.dart';
 import 'package:jotline/core/clock/clock.dart';
 import 'package:jotline/core/database/app_database.dart';
-import 'package:jotline/core/database/last_edited_sql.dart';
 import 'package:jotline/core/database/local_user_repository.dart';
 import 'package:jotline/core/database/position_allocator.dart';
 import 'package:jotline/core/ids/id_generator.dart';
@@ -160,25 +158,26 @@ class PageRepository {
   Stream<List<PageSummary>> watchByNotebook(String notebookId) =>
       _summaries('p.notebook_id = ?', Variable<String>(notebookId));
 
-  @visibleForTesting
-  static String summariesSql(String filter) =>
-      'SELECT p.*, $lastEditedSql AS last_edited_at, '
-      r"(SELECT json_extract(b.content_json, '$.text') FROM blocks b "
-      'WHERE b.page_id = p.id AND b.deleted_at IS NULL '
-      "AND b.type IN ('text', 'bulleted_list_item', 'checklist_item') "
-      r"AND trim(json_extract(b.content_json, '$.text'), "
-      "' ' || char(9, 10, 13)) <> '' "
-      'ORDER BY b.position, b.id LIMIT 1) AS excerpt '
-      'FROM pages p '
-      'INNER JOIN notebooks n ON n.id = p.notebook_id '
-      'WHERE $filter AND p.deleted_at IS NULL AND n.deleted_at IS NULL '
-      'ORDER BY p.position, p.id';
-
   Stream<List<PageSummary>> _summaries(String filter, Variable<String> value) {
     final pages = _database.pages;
     return _database
         .customSelect(
-          summariesSql(filter),
+          'SELECT p.*, '
+          'max(p.updated_at, '
+          'COALESCE((SELECT max(b.updated_at) FROM blocks b '
+          'WHERE b.page_id = p.id), p.updated_at), '
+          'COALESCE((SELECT max(b.deleted_at) FROM blocks b '
+          'WHERE b.page_id = p.id), p.updated_at)) AS last_edited_at, '
+          r"(SELECT json_extract(b.content_json, '$.text') FROM blocks b "
+          'WHERE b.page_id = p.id AND b.deleted_at IS NULL '
+          "AND b.type IN ('text', 'bulleted_list_item', 'checklist_item') "
+          r"AND trim(json_extract(b.content_json, '$.text'), "
+          "' ' || char(9, 10, 13)) <> '' "
+          'ORDER BY b.position, b.id LIMIT 1) AS excerpt '
+          'FROM pages p '
+          'INNER JOIN notebooks n ON n.id = p.notebook_id '
+          'WHERE $filter AND p.deleted_at IS NULL AND n.deleted_at IS NULL '
+          'ORDER BY p.position, p.id',
           variables: [value],
           readsFrom: {pages, _database.blocks, _database.notebooks},
         )

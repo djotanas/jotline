@@ -184,13 +184,12 @@ void main() {
   });
 
   group('BlockType', () {
-    test('SAVE-10: the five persisted ids', () {
+    test('SAVE-10: the four persisted ids', () {
       expect(BlockType.values.map((type) => type.id), [
         'text',
         'heading',
         'bulleted_list_item',
         'checklist_item',
-        'drawing',
       ]);
       for (final type in BlockType.values) {
         expect(BlockType.fromId(type.id), type);
@@ -198,7 +197,7 @@ void main() {
     });
 
     test('SAVE-10: an unknown type id reads as text', () {
-      expect(BlockType.fromId('table'), BlockType.text);
+      expect(BlockType.fromId('drawing'), BlockType.text);
     });
   });
 }

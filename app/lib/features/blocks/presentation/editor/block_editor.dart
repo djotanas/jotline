@@ -4,7 +4,6 @@ import 'package:jotline/core/theme/theme_context.dart';
 import 'package:jotline/features/blocks/presentation/editor/block_drag_controller.dart';
 import 'package:jotline/features/blocks/presentation/editor/components/active_block_builder.dart';
 import 'package:jotline/features/blocks/presentation/editor/components/checklist_item.dart';
-import 'package:jotline/features/blocks/presentation/editor/components/drawing_block.dart';
 import 'package:jotline/features/blocks/presentation/editor/plain_paste.dart';
 import 'package:super_editor/super_editor.dart';
 
@@ -42,18 +41,10 @@ final List<SuperEditorKeyboardAction> blockKeyboardActions = [
 /// The page blocks as a sliver of the page's scroll view, with blocks
 /// dragged by their handle (BMOVE-02).
 class BlockEditor extends StatefulWidget {
-  const new({
-    required this.editor,
-    required this.focusNode,
-    this.onOpenDrawing,
-    super.key,
-  });
+  const new({required this.editor, required this.focusNode, super.key});
 
   final Editor editor;
   final FocusNode focusNode;
-
-  /// Called with the node id when a drawing card is tapped (DRAW-13).
-  final void Function(String nodeId)? onOpenDrawing;
 
   @override
   State<BlockEditor> createState() => _BlockEditorState();
@@ -95,7 +86,6 @@ class _BlockEditorState extends State<BlockEditor> {
         ActiveBlockBuilder([
           const _BulletedListItemBuilder(),
           ChecklistItemBuilder(editor),
-          DrawingComponentBuilder(onOpen: widget.onOpenDrawing ?? (_) {}),
           ...defaultComponentBuilders,
         ], dragController: _drag),
       ],

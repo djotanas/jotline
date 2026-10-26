@@ -7,7 +7,6 @@ import 'package:jotline/core/preferences/preferences_store.dart';
 import 'package:jotline/core/theme/notebook_palette.dart';
 import 'package:jotline/features/notebooks/presentation/notebook_screen.dart';
 import 'package:jotline/features/notebooks/presentation/notebooks_screen.dart';
-import 'package:jotline/features/search/presentation/search_screen.dart';
 import 'package:jotline/features/trash/presentation/trash_screen.dart';
 
 import '../../../helpers/pump_jot.dart';
@@ -174,7 +173,7 @@ void main() {
       findsOneWidget,
     );
     expect(find.textContaining('Ativos'), findsNothing);
-    expect(find.byType(JotIconButton), findsNWidgets(2));
+    expect(find.byType(JotIconButton), findsOneWidget);
     expect(find.text('Novo caderno'), findsOneWidget);
     await _close(tester);
   });
@@ -245,45 +244,13 @@ void main() {
     await _close(tester);
   });
 
-  testWidgets('SRCH-01: "Buscar" is the first action of the header', (
-    tester,
-  ) async {
+  testWidgets('NBLIST-10: the header has no "Buscar" button', (tester) async {
     final semantics = tester.ensureSemantics();
     await _open(tester);
 
-    expect(find.bySemanticsLabel('Buscar'), findsOneWidget);
-    final buttons = tester.widgetList<JotIconButton>(
-      find.byType(JotIconButton),
-    );
-    expect(buttons.map((button) => button.semanticLabel), [
-      'Buscar',
-      'Ordenar',
-      'Lixeira',
-    ]);
+    expect(find.bySemanticsLabel('Buscar'), findsNothing);
+    expect(find.byType(JotIconButton), findsNWidgets(2));
     semantics.dispose();
-    await _close(tester);
-  });
-
-  testWidgets('SRCH-01: "Buscar" is shown with zero notebooks', (tester) async {
-    await _open(tester, only: {});
-
-    final buttons = tester.widgetList<JotIconButton>(
-      find.byType(JotIconButton),
-    );
-    expect(buttons.first.semanticLabel, 'Buscar');
-    await _close(tester);
-  });
-
-  testWidgets('SRCH-01: tapping "Buscar" opens the search with the field '
-      'focused', (tester) async {
-    await _open(tester);
-
-    await tester.tap(find.byType(JotIconButton).first);
-    await _settle(tester);
-
-    expect(find.byType(SearchScreen), findsOneWidget);
-    final editable = tester.widget<EditableText>(find.byType(EditableText));
-    expect(editable.focusNode.hasFocus, isTrue);
     await _close(tester);
   });
 
@@ -450,7 +417,7 @@ void main() {
       'and stores the choice', (tester) async {
     await _open(tester);
 
-    await tester.tap(find.byType(JotIconButton).at(1));
+    await tester.tap(find.byType(JotIconButton).first);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Nome (A–Z)'));
     await _settle(tester);

@@ -13,7 +13,7 @@ Jotline mobile app. General rules and invariants in the [root CLAUDE.md](../CLAU
 - **UI text:** PT-BR only in phase 1, via `flutter_localizations` + `gen-l10n` (`app_pt.arb`, keys in English); no strings hardcoded in widgets (ADR 0016). Set up in the scaffold.
 - **Preferences:** `hive_ce` — only theme, last opened notebook and the like; nothing that syncs.
 - **Block editor:** `super_editor`, exact version pinned (ADR 0035). The editor document is never stored: our own mapping turns each node into one `blocks` row.
-- **Drawing (RF-06):** `perfect_freehand 2.5.2+1`, strokes saved as JSON in a `drawing` block (ADR 0039).
+- **Drawing (RF-06, Could):** `perfect_freehand`, strokes saved as JSON.
 - **Ordering:** fractional index in `position` — reordering changes a single row.
 - **Tests:** `flutter_test` + `mocktail`; database tested with real in-memory Drift; e2e with `integration_test` (ADR 0015).
 
@@ -30,11 +30,6 @@ fvm flutter test
 fvm flutter test path/to/file_test.dart
 fvm flutter test integration_test                              # e2e; needs an emulator or device
 fvm flutter drive --driver=test_driver/perf_driver.dart --target=integration_test/perf/launch_to_new_page_test.dart --profile -d DEVICE_ID   # PERF-01; see the M03 validation.md
-fvm flutter test --tags perf --run-skipped                      # 10,000-page seed (LOAD-01); skipped by default
-fvm flutter drive --driver=test_driver/perf_driver.dart --target=integration_test/perf/large_library_test.dart --profile -d DEVICE_ID   # RNF-06; see load-results.md of M05
-fvm flutter build apk --profile -t integration_test/kill/kill_app.dart   # kill test app alone (KILL-01)
-ANDROID_SERIAL=DEVICE_ID bash tool/kill_test.sh 100            # kill test on a device (KILL-04); builds and installs the APK itself
-bash tool/kill_test_test.sh                                    # tests the kill test script itself
 fvm dart run build_runner build --delete-conflicting-outputs   # after cloning and after changing Drift tables
 fvm dart run drift_dev make-migrations                         # after bumping schemaVersion
 ```
@@ -53,7 +48,6 @@ Read the doc before touching the topic (ADR 0014).
 | --- | --- |
 | Writing or changing any test, touching a Drift table or creating a screen flow | [`app/.claude/docs/testes.md`](.claude/docs/testes.md) |
 | Touching a screen, theme, color, font or icon | [`app/.claude/docs/design.md`](.claude/docs/design.md) |
-| Running an e2e test on a phone, or any test that cannot run | [`app/.claude/docs/blocked-tests.md`](.claude/docs/blocked-tests.md) |
 
 ## Rules
 
@@ -68,5 +62,4 @@ Read the doc before touching the topic (ADR 0014).
 - **The app never increments `blocks.version`:** it stores the version received from the server and sends it as the base on upload (ADR 0013).
 - **Phase 2:** the upload queue survives closing the app, restarting and switching networks (RNF-02); the status indicator is discreet — synced, pending, error (RF-09).
 - **Performance:** list and page opening with no noticeable loading with 10,000 local pages (RNF-06).
-- **A test that cannot run is a stop, not a detour:** e2e with no phone on adb → abort and ask the user to connect it; any other blocked test → stop and report, no alternative routes.
 - **Tests (ADR 0015):** all new code comes with a unit or widget test; anything touching Drift, with an in-memory database test; schema changes, with a tested migration; main flows, with e2e.

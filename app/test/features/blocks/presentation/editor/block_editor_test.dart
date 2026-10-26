@@ -234,14 +234,12 @@ void main() {
     List<(BlockType, String)> blocks() => [
       for (final node in editor.document)
         switch (BlockMapper.fromNode(node)) {
-          (final type, final content) => (type, (content as BlockContent).text),
+          (final type, final content) => (type, content.text),
         },
     ];
 
     bool? checkedAt(int index) =>
-        (BlockMapper.fromNode(editor.document.getNodeAt(index)!).$2
-                as BlockContent)
-            .checked;
+        BlockMapper.fromNode(editor.document.getNodeAt(index)!).$2.checked;
 
     DocumentSelection caretAt(String nodeId, int offset) =>
         DocumentSelection.collapsed(

@@ -221,7 +221,7 @@ void main() {
     });
 
     test('BAR-01: the text and list glyphs follow the M03 glyphs', () {
-      expect(JotIconGlyph.values.skip(17).take(2), [
+      expect(JotIconGlyph.values.skip(17), [
         JotIconGlyph.text,
         JotIconGlyph.list,
       ]);
@@ -247,77 +247,6 @@ void main() {
       expect(draws.take(3).every((d) => d.radius == 1), isTrue);
       expect(draws.every((d) => d.style == PaintingStyle.stroke), isTrue);
     });
-
-    test('SRCH-15: the six M05 glyphs follow the bar glyphs', () {
-      expect(JotIconGlyph.values.skip(19), [
-        JotIconGlyph.searchNone,
-        JotIconGlyph.undo,
-        JotIconGlyph.redo,
-        JotIconGlyph.pen,
-        JotIconGlyph.highlighter,
-        JotIconGlyph.eraser,
-      ]);
-    });
-
-    test('SRCH-15: searchNone is the lens, its handle and the cross', () {
-      final draws = _paint(JotIconGlyph.searchNone).draws;
-
-      expect(draws.map((d) => d.kind), ['circle', 'path', 'path']);
-      expect(draws.first.center, const Offset(11, 11));
-      expect(draws.first.radius, 7);
-      expect(draws.every((d) => d.style == PaintingStyle.stroke), isTrue);
-    });
-
-    test('DRAW-04: undo and redo are an arrowhead and a curved tail', () {
-      for (final glyph in [JotIconGlyph.undo, JotIconGlyph.redo]) {
-        final draws = _paint(glyph).draws;
-
-        expect(draws.map((d) => d.kind), ['path', 'path'], reason: '$glyph');
-        expect(
-          draws.every((d) => d.style == PaintingStyle.stroke),
-          isTrue,
-          reason: '$glyph',
-        );
-      }
-    });
-
-    test('DRAW-08: pen and highlighter are a body and a stroke, eraser a '
-        'body and two strokes', () {
-      expect(_paint(JotIconGlyph.pen).draws.map((d) => d.kind), [
-        'path',
-        'path',
-      ]);
-      expect(_paint(JotIconGlyph.highlighter).draws.map((d) => d.kind), [
-        'path',
-        'path',
-      ]);
-      expect(_paint(JotIconGlyph.eraser).draws.map((d) => d.kind), [
-        'path',
-        'path',
-        'path',
-      ]);
-    });
-
-    for (final glyph in JotIconGlyph.values.skip(19)) {
-      testWidgets(
-        'SRCH-15: ${glyph.name} renders at 22 px in the given color',
-        (tester) async {
-          await tester.pumpJot(
-            Center(
-              child: IconTheme(
-                data: IconThemeData(color: JotColors.light.ink1),
-                child: JotIcon(glyph),
-              ),
-            ),
-          );
-
-          expect(tester.takeException(), isNull);
-          expect(tester.getSize(find.byType(JotIcon)), const Size(22, 22));
-          expect(_painterOf(tester).color, JotColors.light.ink1);
-          expect(_painterOf(tester).glyph, glyph);
-        },
-      );
-    }
 
     for (final glyph in [JotIconGlyph.text, JotIconGlyph.list]) {
       testWidgets(

@@ -8,8 +8,8 @@ import 'package:jotline/l10n/app_localizations.dart';
 /// design system does not import a feature.
 enum BlockBarType { text, heading, bulletedListItem, checklistItem }
 
-/// The "Barra de blocos": the type of the block with the cursor, "Desenho",
-/// then bold and italic. "Desenho" is never active (DRAW-01).
+/// The "Barra de blocos": the type of the block with the cursor, then bold
+/// and italic. Has no "Desenho" button (BAR-03).
 class BlockBar extends StatelessWidget {
   const new({
     required this.type,
@@ -18,7 +18,6 @@ class BlockBar extends StatelessWidget {
     required this.onType,
     required this.onBold,
     required this.onItalic,
-    required this.onDrawing,
     super.key,
   });
 
@@ -32,7 +31,6 @@ class BlockBar extends StatelessWidget {
   final ValueChanged<BlockBarType> onType;
   final VoidCallback onBold;
   final VoidCallback onItalic;
-  final VoidCallback onDrawing;
 
   @override
   Widget build(BuildContext context) {
@@ -85,15 +83,6 @@ class BlockBar extends StatelessWidget {
                 BlockBarType.checklistItem,
                 l10n.blockTypeChecklist,
                 JotIconGlyph.checklist,
-              ),
-              JotBlockBarButton(
-                label: l10n.blockTypeDrawing,
-                active: false,
-                onPressed: onDrawing,
-                glyph: (color) => IconTheme(
-                  data: IconThemeData(color: color),
-                  child: const JotIcon(JotIconGlyph.drawing),
-                ),
               ),
               JotBlockBarButton(
                 label: l10n.markBold,

@@ -13,8 +13,6 @@ Future<void> _pump(
   WidgetTester tester, {
   ValueChanged<String>? onChanged,
   double textScale = 1,
-  bool autofocus = false,
-  String? semanticLabel,
 }) {
   return tester.pumpJot(
     MediaQuery(
@@ -26,8 +24,6 @@ Future<void> _pump(
             child: JotSearchField(
               placeholder: 'Buscar em todas as páginas',
               onChanged: onChanged,
-              autofocus: autofocus,
-              semanticLabel: semanticLabel,
             ),
           ),
         ),
@@ -35,15 +31,6 @@ Future<void> _pump(
     ),
   );
 }
-
-double _hintOpacity(WidgetTester tester) => tester
-    .widget<AnimatedOpacity>(
-      find.ancestor(
-        of: find.text('Buscar em todas as páginas'),
-        matching: find.byType(AnimatedOpacity),
-      ),
-    )
-    .opacity;
 
 void main() {
   testWidgets('COMP-06: shows the search glyph in ink2 on bgTrilho', (
@@ -95,46 +82,6 @@ void main() {
     await tester.enterText(find.byType(TextField), 'Lisboa');
 
     expect(values.last, 'Lisboa');
-  });
-
-  testWidgets('SRCH-01: the field is focused on the first frame when '
-      'autofocus is set', (tester) async {
-    await _pump(tester, autofocus: true);
-
-    final editable = tester.widget<EditableText>(find.byType(EditableText));
-    expect(editable.focusNode.hasFocus, isTrue);
-  });
-
-  testWidgets('SRCH-01: the field is not focused by default', (tester) async {
-    await _pump(tester);
-
-    final editable = tester.widget<EditableText>(find.byType(EditableText));
-    expect(editable.focusNode.hasFocus, isFalse);
-  });
-
-  testWidgets('SRCH-01: the placeholder is shown while empty and hidden once '
-      'text is typed', (tester) async {
-    await _pump(tester);
-    expect(find.text('Buscar em todas as páginas'), findsOneWidget);
-    expect(_hintOpacity(tester), 1);
-
-    await tester.enterText(find.byType(TextField), 'Lisboa');
-    await tester.pumpAndSettle();
-
-    expect(_hintOpacity(tester), 0);
-  });
-
-  testWidgets('SRCH-01: the semantic label names the text field', (
-    tester,
-  ) async {
-    final handle = tester.ensureSemantics();
-    await _pump(tester, semanticLabel: 'Buscar em títulos e conteúdo');
-
-    expect(
-      tester.getSemantics(find.byType(TextField)).label,
-      'Buscar em títulos e conteúdo\nBuscar em todas as páginas',
-    );
-    handle.dispose();
   });
 
   testWidgets('text scale 2.0 renders without overflow', (tester) async {

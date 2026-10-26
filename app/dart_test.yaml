@@ -1,3 +1,0 @@
-tags:
-  perf:
-    skip: "run with: fvm flutter test --tags perf --run-skipped"

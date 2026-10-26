@@ -21,12 +21,6 @@ enum JotIconGlyph {
   notebook,
   text,
   list,
-  searchNone,
-  undo,
-  redo,
-  pen,
-  highlighter,
-  eraser,
 }
 
 /// A canvas icon painted with the color of the surrounding [IconTheme].
@@ -183,47 +177,6 @@ class JotIconPainter extends CustomPainter {
           _lines([(10, 7, 20, 7), (10, 12, 20, 12), (10, 17, 20, 17)]),
           stroke,
         );
-      case JotIconGlyph.searchNone:
-        canvas
-          ..drawCircle(const Offset(11, 11), 7, stroke)
-          ..drawPath(_lines([(20, 20, 16.5, 16.5)]), stroke)
-          ..drawPath(
-            _lines([(8.5, 8.5, 13.5, 13.5), (13.5, 8.5, 8.5, 13.5)]),
-            stroke,
-          );
-      case JotIconGlyph.undo:
-        canvas
-          ..drawPath(_polyline([(9, 7), (4, 12), (9, 17)]), stroke)
-          ..drawPath(_turn(from: (4, 7), to: (14, 7), clockwise: true), stroke);
-      case JotIconGlyph.redo:
-        canvas
-          ..drawPath(_polyline([(15, 7), (20, 12), (15, 17)]), stroke)
-          ..drawPath(
-            _turn(from: (20, 7), to: (10, 7), clockwise: false),
-            stroke,
-          );
-      case JotIconGlyph.pen:
-        canvas
-          ..drawPath(
-            _polyline([(16, 4), (20, 8), (10, 18), (6, 18), (6, 14)])..close(),
-            stroke,
-          )
-          ..drawPath(_lines([(14, 6, 18, 10)]), stroke);
-      case JotIconGlyph.highlighter:
-        canvas
-          ..drawPath(
-            _polyline([(5, 14), (12, 5), (19, 12), (14, 17), (8, 17)])..close(),
-            stroke,
-          )
-          ..drawPath(_lines([(4, 20, 12, 20)]), stroke);
-      case JotIconGlyph.eraser:
-        canvas
-          ..drawPath(_lines([(8, 20, 19, 20)]), stroke)
-          ..drawPath(
-            _polyline([(5, 14), (13, 5), (19, 11), (12, 20), (8, 20)])..close(),
-            stroke,
-          )
-          ..drawPath(_lines([(9, 10, 15, 16)]), stroke);
     }
     canvas.restore();
   }
@@ -251,22 +204,6 @@ class JotIconPainter extends CustomPainter {
           ..arcToPoint(const Offset(19, 19), radius: const Radius.circular(1))
           ..lineTo(19, 9),
         stroke,
-      );
-  }
-
-  static Path _turn({
-    required (double, double) from,
-    required (double, double) to,
-    required bool clockwise,
-  }) {
-    final (x, y) = to;
-    return Path()
-      ..moveTo(from.$1, from.$2)
-      ..lineTo(x, y)
-      ..arcToPoint(
-        Offset(x, y + 12),
-        radius: const Radius.circular(6),
-        clockwise: clockwise,
       );
   }
 

@@ -84,30 +84,4 @@ void main() {
     expect(style.fontVariations, [const FontVariation.opticalSize(19)]);
     expect(style.color, colors.ink1);
   });
-
-  test(
-    'SRCH-11: buscaCaderno is the result notebook title, UI 12/400 ink2',
-    () {
-      final style = JotTextStyles.from(colors).buscaCaderno;
-
-      expect(style.fontFamily, ui);
-      expect(style.fontSize, 12);
-      expect(style.fontWeight, FontWeight.w400);
-      expect(style.color, colors.ink2);
-    },
-  );
-
-  test(
-    'SRCH-13: buscaTrecho is the result excerpt, Literata 14/400 at 1.5',
-    () {
-      final style = JotTextStyles.from(colors).buscaTrecho;
-
-      expect(style.fontFamily, texto);
-      expect(style.fontSize, 14);
-      expect(style.fontWeight, FontWeight.w400);
-      expect(style.height, 1.5);
-      expect(style.fontVariations, [const FontVariation.opticalSize(14)]);
-      expect(style.color, colors.ink2);
-    },
-  );
 }

@@ -1,7 +1,5 @@
 import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/features/blocks/data/block_content.dart';
-import 'package:jotline/features/blocks/data/drawing_content.dart';
-import 'package:jotline/features/blocks/presentation/editor/components/drawing_block.dart';
 import 'package:super_editor/super_editor.dart';
 
 const Map<MarkType, Attribution> _attributions = {
@@ -20,9 +18,7 @@ abstract final class BlockMapper {
         for (final row in rows)
           toNode(
             BlockType.fromId(row.type),
-            BlockType.fromId(row.type) == BlockType.drawing
-                ? DrawingContent.fromJson(row.contentJson)
-                : BlockContent.fromJson(row.contentJson),
+            BlockContent.fromJson(row.contentJson),
             id: row.id,
           ),
       ],
@@ -31,16 +27,12 @@ abstract final class BlockMapper {
 
   static DocumentNode toNode(
     BlockType type,
-    StoredContent content, {
+    BlockContent content, {
     required String id,
   }) {
-    if (type == BlockType.drawing) {
-      return DrawingNode(id: id, content: content as DrawingContent);
-    }
-    content as BlockContent;
     final text = _toAttributedText(content);
     return switch (type) {
-      BlockType.text || BlockType.drawing => ParagraphNode(id: id, text: text),
+      BlockType.text => ParagraphNode(id: id, text: text),
       BlockType.heading => ParagraphNode(
         id: id,
         text: text,
@@ -57,8 +49,7 @@ abstract final class BlockMapper {
 
   /// The block type and content of [node]; any node or block type without a
   /// block type of its own reads as text, and only bold and italic are kept.
-  static (BlockType, StoredContent) fromNode(DocumentNode node) {
-    if (node is DrawingNode) return (BlockType.drawing, node.content);
+  static (BlockType, BlockContent) fromNode(DocumentNode node) {
     if (node is! TextNode) return (BlockType.text, const BlockContent(''));
     final type = switch (node) {
       TaskNode() => BlockType.checklistItem,

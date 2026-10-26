@@ -8,8 +8,7 @@ enum BlockType {
   text('text'),
   heading('heading'),
   bulletedListItem('bulleted_list_item'),
-  checklistItem('checklist_item'),
-  drawing('drawing');
+  checklistItem('checklist_item');
 
   new(this.id);
 
@@ -67,16 +66,11 @@ final class Mark {
   String toString() => 'Mark($start, $end, ${type.id})';
 }
 
-/// What a block writes to `content_json`.
-abstract interface class StoredContent {
-  String toJson();
-}
-
 /// The content of one block as stored in `content_json` (SAVE-10).
 ///
 /// Holds no field of the editor library's model.
 @immutable
-final class BlockContent implements StoredContent {
+final class BlockContent {
   const new(this.text, {this.marks = const [], this.checked});
 
   /// Parses `content_json`; a value that does not parse reads as empty text.
@@ -109,7 +103,6 @@ final class BlockContent implements StoredContent {
   final List<Mark> marks;
   final bool? checked;
 
-  @override
   String toJson() => jsonEncode({
     'text': text,
     'marks': [for (final mark in normalizeMarks(marks)) mark.toJson()],

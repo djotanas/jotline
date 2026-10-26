@@ -6,10 +6,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:jotline/core/design_system/block_bar.dart';
 import 'package:jotline/core/design_system/jot_fab.dart';
 import 'package:jotline/features/blocks/data/block_content.dart';
-import 'package:jotline/features/blocks/data/drawing_content.dart';
-import 'package:jotline/features/blocks/presentation/drawing/drawing_screen.dart';
 import 'package:jotline/features/blocks/presentation/editor/components/checklist_item.dart';
-import 'package:jotline/features/blocks/presentation/editor/components/drawing_block.dart';
 import 'package:jotline/features/pages/presentation/page_screen.dart';
 import 'package:super_editor/super_editor.dart';
 import 'package:super_editor/super_editor_test.dart';
@@ -48,24 +45,6 @@ Future<void> _selectThroughIme(
 }
 
 String _text(DocumentNode node) => (node as TextNode).text.toPlainText();
-
-/// Drags through [points], given in the drawing area's logical coordinates.
-Future<void> _stroke(WidgetTester tester, List<Offset> points) async {
-  final area = find.byKey(DrawingScreen.areaKey);
-  final origin = tester.getTopLeft(area);
-  final scale = tester.getSize(area).width / DrawingContent.logicalSize.width;
-  final gesture = await tester.startGesture(origin + points.first * scale);
-  for (final point in points.skip(1)) {
-    await gesture.moveTo(origin + point * scale);
-    await tester.pump(const Duration(milliseconds: 16));
-  }
-  await gesture.up();
-  await tester.pump();
-}
-
-List<Offset> _line(Offset from, Offset to, int steps) => [
-  for (var i = 0; i <= steps; i++) Offset.lerp(from, to, i / steps)!,
-];
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -173,69 +152,6 @@ void main() {
     );
     expect(BlockContent.fromJson(rows[4].contentJson).checked, isTrue);
     expect(BlockContent.fromJson(rows[5].contentJson).checked, isFalse);
-
-    await tester.pumpWidget(const SizedBox());
-    await tester.pump();
-  });
-
-  testWidgets('RF-06: draw two strokes, close and reopen the app with the '
-      'drawing kept, then erase everything and no drawing remains, with no '
-      'network', (tester) async {
-    final db = await pumpJotlineWithoutNetwork(tester);
-    await createNotebook(tester, 'Diário');
-    await tapAndSettle(tester, find.widgetWithText(JotFab, 'Nova página'));
-    await tester.enterText(
-      find.descendant(
-        of: find.byType(PageScreen),
-        matching: find.byType(TextField),
-      ),
-      'Croqui',
-    );
-    await tester.pump(const Duration(milliseconds: 600));
-    await tester.testTextInput.receiveAction(TextInputAction.next);
-    await settle(tester);
-    await tester.typeImeText('Rota');
-
-    await _bar(tester, 'Desenho');
-    expect(find.byKey(DrawingScreen.areaKey), findsOneWidget);
-    await _stroke(
-      tester,
-      _line(const Offset(50, 100), const Offset(300, 100), 10),
-    );
-    await _stroke(
-      tester,
-      _line(const Offset(50, 200), const Offset(300, 200), 10),
-    );
-    await tapAndSettle(tester, find.text('Concluir'));
-    await settle(tester);
-    expect(find.byType(DrawingCard), findsOneWidget);
-    await backFromPage(tester, 'Diário');
-
-    await pumpJotlineWithoutNetwork(tester, reopen: db);
-    await tapAndSettle(tester, find.text('Diário').first);
-    await tapAndSettle(tester, find.text('Croqui'));
-    final card = find.byType(DrawingCard);
-    expect(card, findsOneWidget);
-    expect(tester.widget<DrawingCard>(card).content.strokes, hasLength(2));
-
-    await tester.tapAt(tester.getTopLeft(card) + const Offset(20, 20));
-    await settle(tester);
-    expect(find.byKey(DrawingScreen.areaKey), findsOneWidget);
-    await tapAndSettle(tester, find.bySemanticsLabel('Borracha'));
-    await _stroke(
-      tester,
-      _line(const Offset(150, 60), const Offset(150, 240), 18),
-    );
-    await tapAndSettle(tester, find.text('Concluir'));
-    await settle(tester);
-
-    expect(find.byType(DrawingCard), findsNothing);
-    final rows = await (db.select(
-      db.blocks,
-    )..orderBy([(t) => OrderingTerm.asc(t.position)])).get();
-    expect(rows.map((r) => r.type), [BlockType.text.id, BlockType.drawing.id]);
-    expect(rows[0].deletedAt, isNull);
-    expect(rows[1].deletedAt, isNotNull);
 
     await tester.pumpWidget(const SizedBox());
     await tester.pump();

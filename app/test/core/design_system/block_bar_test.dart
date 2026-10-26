@@ -8,15 +8,7 @@ import 'package:jotline/core/theme/jot_text_styles.dart';
 import '../../helpers/pump_jot.dart';
 
 const JotColors _colors = JotColors.light;
-const _labels = [
-  'Texto',
-  'Título',
-  'Lista',
-  'Checklist',
-  'Desenho',
-  'Negrito',
-  'Itálico',
-];
+const _labels = ['Texto', 'Título', 'Lista', 'Checklist', 'Negrito', 'Itálico'];
 const Map<BlockBarType, String> _typeLabels = {
   BlockBarType.text: 'Texto',
   BlockBarType.heading: 'Título',
@@ -44,7 +36,6 @@ Future<void> _pump(
           onType: _calls.add,
           onBold: () => _calls.add('bold'),
           onItalic: () => _calls.add('italic'),
-          onDrawing: () => _calls.add('drawing'),
         ),
       ),
     ),
@@ -108,29 +99,22 @@ void _expectActive(WidgetTester tester, String label, {required bool active}) {
 }
 
 void main() {
-  testWidgets(
-    'BAR-01, DRAW-01: seven 48 x 48 buttons with their labels in canvas '
-    'order',
-    (tester) async {
-      await _pump(tester);
+  testWidgets('BAR-01: six 48 x 48 buttons with their labels in canvas '
+      'order', (tester) async {
+    await _pump(tester);
 
-      final buttons = tester
-          .widgetList<JotBlockBarButton>(find.byType(JotBlockBarButton))
-          .toList();
-      expect(buttons.map((b) => b.label), _labels);
-      final lefts = [
-        for (final label in _labels) tester.getTopLeft(_button(label)).dx,
-      ];
-      expect(lefts, [...lefts]..sort());
-      for (final label in _labels) {
-        expect(
-          tester.getSize(_button(label)),
-          const Size(48, 48),
-          reason: label,
-        );
-      }
-    },
-  );
+    final buttons = tester
+        .widgetList<JotBlockBarButton>(find.byType(JotBlockBarButton))
+        .toList();
+    expect(buttons.map((b) => b.label), _labels);
+    final lefts = [
+      for (final label in _labels) tester.getTopLeft(_button(label)).dx,
+    ];
+    expect(lefts, [...lefts]..sort());
+    for (final label in _labels) {
+      expect(tester.getSize(_button(label)), const Size(48, 48), reason: label);
+    }
+  });
 
   testWidgets('BAR-01: type buttons draw the canvas glyphs; bold and italic '
       'draw "B" and "I" in the bar tokens', (tester) async {
@@ -145,7 +129,6 @@ void main() {
       JotIconGlyph.heading,
       JotIconGlyph.list,
       JotIconGlyph.checklist,
-      JotIconGlyph.drawing,
     ]);
     final bold = tester.widget<Text>(find.text('B'));
     expect(bold.style!.fontFamily, styles.barNegrito.fontFamily);
@@ -157,30 +140,19 @@ void main() {
     expect(italic.style!.fontStyle, FontStyle.italic);
   });
 
-  for (final type in BlockBarType.values) {
-    testWidgets('BAR-03, DRAW-01: "Desenho" comes right after "Checklist" and '
-        'is never active, with type ${type.name}', (tester) async {
-      final semantics = tester.ensureSemantics();
-      await _pump(tester, type: type, bold: true, italic: true);
-
-      final labels = tester
-          .widgetList<JotBlockBarButton>(find.byType(JotBlockBarButton))
-          .map((b) => b.label)
-          .toList();
-      expect(labels.indexOf('Desenho'), labels.indexOf('Checklist') + 1);
-      _expectActive(tester, 'Desenho', active: false);
-      semantics.dispose();
-    });
-  }
-
-  testWidgets('DRAW-01: tapping "Desenho" calls onDrawing only', (
-    tester,
-  ) async {
+  testWidgets('BAR-03: there is no "Desenho" button', (tester) async {
+    final semantics = tester.ensureSemantics();
     await _pump(tester);
 
-    await tester.tap(_button('Desenho'));
-
-    expect(_calls, ['drawing']);
+    expect(find.bySemanticsLabel('Desenho'), findsNothing);
+    expect(_button('Desenho'), findsNothing);
+    expect(
+      find.byWidgetPredicate(
+        (w) => w is JotIcon && w.glyph == JotIconGlyph.drawing,
+      ),
+      findsNothing,
+    );
+    semantics.dispose();
   });
 
   for (final MapEntry(key: type, value: activeLabel) in _typeLabels.entries) {
@@ -223,7 +195,6 @@ void main() {
       BlockBarType.heading,
       BlockBarType.bulletedListItem,
       BlockBarType.checklistItem,
-      'drawing',
       'bold',
       'italic',
     ]);
