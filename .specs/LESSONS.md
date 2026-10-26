@@ -38,6 +38,24 @@ Seen once or not yet corroborated. Tracked, not trusted.
 - evidence: validation.md COMP-15 (design-system)
 - last seen: 2026-10-11T23:17:12Z
 
+### L-005 - A requirement deferred to a manual check stays Partial in the traceability table until that check runs, never Verified
+- signal: `spec_deviation` · recurrence: 1 feature(s) · scope: `traceability` · harmful: 0
+- features: m04-block-editor
+- evidence: spec.md SPIKE-06 / ADR 0035 / #67 (traceability)
+- last seen: 2026-10-22T23:25:38Z
+
+### L-006 - Test every programmatic caret move with an active IME composing region, since simulated typing always sends an empty composing range
+- signal: `ac_gap` · recurrence: 1 feature(s) · scope: `editor-ime` · harmful: 0
+- features: m04-block-editor
+- evidence: EDIT-04, EDIT-06 app/lib/features/blocks/presentation/editor/page_editor.dart:_focus (editor-ime)
+- last seen: 2026-10-22T23:25:38Z
+
+### L-007 - Bottom-anchored components need an acceptance criterion and a test for the system bottom inset, since tests run with zero padding and useSafeArea skips the bottom of a modal sheet
+- signal: `spec_precision_gap` · recurrence: 1 feature(s) · scope: `design-system` · harmful: 0
+- features: m01-foundation
+- evidence: COMP-10 app/lib/core/design_system/jot_bottom_sheet.dart (design-system)
+- last seen: 2026-10-22T23:25:38Z
+
 ## Quarantined (failed when applied - ignore)
 
 A confirmed lesson that recurred alongside failure. Kept for the maintainer to review.

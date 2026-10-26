@@ -211,6 +211,7 @@ class PageEditor with ChangeNotifier implements DrawingSink {
         SelectionChangeType.placeCaret,
         SelectionReason.userInteraction,
       ),
+      const ClearComposingRegionRequest(),
     ]);
     focusNode.requestFocus();
   }

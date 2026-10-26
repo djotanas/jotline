@@ -69,11 +69,13 @@ class JotOptionsSheet<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(
+      padding: EdgeInsets.fromLTRB(
         JotSpace.space3,
         JotSpace.space3,
         JotSpace.space3,
-        JotSpace.space6 + JotSpace.space3,
+        JotSpace.space6 +
+            JotSpace.space3 +
+            MediaQuery.paddingOf(context).bottom,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

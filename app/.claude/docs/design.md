@@ -61,3 +61,10 @@ Every in-scope component of the canvas "Componentes" artboard lives in `lib/core
 | Ícones ("Espaço, forma, elevação e ícones") | `JotIcon` + `JotIconGlyph` (with `edit`, `cover`, `archive`, `unarchive`, `check`, `page`, `notebook`, and the bar's `text` and `list`) | `icons/jot_icon.dart` |
 | Barra de blocos (block type, "Desenho", bold and italic; `BlockBarType` mirrors the block type; "Desenho" is never active) | `BlockBar` + `JotBlockBarButton` | `block_bar.dart` |
 | Blocos do editor (block in edit with drag handle, checklist item; text, heading, list, bold and italic in the editor stylesheet). Editor layer, the only folder that imports `super_editor` (ADR 0035), so outside `design_system/` | `ActiveBlockBuilder` + `ActiveBlock` + `BlockDragHandle`, `ChecklistItemBuilder` + `ChecklistItemComponent`, `blockStylesheet` | `lib/features/blocks/presentation/editor/`: `components/active_block_builder.dart`, `components/checklist_item.dart`, `block_editor.dart` |
+
+## App icon and splash
+
+- **Source:** the "Marca" page of the canvas ("Logo final" and "Ícone em uso"); `docs/assets/icon.svg` is the same icon.
+- **Files:** `assets/icon/*.svg` are the sources and the `.png` next to each one is its 1:1 render — `icon` (Android legacy), `icon_ios` (full bleed, iOS applies its own mask), `icon_foreground` and `icon_monochrome` (Android adaptive and themed icon, glyph only, viewBox padded to the 72/108 dp visible area), `splash` (120 dp at 4x) and `splash_android12` (1152 px, icon inside the 768 px circle).
+- **Splash background:** `bg.mesa` (`#F3F2EE`), the same as the scaffold; adaptive icon background: `#1B1A17`.
+- **Regenerating:** after changing an SVG, render it to the PNG of the same name and size (any SVG renderer, e.g. resvg), then run `fvm dart run flutter_launcher_icons` and `fvm dart run flutter_native_splash:create`. Config lives in `pubspec.yaml`. `flutter_launcher_icons` 0.14.4 rewrites `ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS` in `ios/Runner.xcodeproj/project.pbxproj` to `AppIcon`: discard that change.
