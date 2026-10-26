@@ -18,6 +18,7 @@ GitHub milestone "#05 - Search and Gate 1" (issues #25, #26, #27, #28, #29, #67)
 
 - In M05. The user added "Modo desenho: tela cheia" to the "Fase 1 — telas" canvas.
 - The eraser removes the whole stroke it touches.
+- 2026-10-19: `JotIconButton` gains a disabled state (null `onPressed`, `inkDeco`) for "Desfazer traço" and "Refazer traço" (DRAW-09). This supersedes COMP-03 of M01.
 - The page shows the drawing at page width with the drawing area's aspect ratio, no crop.
 - "Cancelar" discards the session with no confirmation.
 - A drawing is removed by erasing every stroke and tapping "Concluir" (soft delete).
@@ -40,6 +41,8 @@ GitHub milestone "#05 - Search and Gate 1" (issues #25, #26, #27, #28, #29, #67)
 
 - Target: data on screen in < 100 ms after navigation or query; average frame build < 16 ms while scrolling; profile mode, mid-range Android.
 - Seed: one notebook with 10,000 pages plus 20 other notebooks (counts of the 20 proposed in the spec).
+
+- 2026-10-19: LOAD-02 and LOAD-03 missed the target on the device; the user kept the `blocks_page_edits` index and accepted the values with a gap (`load-results.md`).
 
 ### Agent's Discretion
 

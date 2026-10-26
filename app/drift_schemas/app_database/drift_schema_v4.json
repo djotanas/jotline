@@ -1,0 +1,853 @@
+{
+  "_meta": {
+    "description": "This file contains a serialized version of schema entities for drift.",
+    "version": "1.3.0"
+  },
+  "options": {
+    "store_date_time_values_as_text": true
+  },
+  "entities": [
+    {
+      "id": 0,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "page_search",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "title",
+            "getter_name": "title",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "body",
+            "getter_name": "body",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": true,
+        "create_virtual_stmt": "CREATE VIRTUAL TABLE \"page_search\" USING fts5(title, body, tokenize = 'unicode61 remove_diacritics 2')",
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 1,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "notebooks",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "title",
+            "getter_name": "title",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "cover",
+            "getter_name": "cover",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EnumNameConverter<CoverPattern>(CoverPattern.values)",
+              "dart_type_name": "CoverPattern"
+            }
+          },
+          {
+            "name": "color",
+            "getter_name": "color",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EnumNameConverter<NotebookColor>(NotebookColor.values)",
+              "dart_type_name": "NotebookColor"
+            }
+          },
+          {
+            "name": "created_by",
+            "getter_name": "createdBy",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "dateTime",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "dateTime",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "references": [
+        1
+      ],
+      "type": "table",
+      "data": {
+        "name": "pages",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "notebook_id",
+            "getter_name": "notebookId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES notebooks (id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES notebooks (id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "notebooks",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "title",
+            "getter_name": "title",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "position",
+            "getter_name": "position",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "dateTime",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "updated_by",
+            "getter_name": "updatedBy",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "dateTime",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "references": [
+        2
+      ],
+      "type": "table",
+      "data": {
+        "name": "blocks",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "page_id",
+            "getter_name": "pageId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES pages (id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES pages (id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "pages",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "type",
+            "getter_name": "type",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "content_json",
+            "getter_name": "contentJson",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "position",
+            "getter_name": "position",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "version",
+            "getter_name": "version",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "dateTime",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "updated_by",
+            "getter_name": "updatedBy",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "dateTime",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "references": [
+        2,
+        0,
+        3
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 2,
+        "references_in_body": [
+          2,
+          0,
+          3
+        ],
+        "name": "pages_search_ai",
+        "sql": "CREATE TRIGGER pages_search_ai AFTER INSERT ON pages BEGIN\n  INSERT OR REPLACE INTO page_search (rowid, title, body)\n  SELECT p.rowid, p.title,\n    COALESCE((\n      SELECT group_concat(t.text, char(8233))\n      FROM (\n        SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, '$.text') AS TEXT) END AS text\n        FROM blocks b\n        WHERE b.page_id = p.id\n          AND b.deleted_at IS NULL\n          AND b.type IN ('text', 'heading', 'bulleted_list_item', 'checklist_item')\n        ORDER BY b.position, b.id\n      ) t\n    ), '')\n  FROM pages p\n  WHERE p.id = new.id;\nEND;"
+      }
+    },
+    {
+      "id": 5,
+      "references": [
+        2,
+        0,
+        3
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 2,
+        "references_in_body": [
+          2,
+          0,
+          3
+        ],
+        "name": "pages_search_au",
+        "sql": "CREATE TRIGGER pages_search_au AFTER UPDATE OF title ON pages BEGIN\n  INSERT OR REPLACE INTO page_search (rowid, title, body)\n  SELECT p.rowid, p.title,\n    COALESCE((\n      SELECT group_concat(t.text, char(8233))\n      FROM (\n        SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, '$.text') AS TEXT) END AS text\n        FROM blocks b\n        WHERE b.page_id = p.id\n          AND b.deleted_at IS NULL\n          AND b.type IN ('text', 'heading', 'bulleted_list_item', 'checklist_item')\n        ORDER BY b.position, b.id\n      ) t\n    ), '')\n  FROM pages p\n  WHERE p.id = new.id;\nEND;"
+      }
+    },
+    {
+      "id": 6,
+      "references": [
+        3,
+        0,
+        2
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 3,
+        "references_in_body": [
+          3,
+          0,
+          2
+        ],
+        "name": "blocks_search_ai",
+        "sql": "CREATE TRIGGER blocks_search_ai AFTER INSERT ON blocks BEGIN\n  INSERT OR REPLACE INTO page_search (rowid, title, body)\n  SELECT p.rowid, p.title,\n    COALESCE((\n      SELECT group_concat(t.text, char(8233))\n      FROM (\n        SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, '$.text') AS TEXT) END AS text\n        FROM blocks b\n        WHERE b.page_id = p.id\n          AND b.deleted_at IS NULL\n          AND b.type IN ('text', 'heading', 'bulleted_list_item', 'checklist_item')\n        ORDER BY b.position, b.id\n      ) t\n    ), '')\n  FROM pages p\n  WHERE p.id = new.page_id;\nEND;"
+      }
+    },
+    {
+      "id": 7,
+      "references": [
+        3,
+        0,
+        2
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 3,
+        "references_in_body": [
+          3,
+          0,
+          2
+        ],
+        "name": "blocks_search_au",
+        "sql": "CREATE TRIGGER blocks_search_au AFTER UPDATE ON blocks BEGIN\n  INSERT OR REPLACE INTO page_search (rowid, title, body)\n  SELECT p.rowid, p.title,\n    COALESCE((\n      SELECT group_concat(t.text, char(8233))\n      FROM (\n        SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, '$.text') AS TEXT) END AS text\n        FROM blocks b\n        WHERE b.page_id = p.id\n          AND b.deleted_at IS NULL\n          AND b.type IN ('text', 'heading', 'bulleted_list_item', 'checklist_item')\n        ORDER BY b.position, b.id\n      ) t\n    ), '')\n  FROM pages p\n  WHERE p.id IN (old.page_id, new.page_id);\nEND;"
+      }
+    },
+    {
+      "id": 8,
+      "references": [
+        3,
+        0,
+        2
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 3,
+        "references_in_body": [
+          3,
+          0,
+          2
+        ],
+        "name": "blocks_search_ad",
+        "sql": "CREATE TRIGGER blocks_search_ad AFTER DELETE ON blocks BEGIN\n  INSERT OR REPLACE INTO page_search (rowid, title, body)\n  SELECT p.rowid, p.title,\n    COALESCE((\n      SELECT group_concat(t.text, char(8233))\n      FROM (\n        SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, '$.text') AS TEXT) END AS text\n        FROM blocks b\n        WHERE b.page_id = p.id\n          AND b.deleted_at IS NULL\n          AND b.type IN ('text', 'heading', 'bulleted_list_item', 'checklist_item')\n        ORDER BY b.position, b.id\n      ) t\n    ), '')\n  FROM pages p\n  WHERE p.id = old.page_id;\nEND;"
+      }
+    },
+    {
+      "id": 9,
+      "references": [
+        2
+      ],
+      "type": "index",
+      "data": {
+        "on": 2,
+        "name": "pages_notebook_position",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "notebook_id",
+            "order_by": null
+          },
+          {
+            "column": "position",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "references": [
+        3
+      ],
+      "type": "index",
+      "data": {
+        "on": 3,
+        "name": "blocks_page_position",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "page_id",
+            "order_by": null
+          },
+          {
+            "column": "position",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "references": [
+        3
+      ],
+      "type": "index",
+      "data": {
+        "on": 3,
+        "name": "blocks_page_edits",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "page_id",
+            "order_by": null
+          },
+          {
+            "column": "updated_at",
+            "order_by": null
+          },
+          {
+            "column": "deleted_at",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "references": [
+        1
+      ],
+      "type": "table",
+      "data": {
+        "name": "notebook_members",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "notebook_id",
+            "getter_name": "notebookId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES notebooks (id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES notebooks (id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "notebooks",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "user_id",
+            "getter_name": "userId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "role",
+            "getter_name": "role",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "check": {
+                  "dart_expression": {
+                    "elements": [
+                      "const ",
+                      {
+                        "lexeme": "CustomExpression",
+                        "import_uri": "package:drift/src/runtime/query_builder/query_builder.dart"
+                      },
+                      "<",
+                      {
+                        "lexeme": "bool",
+                        "import_uri": "dart:core"
+                      },
+                      ">(\"role IN ('owner', 'editor', 'viewer')\")"
+                    ]
+                  }
+                }
+              }
+            ],
+            "type_converter": {
+              "dart_expr": "const EnumNameConverter<MemberRole>(MemberRole.values)",
+              "dart_type_name": "MemberRole"
+            }
+          },
+          {
+            "name": "added_by",
+            "getter_name": "addedBy",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "dateTime",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "archived_at",
+            "getter_name": "archivedAt",
+            "moor_type": "dateTime",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "explicit_pk": [
+          "id"
+        ],
+        "unique_keys": [
+          [
+            "notebook_id",
+            "user_id"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "local_user",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "slot",
+            "getter_name": "slot",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "check": {
+                  "dart_expression": {
+                    "elements": [
+                      {
+                        "lexeme": "slot",
+                        "tag": "slot"
+                      },
+                      ".equals(1)"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "explicit_pk": [
+          "slot"
+        ]
+      }
+    }
+  ],
+  "fixed_sql": [
+    {
+      "name": "page_search",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE VIRTUAL TABLE IF NOT EXISTS \"page_search\" USING fts5(title, body, tokenize = 'unicode61 remove_diacritics 2');"
+        }
+      ]
+    },
+    {
+      "name": "notebooks",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"notebooks\" (\"id\" TEXT NOT NULL, \"title\" TEXT NOT NULL, \"cover\" TEXT NOT NULL, \"color\" TEXT NOT NULL, \"created_by\" TEXT NOT NULL, \"created_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, PRIMARY KEY (\"id\"));"
+        }
+      ]
+    },
+    {
+      "name": "pages",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"pages\" (\"id\" TEXT NOT NULL, \"notebook_id\" TEXT NOT NULL REFERENCES notebooks (id), \"title\" TEXT NOT NULL, \"position\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"updated_by\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, PRIMARY KEY (\"id\"));"
+        }
+      ]
+    },
+    {
+      "name": "blocks",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"blocks\" (\"id\" TEXT NOT NULL, \"page_id\" TEXT NOT NULL REFERENCES pages (id), \"type\" TEXT NOT NULL, \"content_json\" TEXT NOT NULL, \"position\" TEXT NOT NULL, \"version\" INTEGER NOT NULL DEFAULT 0, \"updated_at\" TEXT NOT NULL, \"updated_by\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, PRIMARY KEY (\"id\"));"
+        }
+      ]
+    },
+    {
+      "name": "pages_search_ai",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER pages_search_ai AFTER INSERT ON pages BEGIN INSERT OR REPLACE INTO page_search (\"rowid\", title, body) SELECT p.\"rowid\", p.title, COALESCE((SELECT group_concat(t.text, char(8233)) FROM (SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, '$.text') AS TEXT) END AS text FROM blocks AS b WHERE b.page_id = p.id AND b.deleted_at IS NULL AND b.type IN ('text', 'heading', 'bulleted_list_item', 'checklist_item') ORDER BY b.position, b.id) AS t), '') FROM pages AS p WHERE p.id = new.id;END"
+        }
+      ]
+    },
+    {
+      "name": "pages_search_au",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER pages_search_au AFTER UPDATE OF title ON pages BEGIN INSERT OR REPLACE INTO page_search (\"rowid\", title, body) SELECT p.\"rowid\", p.title, COALESCE((SELECT group_concat(t.text, char(8233)) FROM (SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, '$.text') AS TEXT) END AS text FROM blocks AS b WHERE b.page_id = p.id AND b.deleted_at IS NULL AND b.type IN ('text', 'heading', 'bulleted_list_item', 'checklist_item') ORDER BY b.position, b.id) AS t), '') FROM pages AS p WHERE p.id = new.id;END"
+        }
+      ]
+    },
+    {
+      "name": "blocks_search_ai",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER blocks_search_ai AFTER INSERT ON blocks BEGIN INSERT OR REPLACE INTO page_search (\"rowid\", title, body) SELECT p.\"rowid\", p.title, COALESCE((SELECT group_concat(t.text, char(8233)) FROM (SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, '$.text') AS TEXT) END AS text FROM blocks AS b WHERE b.page_id = p.id AND b.deleted_at IS NULL AND b.type IN ('text', 'heading', 'bulleted_list_item', 'checklist_item') ORDER BY b.position, b.id) AS t), '') FROM pages AS p WHERE p.id = new.page_id;END"
+        }
+      ]
+    },
+    {
+      "name": "blocks_search_au",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER blocks_search_au AFTER UPDATE ON blocks BEGIN INSERT OR REPLACE INTO page_search (\"rowid\", title, body) SELECT p.\"rowid\", p.title, COALESCE((SELECT group_concat(t.text, char(8233)) FROM (SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, '$.text') AS TEXT) END AS text FROM blocks AS b WHERE b.page_id = p.id AND b.deleted_at IS NULL AND b.type IN ('text', 'heading', 'bulleted_list_item', 'checklist_item') ORDER BY b.position, b.id) AS t), '') FROM pages AS p WHERE p.id IN (old.page_id, new.page_id);END"
+        }
+      ]
+    },
+    {
+      "name": "blocks_search_ad",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER blocks_search_ad AFTER DELETE ON blocks BEGIN INSERT OR REPLACE INTO page_search (\"rowid\", title, body) SELECT p.\"rowid\", p.title, COALESCE((SELECT group_concat(t.text, char(8233)) FROM (SELECT CASE WHEN json_valid(b.content_json) THEN CAST(json_extract(b.content_json, '$.text') AS TEXT) END AS text FROM blocks AS b WHERE b.page_id = p.id AND b.deleted_at IS NULL AND b.type IN ('text', 'heading', 'bulleted_list_item', 'checklist_item') ORDER BY b.position, b.id) AS t), '') FROM pages AS p WHERE p.id = old.page_id;END"
+        }
+      ]
+    },
+    {
+      "name": "pages_notebook_position",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX pages_notebook_position ON pages (notebook_id, position)"
+        }
+      ]
+    },
+    {
+      "name": "blocks_page_position",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX blocks_page_position ON blocks (page_id, position)"
+        }
+      ]
+    },
+    {
+      "name": "blocks_page_edits",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX blocks_page_edits ON blocks (page_id, updated_at, deleted_at)"
+        }
+      ]
+    },
+    {
+      "name": "notebook_members",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"notebook_members\" (\"id\" TEXT NOT NULL, \"notebook_id\" TEXT NOT NULL REFERENCES notebooks (id), \"user_id\" TEXT NOT NULL, \"role\" TEXT NOT NULL CHECK(role IN ('owner', 'editor', 'viewer')), \"added_by\" TEXT NOT NULL, \"created_at\" TEXT NOT NULL, \"archived_at\" TEXT NULL, PRIMARY KEY (\"id\"), UNIQUE (\"notebook_id\", \"user_id\"));"
+        }
+      ]
+    },
+    {
+      "name": "local_user",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"local_user\" (\"slot\" INTEGER NOT NULL CHECK(\"slot\" = 1), \"id\" TEXT NOT NULL, PRIMARY KEY (\"slot\"));"
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
 import 'package:jotline/core/clock/clock.dart';
 import 'package:jotline/core/database/app_database.dart';
 import 'package:jotline/core/database/local_user_repository.dart';
@@ -19,7 +20,7 @@ final class Insert extends BlockChange {
 
   final String key;
   final BlockType type;
-  final BlockContent content;
+  final StoredContent content;
   final Placement at;
 }
 
@@ -30,7 +31,7 @@ final class Update extends BlockChange {
 
   final String id;
   final BlockType type;
-  final BlockContent content;
+  final StoredContent content;
 }
 
 /// Sets `deleted_at` on the block.
@@ -47,6 +48,11 @@ final class Move extends BlockChange {
   final String id;
   final Placement to;
 }
+
+String _json(BlockType type, StoredContent content) => switch (content) {
+  final BlockContent text => text.forType(type).toJson(),
+  _ => content.toJson(),
+};
 
 /// Reads and writes the blocks of a page.
 ///
@@ -157,7 +163,7 @@ class BlockRepository {
                     id: id,
                     pageId: pageId,
                     type: type.id,
-                    contentJson: content.forType(type).toJson(),
+                    contentJson: _json(type, content),
                     position: position,
                     updatedAt: now,
                     updatedBy: userId,
@@ -165,7 +171,7 @@ class BlockRepository {
                 );
             inserted[key] = id;
           case Update(:final id, :final type, :final content):
-            final contentJson = content.forType(type).toJson();
+            final contentJson = _json(type, content);
             await (_database.update(_database.blocks)..where(
                   (t) =>
                       t.id.equals(id) &
@@ -212,12 +218,24 @@ class BlockRepository {
 
   Stream<List<Block>> watchByPage(String pageId) => _byPage(pageId).watch();
 
-  Selectable<Block> _byPage(String pageId) {
-    final blocks = _database.blocks;
-    final pages = _database.pages;
-    final notebooks = _database.notebooks;
+  Selectable<Block> _byPage(String pageId) => _byPageQuery(
+    _database,
+    pageId,
+  ).map((row) => row.readTable(_database.blocks));
+
+  @visibleForTesting
+  static GenerationContext byPageContext(AppDatabase database, String pageId) =>
+      _byPageQuery(database, pageId).constructQuery();
+
+  static JoinedSelectStatement<HasResultSet, dynamic> _byPageQuery(
+    AppDatabase database,
+    String pageId,
+  ) {
+    final blocks = database.blocks;
+    final pages = database.pages;
+    final notebooks = database.notebooks;
     final query =
-        _database.select(blocks).join([
+        database.select(blocks).join([
             innerJoin(pages, pages.id.equalsExp(blocks.pageId)),
             innerJoin(notebooks, notebooks.id.equalsExp(pages.notebookId)),
           ])
@@ -231,6 +249,6 @@ class BlockRepository {
             OrderingTerm.asc(blocks.position),
             OrderingTerm.asc(blocks.id),
           ]);
-    return query.map((row) => row.readTable(blocks));
+    return query;
   }
 }

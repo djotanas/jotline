@@ -59,7 +59,7 @@ Every in-scope component of the canvas "Componentes" artboard lives in `lib/core
 | Bottom sheet de opções (grupos em cards, linha destrutiva ou marcada, `footer` com nota) | `showJotOptionsSheet<T>()` → `JotOptionsSheet<T>` + `JotOptionRow<T>` | `jot_options_sheet.dart` |
 | Diálogo de confirmação | `showConfirmDialog()` → `ConfirmDialog` | `confirm_dialog.dart` |
 | Ícones ("Espaço, forma, elevação e ícones") | `JotIcon` + `JotIconGlyph` (with `edit`, `cover`, `archive`, `unarchive`, `check`, `page`, `notebook`, and the bar's `text` and `list`) | `icons/jot_icon.dart` |
-| Barra de blocos (block type, bold and italic; no "Desenho"; `BlockBarType` mirrors the block type) | `BlockBar` + `JotBlockBarButton` | `block_bar.dart` |
+| Barra de blocos (block type, "Desenho", bold and italic; `BlockBarType` mirrors the block type; "Desenho" is never active) | `BlockBar` + `JotBlockBarButton` | `block_bar.dart` |
 | Blocos do editor (block in edit with drag handle, checklist item; text, heading, list, bold and italic in the editor stylesheet). Editor layer, the only folder that imports `super_editor` (ADR 0035), so outside `design_system/` | `ActiveBlockBuilder` + `ActiveBlock` + `BlockDragHandle`, `ChecklistItemBuilder` + `ChecklistItemComponent`, `blockStylesheet` | `lib/features/blocks/presentation/editor/`: `components/active_block_builder.dart`, `components/checklist_item.dart`, `block_editor.dart` |
 
 ## App icon and splash

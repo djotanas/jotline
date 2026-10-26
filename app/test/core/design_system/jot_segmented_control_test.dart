@@ -136,4 +136,28 @@ void main() {
 
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('SRCH-01: a segment without count renders only its label', (
+    tester,
+  ) async {
+    await tester.pumpJot(
+      Center(
+        child: SizedBox(
+          width: 360,
+          child: JotSegmentedControl<_Filter>(
+            segments: const [
+              JotSegment(value: _Filter.active, label: 'Tudo'),
+              JotSegment(value: _Filter.archived, label: 'Títulos'),
+            ],
+            selected: _Filter.active,
+            onChanged: (_) {},
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('Tudo'), findsOneWidget);
+    expect(find.text('Títulos'), findsOneWidget);
+    expect(find.textContaining('·'), findsNothing);
+  });
 }

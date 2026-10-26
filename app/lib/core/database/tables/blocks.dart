@@ -2,6 +2,10 @@ import 'package:drift/drift.dart';
 import 'package:jotline/core/database/tables/pages.dart';
 
 @TableIndex(name: 'blocks_page_position', columns: {#pageId, #position})
+@TableIndex(
+  name: 'blocks_page_edits',
+  columns: {#pageId, #updatedAt, #deletedAt},
+)
 class Blocks extends Table {
   late final Column<String> id = text()();
   late final Column<String> pageId = text().references(Pages, #id)();
