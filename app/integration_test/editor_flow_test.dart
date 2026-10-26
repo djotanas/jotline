@@ -58,7 +58,7 @@ void main() {
   testWidgets('RF-03, RF-04: write a heading, a paragraph with bold and '
       'italic, a list and a checklist, tick an item, leave and reopen the '
       'page with the same content, with no network', (tester) async {
-    final db = await pumpJotlineWithoutNetwork(tester);
+    final app = await pumpJotlineWithoutNetwork(tester);
     await createNotebook(tester, 'Diário');
     await tapAndSettle(tester, find.widgetWithText(JotFab, 'Nova página'));
     await tester.enterText(
@@ -131,7 +131,7 @@ void main() {
     expect((nodes[5] as TaskNode).isComplete, isFalse);
 
     final rows =
-        await (db.select(db.blocks)
+        await (app.db.select(app.db.blocks)
               ..where((t) => t.deletedAt.isNull())
               ..orderBy([(t) => OrderingTerm.asc(t.position)]))
             .get();

@@ -1,15 +1,13 @@
 import 'dart:io';
 
-import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jotline/app.dart';
-import 'package:jotline/core/database/app_database.dart';
-import 'package:jotline/core/database/database_provider.dart';
 import 'package:jotline/core/preferences/preferences_provider.dart';
 import 'package:jotline/core/preferences/unavailable_preferences_store.dart';
+
+import '../../test/helpers/test_app.dart';
 
 class _ForbiddenHttpOverrides extends HttpOverrides {
   @override
@@ -25,26 +23,24 @@ void forbidNetwork() {
   addTearDown(() => HttpOverrides.global = null);
 }
 
-/// Pumps [JotlineApp] on an in-memory database and the unavailable
-/// preferences store, and returns the database for assertions. It registers
-/// the test text input, which is not registered in profile mode, so
-/// `enterText` works there.
-Future<AppDatabase> pumpJotlineWithoutNetwork(WidgetTester tester) async {
+/// Pumps [JotlineApp] on a [TestApp] (in-memory database, fixed clock and
+/// sequential ids) and the unavailable preferences store, and returns the
+/// [TestApp] for seeding and assertions. It registers the test text input,
+/// which is not registered in profile mode, so `enterText` works there.
+Future<TestApp> pumpJotlineWithoutNetwork(
+  WidgetTester tester, {
+  DateTime? now,
+}) async {
   tester.testTextInput.register();
-  final db = AppDatabase(
-    DatabaseConnection(
-      NativeDatabase.memory(),
-      closeStreamsSynchronously: true,
-    ),
-  );
+  final app = TestApp(now: now);
   addTearDown(() async {
     await tester.pumpWidget(const SizedBox());
-    await db.close();
+    await app.db.close();
   });
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
-        databaseProvider.overrideWithValue(db),
+        ...app.overrides,
         preferencesStoreProvider.overrideWithValue(
           UnavailablePreferencesStore(),
         ),
@@ -53,7 +49,7 @@ Future<AppDatabase> pumpJotlineWithoutNetwork(WidgetTester tester) async {
     ),
   );
   await settle(tester);
-  return db;
+  return app;
 }
 
 /// Lets the database streams deliver and the animations finish.
