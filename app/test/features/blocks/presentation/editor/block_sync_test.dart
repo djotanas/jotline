@@ -8,8 +8,10 @@ import 'package:jotline/core/ordering/placement.dart';
 import 'package:jotline/core/theme/notebook_palette.dart';
 import 'package:jotline/features/blocks/data/block_content.dart';
 import 'package:jotline/features/blocks/data/block_repository.dart';
+import 'package:jotline/features/blocks/data/drawing_content.dart';
 import 'package:jotline/features/blocks/presentation/editor/block_mapper.dart';
 import 'package:jotline/features/blocks/presentation/editor/block_sync.dart';
+import 'package:jotline/features/blocks/presentation/editor/components/drawing_block.dart';
 import 'package:jotline/features/notebooks/data/notebook_repository.dart';
 import 'package:jotline/features/pages/data/page_repository.dart';
 import 'package:super_editor/super_editor.dart';
@@ -411,9 +413,9 @@ void main() {
       final insert = f.repository.batches[0].single as Insert;
       final update = f.repository.batches[1].single as Update;
       final rows = await f.repository.loadPage(f.pageId);
-      expect(insert.content.text, 'Jk');
+      expect((insert.content as BlockContent).text, 'Jk');
       expect(update.id, rows.last.id);
-      expect(update.content.text, 'Jkl');
+      expect((update.content as BlockContent).text, 'Jkl');
       expect(await f.allRows(), hasLength(4));
       expect(await f.visible(), [
         (BlockType.text, 'Abc'),
@@ -468,6 +470,103 @@ void main() {
 
       expect(await f.allRows(), hasLength(3));
       expect(await f.visible(), [(BlockType.text, '')]);
+    });
+  });
+
+  group('BlockSync drawings', () {
+    const first = DrawingContent([
+      Stroke(
+        tool: DrawingTool.pen,
+        color: DrawingColor.ink,
+        width: 3,
+        points: [StrokePoint(10, 20, 0.5), StrokePoint(30, 40, 0.5)],
+      ),
+    ]);
+    const second = DrawingContent([
+      Stroke(
+        tool: DrawingTool.highlighter,
+        color: DrawingColor.accent,
+        width: 6,
+        points: [StrokePoint(60, 470, 0.5)],
+      ),
+    ]);
+
+    tearDown(() => f.close());
+
+    Future<List<Block>> drawingRows() async => [
+      for (final row in await f.allRows())
+        if (row.type == 'drawing') row,
+    ];
+
+    test('DRAW-10: inserting a drawing node writes one drawing row after the '
+        'given block', () async {
+      f = _Fixture();
+      await f.open(_abc);
+
+      f.insertAfter(f.ids[1], DrawingNode(id: 'draw', content: first));
+      await f.sync.flush();
+
+      final rows = await drawingRows();
+      expect(rows, hasLength(1));
+      expect(rows.single.contentJson, first.toJson());
+      expect(rows.single.version, 0);
+      expect(rows.single.updatedAt, DateTime.utc(2026, 10, 12, 9));
+      expect(await f.allRows(), hasLength(4));
+      expect(
+        [for (final b in await f.repository.loadPage(f.pageId)) b.id],
+        [f.ids[0], f.ids[1], rows.single.id, f.ids[2]],
+      );
+    });
+
+    test(
+      'DRAW-14: a replace with the same node id keeps the block id and '
+      'updates content_json and updated_at, with version unchanged',
+      () async {
+        f = _Fixture();
+        await f.open(_abc);
+        f.insertAfter(f.ids[1], DrawingNode(id: 'draw', content: first));
+        await f.sync.flush();
+        final id = (await drawingRows()).single.id;
+        await f.db.customStatement('UPDATE blocks SET version = 7');
+        f.clock.current = DateTime.utc(2026, 10, 13, 9);
+
+        f.editor.execute([
+          ReplaceNodeRequest(
+            existingNodeId: 'draw',
+            newNode: DrawingNode(id: 'draw', content: second),
+          ),
+        ]);
+        await f.sync.flush();
+
+        final rows = await drawingRows();
+        expect(rows, hasLength(1));
+        expect(rows.single.id, id);
+        expect(rows.single.contentJson, second.toJson());
+        expect(rows.single.updatedAt, DateTime.utc(2026, 10, 13, 9));
+        expect(rows.single.version, 7);
+        expect(rows.single.deletedAt, isNull);
+        expect(await f.allRows(), hasLength(4));
+      },
+    );
+
+    test('DRAW-15: deleting the drawing node soft-deletes its row', () async {
+      f = _Fixture();
+      await f.open(_abc);
+      f.insertAfter(f.ids[1], DrawingNode(id: 'draw', content: first));
+      await f.sync.flush();
+      f.clock.current = DateTime.utc(2026, 10, 13, 9);
+
+      f.editor.execute([DeleteNodeRequest(nodeId: 'draw')]);
+      await f.sync.flush();
+
+      final rows = await drawingRows();
+      expect(rows, hasLength(1));
+      expect(rows.single.deletedAt, DateTime.utc(2026, 10, 13, 9));
+      expect(rows.single.contentJson, first.toJson());
+      expect(await f.allRows(), hasLength(4));
+      expect([
+        for (final b in await f.repository.loadPage(f.pageId)) b.id,
+      ], f.ids);
     });
   });
 }

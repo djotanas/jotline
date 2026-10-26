@@ -403,6 +403,10 @@
   "@blockTypeChecklist": {
     "description": "Block bar button that turns the block with the cursor into a checklist item."
   },
+  "blockTypeDrawing": "Desenho",
+  "@blockTypeDrawing": {
+    "description": "Block bar button that opens the drawing mode."
+  },
   "markBold": "Negrito",
   "@markBold": {
     "description": "Block bar button that toggles bold."
@@ -415,8 +419,130 @@
   "@blockBarLabel": {
     "description": "Accessible label of the block bar above the keyboard."
   },
+  "drawingCardLabel": "Desenho",
+  "@drawingCardLabel": {
+    "description": "Accessible label of the drawing card on a page."
+  },
+  "drawingCancel": "Cancelar",
+  "@drawingCancel": {
+    "description": "Drawing mode button that closes it, leaving the drawing as it was."
+  },
+  "drawingDone": "Concluir",
+  "@drawingDone": {
+    "description": "Drawing mode button that saves the drawing and closes it."
+  },
+  "drawingUndo": "Desfazer traço",
+  "@drawingUndo": {
+    "description": "Drawing mode button that undoes the last stroke drawn or erased."
+  },
+  "drawingRedo": "Refazer traço",
+  "@drawingRedo": {
+    "description": "Drawing mode button that redoes the last undone stroke."
+  },
+  "drawingTools": "Ferramentas de desenho",
+  "@drawingTools": {
+    "description": "Accessible label of the drawing mode tool bar."
+  },
+  "drawingPen": "Caneta",
+  "@drawingPen": {
+    "description": "Drawing tool that draws a stroke."
+  },
+  "drawingHighlighter": "Marca-texto",
+  "@drawingHighlighter": {
+    "description": "Drawing tool that draws a wide translucent stroke."
+  },
+  "drawingEraser": "Borracha",
+  "@drawingEraser": {
+    "description": "Drawing tool that removes the whole stroke it touches."
+  },
+  "drawingThin": "Traço fino",
+  "@drawingThin": {
+    "description": "Drawing stroke width 3."
+  },
+  "drawingMedium": "Traço médio",
+  "@drawingMedium": {
+    "description": "Drawing stroke width 6."
+  },
+  "drawingThick": "Traço grosso",
+  "@drawingThick": {
+    "description": "Drawing stroke width 12."
+  },
+  "drawingInk": "Tinta preta",
+  "@drawingInk": {
+    "description": "Drawing color ink."
+  },
+  "drawingBlue": "Azul",
+  "@drawingBlue": {
+    "description": "Drawing color accent."
+  },
+  "drawingTerracotta": "Terracota",
+  "@drawingTerracotta": {
+    "description": "Drawing color danger."
+  },
+  "drawingAreaLabel": "Área de desenho",
+  "@drawingAreaLabel": {
+    "description": "Accessible label of the drawing area."
+  },
   "moveBlock": "Mover bloco",
   "@moveBlock": {
     "description": "Accessible label of the drag handle of the block in edit."
+  },
+  "searchLabel": "Buscar",
+  "@searchLabel": {
+    "description": "Accessibility label of the button that opens the search."
+  },
+  "searchPlaceholder": "Buscar em todos os cadernos",
+  "@searchPlaceholder": {
+    "description": "Placeholder of the search field."
+  },
+  "searchFieldLabel": "Buscar em títulos e conteúdo",
+  "@searchFieldLabel": {
+    "description": "Accessibility label of the search field."
+  },
+  "searchScopeLabel": "Onde buscar",
+  "@searchScopeLabel": {
+    "description": "Accessibility label of the Tudo, Títulos and Conteúdo filter."
+  },
+  "searchAll": "Tudo",
+  "@searchAll": {
+    "description": "Search filter that matches titles and content."
+  },
+  "searchTitles": "Títulos",
+  "@searchTitles": {
+    "description": "Search filter that matches only page titles."
+  },
+  "searchContent": "Conteúdo",
+  "@searchContent": {
+    "description": "Search filter that matches only page content."
+  },
+  "searchEmptyTitle": "Busque em todos os cadernos",
+  "@searchEmptyTitle": {
+    "description": "Title of the search screen before a term is typed."
+  },
+  "searchEmptyBody": "Procura nos títulos e no conteúdo das páginas, inclusive nos cadernos arquivados. Tudo neste aparelho, mesmo sem internet.",
+  "@searchEmptyBody": {
+    "description": "Support text of the search screen before a term is typed."
+  },
+  "searchNoResultTitle": "Nenhuma página encontrada",
+  "@searchNoResultTitle": {
+    "description": "Title of the search screen when no page matches."
+  },
+  "searchNoResultBody": "Nada com “{term}” em títulos ou conteúdo. Confira a grafia ou tente outro termo.",
+  "@searchNoResultBody": {
+    "description": "Support text of the search screen when no page matches.",
+    "placeholders": {
+      "term": {
+        "type": "String"
+      }
+    }
+  },
+  "searchCount": "{count, plural, =1{1 página} other{{count} páginas}}",
+  "@searchCount": {
+    "description": "Number of pages found by the search.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

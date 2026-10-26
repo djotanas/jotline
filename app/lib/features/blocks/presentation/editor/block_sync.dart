@@ -3,6 +3,7 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/foundation.dart';
 import 'package:jotline/core/ordering/placement.dart';
+import 'package:jotline/features/blocks/data/block_content.dart';
 import 'package:jotline/features/blocks/data/block_repository.dart';
 import 'package:jotline/features/blocks/presentation/editor/block_mapper.dart';
 import 'package:super_editor/super_editor.dart';
@@ -39,6 +40,9 @@ class BlockSync {
   bool _moved = false;
   Timer? _timer;
   Future<void> _chain = Future.value();
+
+  /// Whether the node already has a `blocks` row.
+  bool hasRow(String nodeId) => _blockIds.containsKey(nodeId);
 
   /// Node ids changed since the last successful write.
   @visibleForTesting
@@ -97,7 +101,7 @@ class BlockSync {
       if (blockId != null) {
         changes.add(Update(blockId, type, content));
         order.add(blockId);
-      } else if (content.text.isEmpty) {
+      } else if (content is BlockContent && content.text.isEmpty) {
         deferred.add(node.id);
       } else {
         final previous = order.isEmpty ? null : order.last;

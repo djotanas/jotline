@@ -6,6 +6,7 @@ import 'package:jotline/core/ordering/placement.dart';
 import 'package:jotline/core/theme/notebook_palette.dart';
 import 'package:jotline/features/blocks/data/block_content.dart';
 import 'package:jotline/features/blocks/data/block_repository.dart';
+import 'package:jotline/features/blocks/data/drawing_content.dart';
 import 'package:jotline/features/notebooks/data/notebook_repository.dart';
 import 'package:jotline/features/pages/data/page_repository.dart';
 
@@ -547,5 +548,79 @@ void main() {
       );
       await recorder.cancel();
     });
+  });
+
+  group('drawing blocks', () {
+    const drawing = DrawingContent([
+      Stroke(
+        tool: DrawingTool.highlighter,
+        color: DrawingColor.accent,
+        width: 6,
+        points: [StrokePoint(60, 470, 0.5), StrokePoint(100.4, 440, 0.62)],
+      ),
+    ]);
+
+    test('DRAW-20: an Insert of a drawing writes type drawing with the JSON '
+        'as it is', () async {
+      final inserted = await repository.applyChanges(pageId, [
+        const Insert('d', BlockType.drawing, drawing, AtEnd()),
+      ]);
+
+      final row = await blockRow(inserted['d']!);
+      expect(row.type, 'drawing');
+      expect(row.contentJson, drawing.toJson());
+      expect(row.version, 0);
+    });
+
+    test('DRAW-14: an Update of a drawing writes content_json and keeps '
+        'version', () async {
+      final inserted = await repository.applyChanges(pageId, [
+        const Insert('d', BlockType.drawing, DrawingContent([]), AtEnd()),
+      ]);
+      final id = inserted['d']!;
+      await db.customStatement('UPDATE blocks SET version = 7');
+      clock.current = DateTime.utc(2026, 10, 12, 9);
+
+      await repository.applyChanges(pageId, [
+        Update(id, BlockType.drawing, drawing),
+      ]);
+
+      final row = await blockRow(id);
+      expect(row.type, 'drawing');
+      expect(row.contentJson, drawing.toJson());
+      expect(row.updatedAt, DateTime.utc(2026, 10, 12, 9));
+      expect(row.version, 7);
+    });
+
+    test(
+      'DRAW-20: the page excerpt ignores a drawing that comes first',
+      () async {
+        final id = await pageRepository.create(notebookId, title: 'A');
+        await repository.applyChanges(id, [
+          const Insert('d', BlockType.drawing, drawing, AtEnd()),
+          const Insert(
+            't',
+            BlockType.text,
+            BlockContent('Belém cedo'),
+            AtEnd(),
+          ),
+        ]);
+        final onlyDrawing = await pageRepository.create(notebookId, title: 'B');
+        await repository.applyChanges(onlyDrawing, [
+          const Insert('d', BlockType.drawing, drawing, AtEnd()),
+        ]);
+
+        final recorder = StreamRecorder(
+          pageRepository.watchByNotebook(notebookId),
+        );
+        final summaries = (await recorder.settle()).last;
+        await recorder.cancel();
+
+        String? excerptOf(String pageId) =>
+            summaries.singleWhere((s) => s.page.id == pageId).excerpt;
+        expect(excerptOf(id), 'Belém cedo');
+        expect(excerptOf(onlyDrawing), isNull);
+      },
+    );
   });
 }

@@ -12,6 +12,10 @@ import 'package:jotline/core/theme/notebook_palette.dart';
 import 'package:jotline/features/blocks/data/block_content.dart';
 import 'package:jotline/features/blocks/data/block_providers.dart';
 import 'package:jotline/features/blocks/data/block_repository.dart';
+import 'package:jotline/features/blocks/data/drawing_content.dart';
+import 'package:jotline/features/blocks/presentation/drawing/drawing_painter.dart';
+import 'package:jotline/features/blocks/presentation/drawing/drawing_screen.dart';
+import 'package:jotline/features/blocks/presentation/editor/components/drawing_block.dart';
 import 'package:jotline/features/pages/presentation/page_outcome.dart';
 import 'package:jotline/features/pages/presentation/page_screen.dart';
 import 'package:super_editor/super_editor.dart';
@@ -828,8 +832,8 @@ void main() {
     await _close(tester);
   });
 
-  testWidgets('BAR-01: the caret in a block shows the block bar with its six '
-      'buttons', (tester) async {
+  testWidgets('BAR-01, DRAW-01: the caret in a block shows the block bar with '
+      'its seven buttons', (tester) async {
     await _open(tester, blocks: [_belem]);
     expect(find.byType(BlockBar), findsNothing);
 
@@ -840,7 +844,15 @@ void main() {
       tester
           .widgetList<JotBlockBarButton>(find.byType(JotBlockBarButton))
           .map((b) => b.label),
-      ['Texto', 'Título', 'Lista', 'Checklist', 'Negrito', 'Itálico'],
+      [
+        'Texto',
+        'Título',
+        'Lista',
+        'Checklist',
+        'Desenho',
+        'Negrito',
+        'Itálico',
+      ],
     );
     await _close(tester);
   });
@@ -981,6 +993,75 @@ void main() {
 
     await tester.placeCaretInParagraph(_blockIds[0], 8);
     expect(_pressed(tester, 'Negrito'), isFalse);
+    await _close(tester);
+  });
+
+  testWidgets('DRAW-02, DRAW-10: "Desenho" opens the drawing mode and '
+      '"Concluir" writes one drawing row after the block with the caret', (
+    tester,
+  ) async {
+    await _open(tester, blocks: [_belemCedo, _belem]);
+    await tester.placeCaretInParagraph(_blockIds[0], 2);
+    await tester.pumpAndSettle();
+
+    await _tapBar(tester, 'Desenho');
+    final area = find.byKey(DrawingScreen.areaKey);
+    expect(area, findsOneWidget);
+    final origin = tester.getTopLeft(area);
+    final gesture = await tester.startGesture(origin + const Offset(40, 40));
+    await gesture.moveBy(const Offset(60, 30));
+    await gesture.up();
+    await tester.pump();
+    await tester.tap(find.text('Concluir'));
+    await tester.pumpAndSettle();
+    await _save(tester);
+
+    expect(area, findsNothing);
+    final rows = await _rows(tester);
+    expect(rows.map((r) => r.type), ['text', 'drawing', 'text']);
+    expect(rows.first.id, _blockIds[0]);
+    expect(rows.last.id, _blockIds[1]);
+    expect(DrawingContent.fromJson(rows[1].contentJson).strokes, hasLength(1));
+    expect(rows[1].version, 0);
+    await _close(tester);
+  });
+
+  testWidgets('DRAW-13: tapping a drawing card opens the drawing mode with '
+      'its strokes', (tester) async {
+    const content = DrawingContent([
+      Stroke(
+        tool: DrawingTool.pen,
+        color: DrawingColor.accent,
+        width: 6,
+        points: [StrokePoint(100, 100, 0.5), StrokePoint(200, 160, 0.5)],
+      ),
+    ]);
+    await _open(
+      tester,
+      seed: () => _app.blocks.create(
+        _pageId,
+        type: BlockType.drawing.id,
+        contentJson: content.toJson(),
+      ),
+    );
+
+    await tester.tapAt(
+      tester.getTopLeft(find.byType(DrawingCard)) + const Offset(20, 20),
+    );
+    await tester.pumpAndSettle();
+
+    final area = find.byKey(DrawingScreen.areaKey);
+    expect(area, findsOneWidget);
+    final painter = tester
+        .widgetList<CustomPaint>(
+          find.descendant(of: area, matching: find.byType(CustomPaint)),
+        )
+        .map((p) => p.painter)
+        .whereType<DrawingPainter>()
+        .single;
+    expect(painter.content, content);
+    await tester.tap(find.text('Cancelar'));
+    await tester.pumpAndSettle();
     await _close(tester);
   });
 }

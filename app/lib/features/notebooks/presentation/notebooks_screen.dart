@@ -22,6 +22,7 @@ import 'package:jotline/features/notebooks/presentation/notebook_form_sheet.dart
 import 'package:jotline/features/notebooks/presentation/notebook_outcome.dart';
 import 'package:jotline/features/notebooks/presentation/notebook_screen.dart';
 import 'package:jotline/features/notebooks/presentation/notebook_sort_sheet.dart';
+import 'package:jotline/features/search/presentation/search_screen.dart';
 import 'package:jotline/features/trash/presentation/trash_screen.dart';
 import 'package:jotline/l10n/app_localizations.dart';
 
@@ -193,6 +194,15 @@ class _NotebooksScreenState extends ConsumerState<NotebooksScreen> {
                       JotTopBar.root(
                         title: l10n.notebooksTitle,
                         actions: [
+                          JotIconButton(
+                            icon: JotIconGlyph.search,
+                            semanticLabel: l10n.searchLabel,
+                            onPressed: () => Navigator.of(context).push<void>(
+                              MaterialPageRoute(
+                                builder: (_) => const SearchScreen(),
+                              ),
+                            ),
+                          ),
                           if (hasNotebooks)
                             JotIconButton(
                               icon: JotIconGlyph.sort,

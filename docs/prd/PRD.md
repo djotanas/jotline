@@ -245,7 +245,7 @@ Questões em aberto:
 
 - [ ] O compartilhamento será assíncrono (cada um contribui com suas páginas) ou com coedição simultânea? Define se a fase 4 existe.
 - [x] Qual editor de blocos adotar? Resolvida na ADR 0035 (`super_editor`).
-- [ ] Criptografia do banco local entra na fase 2 ou depois?
+- [x] Criptografia do banco local entra na fase 2 ou depois? Decidido na ADR 0040: fase 2, `sqlite3mc`.
 - [ ] Modelo de negócio: grátis com limite de cadernos compartilhados, assinatura, ou outro?
 - [ ] Prazo final da lixeira: 30 dias é suficiente?
 - [x] Lixeira local da fase 1 (RF-12): excluir um caderno leva as páginas dele para a lixeira e restaurar o caderno as traz de volta juntas? Há "esvaziar lixeira" na fase 1, sabendo que o app não apaga fisicamente? Resolvida na ADR 0023.
